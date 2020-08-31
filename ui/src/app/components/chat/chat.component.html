@@ -1,0 +1,21 @@
+<div class="App">
+    <main class="chat-window">
+        <header class="chat-header">
+            <h1>Chat</h1>
+            <span class="participants"></span>
+        </header>
+        <section class="chat-session">
+            <ul class="message-list">
+                <li class="user-message" *ngFor="let message of message$ | async | groupMessages">
+                    <span class="user-id">{{ message?.from }} - {{ message?.timestamp | date: 'medium' }}</span>
+                    <span *ngFor="let text of message.texts">{{ text }}</span>
+                </li>
+            </ul>
+        </section>
+        <footer class="chat-footer">
+            <form [formGroup]="messageForm" (submit)="sendMessage()">
+                <input [formControl]="messageForm?.controls?.message" placeholder="Type a message. Hit Enter to send">
+            </form>
+        </footer>
+    </main>
+</div>

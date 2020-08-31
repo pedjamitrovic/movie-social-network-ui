@@ -14,5 +14,22 @@
   "exclude": [
     "src/test.ts",
     "src/**/*.spec.ts"
-  ]
+  ],
+  "paths": {
+    "@components/*": [
+      "app/components/*"
+    ],
+    "@models/*": [
+      "app/models/*"
+    ],
+    "@modules/*": [
+      "app/modules/*"
+    ],
+    "@pipes/*": [
+      "app/pipes/*"
+    ],
+    "@services/*": [
+      "app/services/*"
+    ],
+  }
 }

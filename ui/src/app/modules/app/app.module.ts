@@ -2,15 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './modules/material/material.module';
-import { NavigationComponent } from './navigation/navigation.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { HomeComponent } from './home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AppComponent } from '@components/app/app.component';
+import { NavigationComponent } from '@components/navigation/navigation.component';
+import { LoginComponent } from '@components/login/login.component';
+import { RegisterComponent } from '@components/register/register.component';
+import { HomeComponent } from '@components/home/home.component';
+import { ChatComponent } from '@components/chat/chat.component';
+import { GroupMessagesPipe } from '@pipes/group-messages/group-messages.pipe';
+import { MaterialModule } from '@modules/material/material.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     NavigationComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    ChatComponent,
+    GroupMessagesPipe
   ],
   imports: [
     BrowserModule,

@@ -21,8 +21,12 @@
     "@angular/platform-browser": "~9.1.12",
     "@angular/platform-browser-dynamic": "~9.1.12",
     "@angular/router": "~9.1.12",
+    "@ctrl/ngx-emoji-mart": "^4.0.2",
+    "angular-feather": "^6.0.10",
+    "giphy-api": "^2.0.1",
     "hammerjs": "^2.0.8",
     "rxjs": "~6.6.2",
+    "skeleton-css": "^2.0.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
