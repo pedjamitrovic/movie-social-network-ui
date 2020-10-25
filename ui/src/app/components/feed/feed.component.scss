@@ -1,0 +1,41 @@
+.feed-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.post {
+    @media only screen and (max-width: 600px) {
+        width: 90%;
+    }
+    width: 50%;
+    min-height: 100px;
+    margin: 10px;
+    .post-header {
+        display: flex;
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #d2d7df;
+        }
+        .post-avatar:hover {
+            cursor: pointer;
+            opacity: 0.9;
+        }
+        .post-info {
+            padding-left: 10px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            .name-container:hover,
+            .date-container:hover {
+                cursor: pointer;
+                opacity: 0.9;
+            }
+        }
+    }
+    .post-text {
+        padding: 10px;
+    }
+}

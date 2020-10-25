@@ -13,6 +13,8 @@ import { HomeComponent } from '@components/home/home.component';
 import { ChatComponent } from '@components/chat/chat.component';
 import { GroupMessagesPipe } from '@pipes/group-messages/group-messages.pipe';
 import { MaterialModule } from '@modules/material/material.module';
+import { FeedComponent } from '@components/feed/feed.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { MaterialModule } from '@modules/material/material.module';
     RegisterComponent,
     HomeComponent,
     ChatComponent,
-    GroupMessagesPipe
+    GroupMessagesPipe,
+    FeedComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,8 @@ import { MaterialModule } from '@modules/material/material.module';
     BrowserAnimationsModule,
     MaterialModule,
     LayoutModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InfiniteScrollModule
   ],
   providers: [],
   bootstrap: [AppComponent]
