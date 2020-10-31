@@ -1,0 +1,41 @@
+<div *ngIf="comment" class="comment">
+    <div class="comment-header">
+        <a [routerLink]="['/users/123']">
+            <img class="comment-avatar" src="assets/images/avatar.png" [matTooltip]="'John Doe'" />
+        </a>
+        <div class="comment-info">
+            <div class="name-container">
+                <span>
+                  <a *ngIf="comment?.user" [routerLink]="['/users/', comment?.user?.id]">
+                    {{comment?.user?.firstName}} {{comment?.user?.lastName}}
+          </a>
+          </span>
+            </div>
+            <div class="date-container">
+                <span class="comment-date" [matTooltip]="date | date:'EEEE, MMMM d, y, HH:mm'">
+            {{commentDate}}
+        </span>
+            </div>
+        </div>
+        <button mat-icon-button [matMenuTriggerFor]="commentActions">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+        <mat-menu #commentActions="matMenu">
+            <button mat-menu-item>
+          <mat-icon>report</mat-icon>
+          <span>Report</span>
+        </button>
+        </mat-menu>
+    </div>
+    <div class="comment-text">
+        {{ comment?.text }}
+    </div>
+    <div class="comment-activity">
+        <div class="comment-reactions">
+            {{ ((comment?.reactions?.length || '0') | shortNumber) + ' people like this' }}
+        </div>
+    </div>
+    <div class="component-actions">
+        <app-comment-actions (actionActivated)="actionActivated($event)" [liked]="liked" [disliked]="disliked"></app-comment-actions>
+    </div>
+</div>

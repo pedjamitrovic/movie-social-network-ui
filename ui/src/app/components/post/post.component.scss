@@ -1,0 +1,43 @@
+.post {
+    min-height: 100px;
+    margin: 10px;
+    .post-header {
+        display: flex;
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #d2d7df;
+        }
+        .post-avatar:hover {
+            cursor: pointer;
+            opacity: 0.9;
+        }
+        .post-info {
+            padding-left: 10px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            .name-container:hover {
+                cursor: pointer;
+                opacity: 0.9;
+            }
+            .date-container:hover {
+                cursor: default;
+            }
+        }
+    }
+    .post-activity {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        .post-comments:hover,
+        .post-reactions:hover {
+            cursor: pointer;
+            opacity: 0.9;
+        }
+    }
+    .post-text {
+        padding: 10px;
+    }
+}

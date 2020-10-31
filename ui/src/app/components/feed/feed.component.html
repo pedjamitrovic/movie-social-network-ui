@@ -1,29 +1,3 @@
 <div class="feed-container" infinite-scroll [infiniteScrollDistance]="scrollDistance" [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown()">
-    <mat-card class="post" *ngFor="let post of posts">
-        <div class="post-header">
-            <a [routerLink]="['/users/123']">
-                <img class="post-avatar" src="assets/images/avatar.png" [matTooltip]="'John Doe'" />
-            </a>
-            <div class="post-info">
-                <div class="name-container">
-                    <span>
-                          <a [routerLink]="['/users/123']">
-                    John Doe
-                  </a>
-                  </span>
-                </div>
-                <div class="date-container">
-                    <span class="post-date" [matTooltip]="date | date:'EEEE, MMMM d, y, HH:mm'">
-                    {{postDate}}
-                </span>
-                </div>
-            </div>
-            <button mat-icon-button>
-              <mat-icon>more_vert</mat-icon>
-            </button>
-        </div>
-        <div class="post-text">
-            {{ post.text }}
-        </div>
-    </mat-card>
+    <app-post *ngFor="let post of posts" [post]="post"></app-post>
 </div>

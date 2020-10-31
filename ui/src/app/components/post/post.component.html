@@ -1,0 +1,53 @@
+<mat-card *ngIf="post" class="post">
+    <div class="post-header">
+        <a [routerLink]="['/users/123']">
+            <img class="post-avatar" src="assets/images/avatar.png" [matTooltip]="'John Doe'" />
+        </a>
+        <div class="post-info">
+            <div class="name-container">
+                <span>
+                    <a *ngIf="post?.user" [routerLink]="['/users/', post?.user?.id]">
+                      {{post?.user?.firstName}} {{post?.user?.lastName}}
+            </a>
+            </span>
+            </div>
+            <div class="date-container">
+                <span class="post-date" [matTooltip]="date | date:'EEEE, MMMM d, y, HH:mm'">
+              {{postDate}}
+          </span>
+            </div>
+        </div>
+        <button mat-icon-button [matMenuTriggerFor]="postActions">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+        <mat-menu #postActions="matMenu">
+            <button mat-menu-item>
+            <mat-icon>report</mat-icon>
+            <span>Report</span>
+          </button>
+            <button mat-menu-item [cdkCopyToClipboard]="urlToClipboard()">
+            <mat-icon>link</mat-icon>
+            <span>Copy link to clipboard</span>
+          </button>
+        </mat-menu>
+    </div>
+    <div class="post-text">
+        {{ post?.text }}
+    </div>
+    <div class="post-activity">
+        <div class="post-reactions">
+            {{ ((post?.reactions?.length || '0') | shortNumber) + ' people like this' }}
+        </div>
+
+        <div class="post-comments" (click)="toggleComments()">
+            {{ (post?.comments?.length || '0') + ' comments' }}
+        </div>
+    </div>
+    <div class="post-actions">
+        <app-post-actions (actionActivated)="actionActivated($event)" [liked]="liked" [disliked]="disliked"></app-post-actions>
+    </div>
+    <div [hidden]="!commentsExpanded" class="comments-container">
+        <mat-divider></mat-divider>
+        <app-comment *ngFor="let comment of post?.comments" [comment]="comment"></app-comment>
+    </div>
+</mat-card>

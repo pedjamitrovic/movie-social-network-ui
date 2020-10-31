@@ -12,8 +12,6 @@ export class FeedComponent implements OnInit {
   posts: Post[] = [];
   throttle = 300;
   scrollDistance = 1;
-  date = new Date();
-  postDate = moment([2020, 8, 29]).fromNow();
 
   constructor(public postService: PostService) { }
 
@@ -27,7 +25,12 @@ export class FeedComponent implements OnInit {
   }
 
   getPosts() {
-    this.postService.getPosts().subscribe((posts: Post[]) => this.posts.push(...posts));
+    this.postService.getPosts().subscribe(
+      (posts: Post[]) => {
+        this.posts.push(...posts);
+        console.log(posts);
+      }
+    );
   }
 
 }

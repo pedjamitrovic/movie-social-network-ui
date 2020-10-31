@@ -1,12 +1,11 @@
 import { Reaction } from './reaction.model';
 import { User } from './user.model';
-import { Comment } from './comment.model';
 
-export class Post {
+export class Comment {
   id?: string;
   user?: User;
-  datePosted?: Date;
   text?: string;
+  datePosted?: Date;
   reactions?: Reaction[];
   comments?: Comment[];
 }
