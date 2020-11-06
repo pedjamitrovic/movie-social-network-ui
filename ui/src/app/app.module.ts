@@ -21,7 +21,8 @@ import { PostComponent } from '@components/post/post.component';
 import { CommentComponent } from '@components/comment/comment.component';
 import { CommentActionsComponent } from '@components/comment-actions/comment-actions.component';
 import { PageNotFoundComponent } from '@components/page-not-found/page-not-found.component';
-import { PostPreviewComponent } from './components/post-preview/post-preview.component';
+import { PostPreviewComponent } from '@components/post-preview/post-preview.component';
+import { UserComponent } from '@components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { PostPreviewComponent } from './components/post-preview/post-preview.com
     CommentActionsComponent,
     PageNotFoundComponent,
     PostPreviewComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,

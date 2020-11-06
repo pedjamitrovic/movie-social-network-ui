@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '@models/post.model';
 import { PostService } from '@services/post/post.service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-feed',
@@ -10,17 +9,15 @@ import * as moment from 'moment';
 })
 export class FeedComponent implements OnInit {
   posts: Post[] = [];
-  throttle = 300;
-  scrollDistance = 1;
 
   constructor(public postService: PostService) { }
 
   ngOnInit() {
     this.getPosts();
-    this.getPosts();
   }
 
   onScrollDown() {
+    console.log('xd');
     this.getPosts();
   }
 

@@ -1,7 +1,7 @@
 <mat-card *ngIf="post" class="post">
     <div class="post-header">
-        <a [routerLink]="['/users/123']">
-            <img class="post-avatar" src="assets/images/avatar.png" [matTooltip]="'John Doe'" />
+        <a [routerLink]="['/users/', post?.user?.id]">
+            <img class="post-avatar" src="assets/images/avatar.png" [matTooltip]="post?.user?.firstName + ' ' + post?.user?.lastName" />
         </a>
         <div class="post-info">
             <div class="name-container">

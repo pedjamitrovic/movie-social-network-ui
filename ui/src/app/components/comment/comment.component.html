@@ -1,7 +1,7 @@
 <div *ngIf="comment" class="comment">
     <div class="comment-header">
-        <a [routerLink]="['/users/123']">
-            <img class="comment-avatar" src="assets/images/avatar.png" [matTooltip]="'John Doe'" />
+        <a [routerLink]="['/users/', comment?.user?.id]">
+            <img class="comment-avatar" src="assets/images/avatar.png" [matTooltip]="comment?.user?.firstName + ' ' + comment?.user?.lastName" />
         </a>
         <div class="comment-info">
             <div class="name-container">
