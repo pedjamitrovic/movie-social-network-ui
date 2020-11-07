@@ -1,18 +1,18 @@
-.post {
+.new-post {
     min-height: 100px;
-    .post-header {
+    .new-post-header {
         display: flex;
-        .post-avatar {
+        .new-post-avatar {
             width: 50px;
             height: 50px;
             border-radius: 50%;
             background: #d2d7df;
         }
-        .post-avatar:hover {
+        .new-post-avatar:hover {
             cursor: pointer;
             opacity: 0.9;
         }
-        .post-info {
+        .new-post-info {
             padding-left: 10px;
             flex-grow: 1;
             display: flex;
@@ -26,17 +26,12 @@
             }
         }
     }
-    .post-activity {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-        .post-comments:hover,
-        .post-reactions:hover {
-            cursor: pointer;
-            opacity: 0.9;
+    .new-post-body {
+        .full-width {
+            width: 100%;
         }
     }
-    .post-text {
+    .new-post-text {
         padding: 10px;
     }
 }

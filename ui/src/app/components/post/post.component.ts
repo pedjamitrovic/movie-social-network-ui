@@ -9,12 +9,22 @@ import * as moment from 'moment';
   styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
-  @Input() public post: Post;
-  public date = new Date();
-  public postDate = moment([2020, 8, 29]).fromNow();
+  @Input() public set post(v: Post) {
+    this._post = v;
+    if (this._post) {
+      this.fromNow = moment(this._post.createdOn).fromNow();
+    }
+  }
+  public get post() : Post {
+    return this._post;
+  }
+
+  public fromNow: string;
   public commentsExpanded = false;
   public liked = false;
   public disliked = false;
+
+  private _post: Post;
 
   constructor(
     public ar: ActivatedRoute

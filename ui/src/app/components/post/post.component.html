@@ -12,8 +12,8 @@
             </span>
             </div>
             <div class="date-container">
-                <span class="post-date" [matTooltip]="date | date:'EEEE, MMMM d, y, HH:mm'">
-              {{postDate}}
+                <span class="post-date" [matTooltip]="post?.createdOn | date:'EEEE, MMMM d, y, HH:mm'">
+              {{fromNow}}
           </span>
             </div>
         </div>

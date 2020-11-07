@@ -23,6 +23,8 @@ import { CommentActionsComponent } from '@components/comment-actions/comment-act
 import { PageNotFoundComponent } from '@components/page-not-found/page-not-found.component';
 import { PostPreviewComponent } from '@components/post-preview/post-preview.component';
 import { UserComponent } from '@components/user/user.component';
+import { NewPostComponent } from './components/new-post/new-post.component';
+import { NewPostActionsComponent } from './components/new-post-actions/new-post-actions.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { UserComponent } from '@components/user/user.component';
     PageNotFoundComponent,
     PostPreviewComponent,
     UserComponent,
+    NewPostComponent,
+    NewPostActionsComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { Post } from '@models/post.model';
 import { Chance } from 'chance';
 import { User } from '@models/user.model';
@@ -13,7 +12,13 @@ export class UserService {
   constructor() {
   }
 
-  generateUser(): Observable<User> {
-    return of();
+  generateUser(): User {
+    const user: User = {
+      id: this.chance.guid(),
+      firstName: this.chance.first(),
+      lastName: this.chance.last()
+    };
+
+    return user;
   }
 }

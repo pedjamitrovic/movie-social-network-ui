@@ -5,7 +5,7 @@ import { Comment } from './comment.model';
 export class Post {
   id?: string;
   user?: User;
-  datePosted?: Date;
+  createdOn?: Date;
   text?: string;
   reactions?: Reaction[];
   comments?: Comment[];

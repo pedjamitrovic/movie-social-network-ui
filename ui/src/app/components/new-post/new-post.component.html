@@ -1,0 +1,25 @@
+<mat-card class="new-post">
+    <div class="new-post-header">
+        <a [routerLink]="['/users/', user?.id]">
+            <img class="new-post-avatar" src="assets/images/avatar.png" [matTooltip]="user?.firstName + ' ' + user?.lastName" />
+        </a>
+        <div class="new-post-info">
+            <div class="name-container">
+                <span>
+                  <a *ngIf="user" [routerLink]="['/users/', user?.id]">
+                    {{user?.firstName}} {{user?.lastName}}
+          </a>
+          </span>
+            </div>
+        </div>
+    </div>
+    <div class="new-post-body">
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>What are you thinking about?</mat-label>
+            <textarea matInput></textarea>
+        </mat-form-field>
+    </div>
+    <div class="new-post-actions">
+        <app-new-post-actions (actionActivated)="actionActivated($event)"></app-new-post-actions>
+    </div>
+</mat-card>

@@ -1,0 +1,18 @@
+<div class="new-post-actions-container">
+    <div class="like-dislike-container">
+        <button mat-button color="primary" (click)="activate('like')">
+    <mat-icon>thumb_up</mat-icon>
+    <span>Like</span>
+  </button>
+        <button mat-button color="warn" (click)="activate('dislike')">
+    <mat-icon>thumb_down</mat-icon>
+    <span>Dislike</span>
+  </button>
+    </div>
+    <div class="comment-container">
+        <button mat-flat-button (click)="activate('comment')">
+      <mat-icon>comment</mat-icon>
+      <span>Comment</span>
+    </button>
+    </div>
+</div>

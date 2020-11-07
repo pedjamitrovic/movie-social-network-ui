@@ -8,11 +8,22 @@ import * as moment from 'moment';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
-  @Input() comment: Comment;
+  @Input() public set comment(v: Comment) {
+    this._comment = v;
+    if (this._comment) {
+      this.fromNow = moment(this._comment.createdOn).fromNow();
+    }
+  }
+  public get comment() : Comment {
+    return this._comment;
+  }
+
   date = new Date();
-  commentDate = moment([2020, 8, 29]).fromNow();
+  fromNow: string;
   public liked = false;
   public disliked = false;
+
+  private _comment: Comment;
 
   constructor() { }
 

@@ -5,7 +5,7 @@ export class Comment {
   id?: string;
   user?: User;
   text?: string;
-  datePosted?: Date;
+  createdOn?: Date;
   reactions?: Reaction[];
   comments?: Comment[];
 }

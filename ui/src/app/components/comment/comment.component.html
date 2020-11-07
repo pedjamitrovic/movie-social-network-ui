@@ -12,8 +12,8 @@
           </span>
             </div>
             <div class="date-container">
-                <span class="comment-date" [matTooltip]="date | date:'EEEE, MMMM d, y, HH:mm'">
-            {{commentDate}}
+                <span class="comment-date" [matTooltip]="comment?.createdOn | date:'EEEE, MMMM d, y, HH:mm'">
+            {{fromNow}}
         </span>
             </div>
         </div>
