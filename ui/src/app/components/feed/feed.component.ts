@@ -17,7 +17,6 @@ export class FeedComponent implements OnInit {
   }
 
   onScrollDown() {
-    console.log('xd');
     this.getPosts();
   }
 
@@ -28,6 +27,10 @@ export class FeedComponent implements OnInit {
         console.log(posts);
       }
     );
+  }
+
+  public createPost(post: Post) {
+    this.posts.unshift(post);
   }
 
 }

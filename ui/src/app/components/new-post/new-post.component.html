@@ -16,8 +16,16 @@
     <div class="new-post-body">
         <mat-form-field class="full-width" appearance="outline">
             <mat-label>What are you thinking about?</mat-label>
-            <textarea matInput></textarea>
+            <textarea (change)="onTextChange($event.target.value)" [value]="command.text" matInput></textarea>
         </mat-form-field>
+        <input #mediaInput (change)="renderMedia()" type="file" accept="image/*, video/*" multiple hidden>
+        <div class="media-preview">
+            <img *ngFor="let image of images" [src]="image" class="image-preview" />
+            <video *ngFor="let video of videos" class="video-preview" controls>
+            <source [src]="video">
+            Your browser does not support HTML video.
+          </video>
+        </div>
     </div>
     <div class="new-post-actions">
         <app-new-post-actions (actionActivated)="actionActivated($event)"></app-new-post-actions>

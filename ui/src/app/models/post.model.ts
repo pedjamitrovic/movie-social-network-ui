@@ -9,4 +9,6 @@ export class Post {
   text?: string;
   reactions?: Reaction[];
   comments?: Comment[];
+  friends?: User[];
+  media?: File[];
 }

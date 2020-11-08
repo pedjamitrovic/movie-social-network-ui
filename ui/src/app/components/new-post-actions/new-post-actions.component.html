@@ -1,18 +1,18 @@
 <div class="new-post-actions-container">
-    <div class="like-dislike-container">
-        <button mat-button color="primary" (click)="activate('like')">
-    <mat-icon>thumb_up</mat-icon>
-    <span>Like</span>
+    <div class="secondary-actions-container">
+        <button mat-button (click)="activate('addMedia')">
+    <mat-icon>add_photo_alternate</mat-icon>
+    <span>Add photos or videos</span>
   </button>
-        <button mat-button color="warn" (click)="activate('dislike')">
-    <mat-icon>thumb_down</mat-icon>
-    <span>Dislike</span>
+        <button mat-button (click)="activate('tagFriends')">
+    <mat-icon>person_add</mat-icon>
+    <span>Tag friends</span>
   </button>
     </div>
-    <div class="comment-container">
-        <button mat-flat-button (click)="activate('comment')">
-      <mat-icon>comment</mat-icon>
-      <span>Comment</span>
+    <div class="post-container">
+        <button mat-flat-button color="primary" (click)="activate('post')">
+      <mat-icon>post_add</mat-icon>
+      <span>Post</span>
     </button>
     </div>
 </div>

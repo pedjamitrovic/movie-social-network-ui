@@ -21,28 +21,6 @@ export class PostService {
 
     for (let i = 0; i < 10; ++i) {
       posts.push(this.generatePost());
-
-      let natural = this.chance.natural({ min: 1, max: 10 });
-
-      for (let j = 0; j < natural; ++j) {
-        posts[i].comments.push({
-          id: this.chance.guid(),
-          text: this.chance.paragraph({ sentences: this.chance.natural({ min: 1, max: 10 }) }),
-          createdOn: this.chance.date({ min: posts[i].createdOn, max: new Date() }) as Date,
-          reactions: [],
-          comments: [],
-          user: this.userService.generateUser()
-        });
-      }
-
-      natural = this.chance.natural({ min: 1, max: 100 });
-
-      for (let j = 0; j < natural; ++j) {
-        posts[i].reactions.push({
-          id: this.chance.guid(),
-          value: this.chance.natural({ min: 1, max: 1 }),
-        });
-      }
     }
 
     return of(posts);
@@ -55,8 +33,31 @@ export class PostService {
       createdOn: this.chance.date({ max: new Date() }) as Date,
       reactions: [],
       comments: [],
-      user: this.userService.generateUser()
+      user: this.userService.generateUser(),
+      friends: [],
     };
+
+    let natural = this.chance.natural({ min: 1, max: 10 });
+
+    for (let i = 0; i < natural; ++i) {
+      post.comments.push({
+        id: this.chance.guid(),
+        text: this.chance.paragraph({ sentences: this.chance.natural({ min: 1, max: 10 }) }),
+        createdOn: this.chance.date({ min: post.createdOn, max: new Date() }) as Date,
+        reactions: [],
+        comments: [],
+        user: this.userService.generateUser()
+      });
+    }
+
+    natural = this.chance.natural({ min: 1, max: 100 });
+
+    for (let i = 0; i < natural; ++i) {
+      post.reactions.push({
+        id: this.chance.guid(),
+        value: this.chance.natural({ min: 1, max: 1 }),
+      });
+    }
 
     return post;
   }
