@@ -25,6 +25,9 @@ import { PostPreviewComponent } from '@components/post-preview/post-preview.comp
 import { UserComponent } from '@components/user/user.component';
 import { NewPostComponent } from './components/new-post/new-post.component';
 import { NewPostActionsComponent } from './components/new-post-actions/new-post-actions.component';
+import { MediaPreviewComponent } from './components/media-preview/media-preview.component';
+import { YoutubePreviewComponent } from './components/youtube-preview/youtube-preview.component';
+import { SafeUrlPipe } from './pipes/safe-url.pipe';
 
 @NgModule({
   declarations: [
@@ -46,6 +49,9 @@ import { NewPostActionsComponent } from './components/new-post-actions/new-post-
     UserComponent,
     NewPostComponent,
     NewPostActionsComponent,
+    MediaPreviewComponent,
+    YoutubePreviewComponent,
+    SafeUrlPipe,
   ],
   imports: [
     BrowserModule,

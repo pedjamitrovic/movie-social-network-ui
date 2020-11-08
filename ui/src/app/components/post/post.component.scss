@@ -39,4 +39,12 @@
     .post-text {
         padding: 10px;
     }
+    .post-media {
+        display: flex;
+        justify-content: center;
+        app-youtube-preview {
+            width: 100%;
+        }
+        padding: 10px;
+    }
 }

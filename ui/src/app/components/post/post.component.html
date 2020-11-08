@@ -34,6 +34,9 @@
     <div class="post-text">
         {{ post?.text }}
     </div>
+    <div class="post-media">
+        <app-media-preview *ngIf="renderedMedia" [renderedMedia]="renderedMedia"></app-media-preview>
+    </div>
     <div class="post-activity">
         <div class="post-reactions">
             {{ ((post?.reactions?.length || '0') | shortNumber) + ' people like this' }}

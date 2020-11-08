@@ -30,20 +30,6 @@
         .full-width {
             width: 100%;
         }
-        .media-preview {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            .video-preview {
-                max-width: 100%;
-                height: auto;
-            }
-            .image-preview {
-                max-width: 100%;
-                height: auto;
-            }
-        }
     }
     .new-post-text {
         padding: 10px;

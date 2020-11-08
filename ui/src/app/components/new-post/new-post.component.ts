@@ -1,8 +1,9 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { NewPostCommand } from '@models/new-post-command';
+import { NewPostCommand } from '@models/new-post-command.model';
 import { Post } from '@models/post.model';
+import { RenderedMedia } from '@models/rendered-media.model';
 import { User } from '@models/user.model';
+import { MediaService } from '@services/media/media.service';
 import { PostService } from '@services/post/post.service';
 import { UserService } from '@services/user/user.service';
 import { fromEvent } from 'rxjs';
@@ -17,14 +18,14 @@ export class NewPostComponent implements OnInit {
 
   public user: User;
   public command: NewPostCommand = new NewPostCommand();
-  public videos: string[];
-  public images: string[];
+  public renderedMedia: RenderedMedia;
 
   @ViewChild('mediaInput') public mediaInput: ElementRef;
 
   constructor(
     private userService: UserService,
     private postService: PostService,
+    private mediaService: MediaService,
   ) { }
 
   ngOnInit(): void {
@@ -63,34 +64,14 @@ export class NewPostComponent implements OnInit {
     mediaInput.click();
   }
 
-  public renderMedia() {
+  async addFiles() {
     const mediaInput = this.mediaInput.nativeElement as HTMLInputElement;
 
     if (mediaInput?.files?.length === 0) { return; }
 
-    this.videos = [];
-    this.images = [];
-
     this.command.media = Array.from(mediaInput.files);
 
-    for (const file of this.command.media) {
-
-      const reader = new FileReader();
-
-      fromEvent(reader, 'load')
-        .subscribe(
-          () => {
-            if (file.type.startsWith('image')) {
-              this.images.push(reader.result.toString());
-            }
-            else if (file.type.startsWith('video')) {
-              this.videos.push(reader.result.toString());
-            }
-          }
-        );
-
-      reader.readAsDataURL(file);
-    }
+    this.renderedMedia = await this.mediaService.renderMedia(this.command.media);
 
     mediaInput.value = null;
   }

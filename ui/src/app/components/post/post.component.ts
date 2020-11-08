@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from '@models/post.model';
+import { RenderedMedia } from '@models/rendered-media.model';
+import { MediaService } from '@services/media/media.service';
 import * as moment from 'moment';
 
 @Component({
@@ -11,11 +13,9 @@ import * as moment from 'moment';
 export class PostComponent implements OnInit {
   @Input() public set post(v: Post) {
     this._post = v;
-    if (this._post) {
-      this.fromNow = moment(this._post.createdOn).fromNow();
-    }
+    this.initData();
   }
-  public get post() : Post {
+  public get post(): Post {
     return this._post;
   }
 
@@ -23,17 +23,21 @@ export class PostComponent implements OnInit {
   public commentsExpanded = false;
   public liked = false;
   public disliked = false;
+  public renderedMedia: RenderedMedia;
 
   private _post: Post;
 
   constructor(
-    public ar: ActivatedRoute
+    private mediaService: MediaService,
   ) { }
 
   public ngOnInit() {
-    this.ar.params.subscribe(() => {
+  }
 
-    });
+  async initData() {
+    if (!this._post) { return; }
+    this.fromNow = moment(this._post.createdOn).fromNow();
+    this.renderedMedia = await this.mediaService.renderMedia(this._post.media);
   }
 
   public like() {

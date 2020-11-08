@@ -1,0 +1,7 @@
+<div *ngIf="renderedMedia?.images?.length || renderedMedia?.videos?.length" class="media-preview">
+    <img *ngFor="let image of renderedMedia?.images" [src]="image" class="image-preview" />
+    <video *ngFor="let video of renderedMedia?.videos" class="video-preview" controls>
+  <source [src]="video">
+  Your browser does not support HTML video.
+</video>
+</div>
