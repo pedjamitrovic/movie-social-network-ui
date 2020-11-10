@@ -32,6 +32,9 @@
         }
         .post-media {
             padding: 10px;
+            * {
+                width: 100%;
+            }
         }
     }
 }

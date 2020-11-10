@@ -39,7 +39,10 @@ export class PostComponent implements OnInit {
   async initData() {
     if (!this._post) { return; }
     this.fromNow = moment(this._post.createdOn).fromNow();
-    this.renderedMedia = await this.mediaService.renderMedia(this._post.media);
+
+    if (this._post.media.length) {
+      this.renderedMedia = await this.mediaService.renderMedia(this._post.media);
+    }
 
     const execArray = Constants.YOUTUBE_URL_REGEX.exec(this._post.text);
 
