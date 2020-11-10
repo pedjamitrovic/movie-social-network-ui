@@ -6,7 +6,7 @@ import { User } from '@models/user.model';
 import { MediaService } from '@services/media/media.service';
 import { PostService } from '@services/post/post.service';
 import { UserService } from '@services/user/user.service';
-import { fromEvent } from 'rxjs';
+import { Constants } from '@util/constants';
 
 @Component({
   selector: 'app-new-post',
@@ -19,6 +19,7 @@ export class NewPostComponent implements OnInit {
   public user: User;
   public command: NewPostCommand = new NewPostCommand();
   public renderedMedia: RenderedMedia;
+  public youtubeUrl: string;
 
   @ViewChild('mediaInput') public mediaInput: ElementRef;
 
@@ -56,7 +57,7 @@ export class NewPostComponent implements OnInit {
     post.user = this.user;
     post.media = this.command.media;
     this.postCreated.emit(post);
-    this.command = new NewPostCommand();
+    this.reset();
   }
 
   public addMedia() {
@@ -78,6 +79,21 @@ export class NewPostComponent implements OnInit {
 
   public onTextChange(value: string) {
     this.command.text = value;
+
+    const execArray = Constants.YOUTUBE_URL_REGEX.exec(value);
+
+    if (execArray) {
+      this.youtubeUrl = execArray[0];
+    }
+    else {
+      this.youtubeUrl = null;
+    }
+  }
+
+  public reset() {
+    this.renderedMedia = null;
+    this.youtubeUrl = null;
+    this.command = new NewPostCommand();
   }
 
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Post } from '@models/post.model';
 import { RenderedMedia } from '@models/rendered-media.model';
 import { MediaService } from '@services/media/media.service';
+import { Constants } from '@util/constants';
 import * as moment from 'moment';
 
 @Component({
@@ -24,6 +25,7 @@ export class PostComponent implements OnInit {
   public liked = false;
   public disliked = false;
   public renderedMedia: RenderedMedia;
+  public youtubeUrl: string;
 
   private _post: Post;
 
@@ -38,6 +40,15 @@ export class PostComponent implements OnInit {
     if (!this._post) { return; }
     this.fromNow = moment(this._post.createdOn).fromNow();
     this.renderedMedia = await this.mediaService.renderMedia(this._post.media);
+
+    const execArray = Constants.YOUTUBE_URL_REGEX.exec(this._post.text);
+
+    if (execArray) {
+      this.youtubeUrl = execArray[0];
+    }
+    else {
+      this.youtubeUrl = null;
+    }
   }
 
   public like() {

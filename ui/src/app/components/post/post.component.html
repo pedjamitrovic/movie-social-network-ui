@@ -36,6 +36,7 @@
     </div>
     <div class="post-media">
         <app-media-preview *ngIf="renderedMedia" [renderedMedia]="renderedMedia"></app-media-preview>
+        <app-youtube-preview *ngIf="youtubeUrl" [url]="youtubeUrl"></app-youtube-preview>
     </div>
     <div class="post-activity">
         <div class="post-reactions">

@@ -34,6 +34,9 @@
       "@services/*": [
         "app/services/*"
       ],
+      "@util/*": [
+        "app/util/*"
+      ],
     }
   },
   "angularCompilerOptions": {

@@ -16,10 +16,13 @@
     <div class="new-post-body">
         <mat-form-field class="full-width" appearance="outline">
             <mat-label>What are you thinking about?</mat-label>
-            <textarea (change)="onTextChange($event.target.value)" [value]="command.text" matInput></textarea>
+            <textarea (input)="onTextChange($event.target.value)" [value]="command.text" matInput></textarea>
         </mat-form-field>
         <input #mediaInput (change)="addFiles()" type="file" accept="image/*, video/*" multiple hidden>
-        <app-media-preview *ngIf="renderedMedia" [renderedMedia]="renderedMedia"></app-media-preview>
+        <div *ngIf="renderedMedia || youtubeUrl" class="post-media">
+            <app-media-preview *ngIf="renderedMedia" [renderedMedia]="renderedMedia"></app-media-preview>
+            <app-youtube-preview *ngIf="youtubeUrl" [url]="youtubeUrl"></app-youtube-preview>
+        </div>
     </div>
     <div class="new-post-actions">
         <app-new-post-actions (actionActivated)="actionActivated($event)"></app-new-post-actions>
