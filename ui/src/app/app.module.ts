@@ -28,6 +28,8 @@ import { NewPostActionsComponent } from './components/new-post-actions/new-post-
 import { MediaPreviewComponent } from './components/media-preview/media-preview.component';
 import { YoutubePreviewComponent } from './components/youtube-preview/youtube-preview.component';
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
+import { UserHeaderComponent } from './components/user-header/user-header.component';
+import { UserAboutComponent } from './components/user-about/user-about.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import { SafeUrlPipe } from './pipes/safe-url.pipe';
     MediaPreviewComponent,
     YoutubePreviewComponent,
     SafeUrlPipe,
+    UserHeaderComponent,
+    UserAboutComponent,
   ],
   imports: [
     BrowserModule,

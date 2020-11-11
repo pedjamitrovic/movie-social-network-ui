@@ -40,7 +40,7 @@ export class PostComponent implements OnInit {
     if (!this._post) { return; }
     this.fromNow = moment(this._post.createdOn).fromNow();
 
-    if (this._post.media.length) {
+    if (this._post.media?.length) {
       this.renderedMedia = await this.mediaService.renderMedia(this._post.media);
     }
 

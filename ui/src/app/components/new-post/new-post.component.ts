@@ -50,7 +50,7 @@ export class NewPostComponent implements OnInit {
   }
 
   public createPost() {
-    if (!this.command.text && !this.command.media) return;
+    if (!this.command.text && !this.command.media?.length) return;
     const post = this.postService.generatePost();
     post.createdOn = new Date();
     post.text = this.command.text;
