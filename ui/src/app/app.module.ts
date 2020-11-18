@@ -30,6 +30,7 @@ import { YoutubePreviewComponent } from './components/youtube-preview/youtube-pr
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
 import { UserHeaderComponent } from './components/user-header/user-header.component';
 import { UserAboutComponent } from './components/user-about/user-about.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { UserAboutComponent } from './components/user-about/user-about.component
     ReactiveFormsModule,
     InfiniteScrollModule,
     ClipboardModule,
+    PickerModule,
   ],
   providers: [ShortNumberPipe],
   bootstrap: [AppComponent]

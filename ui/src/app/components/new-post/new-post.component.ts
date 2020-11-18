@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { NewPostCommand } from '@models/new-post-command.model';
 import { Post } from '@models/post.model';
 import { RenderedMedia } from '@models/rendered-media.model';
@@ -17,9 +18,10 @@ export class NewPostComponent implements OnInit {
   @Output() public postCreated = new EventEmitter<Post>();
 
   public user: User;
-  public command: NewPostCommand = new NewPostCommand();
+  public command = new NewPostCommand();
   public renderedMedia: RenderedMedia;
   public youtubeUrl: string;
+  public showEmojiPicker = false;
 
   @ViewChild('mediaInput') public mediaInput: ElementRef;
 
@@ -94,6 +96,14 @@ export class NewPostComponent implements OnInit {
     this.renderedMedia = null;
     this.youtubeUrl = null;
     this.command = new NewPostCommand();
+  }
+
+  public toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  public addEmoji(event) {
+    this.command.text += event.emoji.native;
   }
 
 }

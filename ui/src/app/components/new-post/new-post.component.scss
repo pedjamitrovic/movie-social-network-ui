@@ -27,8 +27,20 @@
         }
     }
     .new-post-body {
-        .full-width {
-            width: 100%;
+        .new-post-text {
+            display: flex;
+            align-items: flex-end;
+            .full-width {
+                width: 100%;
+            }
+            .emoji-toggle-button {
+                margin-bottom: 21.5px;
+            }
+        }
+        .emoji-wrapper {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 10px;
         }
         .post-media {
             padding: 10px;

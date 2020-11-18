@@ -14,10 +14,17 @@
         </div>
     </div>
     <div class="new-post-body">
-        <mat-form-field class="full-width" appearance="outline">
-            <mat-label>What are you thinking about?</mat-label>
-            <textarea (input)="onTextChange($event.target.value)" [value]="command.text" matInput></textarea>
-        </mat-form-field>
+        <div class="new-post-text">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>What are you thinking about?</mat-label>
+                <textarea (input)="onTextChange($event.target.value)" [value]="command.text" cdkTextareaAutosize matInput></textarea>
+            </mat-form-field>
+            <button class="emoji-toggle-button" color="primary" (click)="toggleEmojiPicker()" mat-icon-button>
+          <mat-icon>sentiment_satisfied_alt</mat-icon></button>
+        </div>
+        <div class="emoji-wrapper">
+            <emoji-mart *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" class="emoji-mart" set="facebook" [darkMode]="false" title="Pick your emoji" emoji="joy" [perLine]="8"></emoji-mart>
+        </div>
         <input #mediaInput (change)="addFiles()" type="file" accept="image/*, video/*" multiple hidden>
         <div *ngIf="renderedMedia || youtubeUrl" class="post-media">
             <app-media-preview *ngIf="renderedMedia" [renderedMedia]="renderedMedia"></app-media-preview>
