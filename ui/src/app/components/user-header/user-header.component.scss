@@ -1,7 +1,32 @@
 .user-header-container {
-    img {
-        width: 100%;
-        height: 300px;
-        object-fit: contain;
+    background-color: white;
+    .cover-image {
+        padding: 5px;
+        img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+    }
+    .profile-image {
+        margin-top: -80px;
+        display: flex;
+        justify-content: center;
+        img {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid white;
+        }
+    }
+    .username {
+        text-align: center;
+        padding: 10px 0;
+        span {
+            font-size: 28px;
+            font-weight: bold;
+        }
     }
 }
