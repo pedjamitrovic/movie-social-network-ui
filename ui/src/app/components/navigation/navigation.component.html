@@ -8,10 +8,21 @@
     </mat-sidenav>
     <mat-sidenav-content class="sidenav-content">
         <mat-toolbar color="primary">
-            <button mat-icon-button aria-label="Toggle sidenav" (click)="drawer.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-            <span>Movie social network</span>
+            <div class="toolbar-container">
+                <div class="left-side">
+                    <button mat-icon-button aria-label="Toggle sidenav" (click)="drawer.toggle()">
+              <mat-icon>menu</mat-icon>
+            </button>
+                    <span>MSN</span>
+                </div>
+                <div class="right-side">
+                    <a mat-button class="logged-user" [routerLink]="['/users', user?.id]">
+                        <img class="user-avatar" src="https://scontent.fbeg1-1.fna.fbcdn.net/v/t1.0-9/65219049_10205705790960731_3096226655077662720_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=u4vs0X-gMQwAX_Uz-_a&_nc_ht=scontent.fbeg1-1.fna&oh=fcc57942bc0f4ee00a6aeb4a4bd62fc9&oe=5FDB9417"
+                            [matTooltip]="user?.firstName + ' ' + user?.lastName" />
+                        <span class="username">Vladimir Sivčev</span>
+                    </a>
+                </div>
+            </div>
         </mat-toolbar>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
