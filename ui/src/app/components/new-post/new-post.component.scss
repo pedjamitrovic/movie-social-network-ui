@@ -38,9 +38,10 @@
             }
         }
         .emoji-wrapper {
-            display: flex;
-            justify-content: center;
-            padding-bottom: 10px;
+            position: absolute;
+            right: 0px;
+            top: 140px;
+            z-index: 5;
         }
         .post-media {
             padding: 10px;

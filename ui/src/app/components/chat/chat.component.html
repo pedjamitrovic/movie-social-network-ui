@@ -1,21 +1,46 @@
-<div class="App">
-    <main class="chat-window">
-        <header class="chat-header">
-            <h1>Chat</h1>
-            <span class="participants"></span>
-        </header>
-        <section class="chat-session">
-            <ul class="message-list">
-                <li class="user-message" *ngFor="let message of message$ | async | groupMessages">
-                    <span class="user-id">{{ message?.from }} - {{ message?.timestamp | date: 'medium' }}</span>
-                    <span *ngFor="let text of message.texts">{{ text }}</span>
-                </li>
-            </ul>
-        </section>
-        <footer class="chat-footer">
-            <form [formGroup]="messageForm" (submit)="sendMessage()">
-                <input [formControl]="messageForm?.controls?.message" placeholder="Type a message. Hit Enter to send">
-            </form>
-        </footer>
-    </main>
+<div class="chat-container">
+    <div class="chat-options">
+        <div class="chat-options-actions">
+            <div *ngIf="!(isHandset$ | async)">
+                <h2>Chat</h2>
+            </div>
+            <button mat-icon-button color="primary" [matTooltip]="'New chat'" (click)="newChat = {}">
+          <mat-icon>add_circle_outline</mat-icon>
+      </button>
+        </div>
+        <div *ngIf="newChat" class="chat-user-container" [ngClass]="{'chat-user-container-active': newChat?.user === activeUser}" (click)="setActiveUser(newChat?.user)">
+            <div class="chat-user">
+                <img class="user-avatar" src="assets/images/avatar.png" />
+                <div *ngIf="!newChat || !(isHandset$ | async)" class="chat-info">
+                    New message<span *ngIf="newChat?.user?.firstName && newChat?.user?.lastName"> for {{newChat?.user?.firstName}} {{newChat?.user?.lastName}}</span>
+                </div>
+            </div>
+        </div>
+        <div *ngFor="let user of users" class="chat-user-container" [ngClass]="{'chat-user-container-active': user === activeUser}" (click)="setActiveUser(user)">
+            <div class="chat-user">
+                <img class="user-avatar" src="https://scontent.fbeg1-1.fna.fbcdn.net/v/t1.0-9/65219049_10205705790960731_3096226655077662720_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=u4vs0X-gMQwAX_Uz-_a&_nc_ht=scontent.fbeg1-1.fna&oh=fcc57942bc0f4ee00a6aeb4a4bd62fc9&oe=5FDB9417"
+                    [matTooltip]="user?.firstName + ' ' + user?.lastName" />
+                <div *ngIf="!(isHandset$ | async)" class="chat-info">
+                    <div class="username">
+                        {{user.firstName}} {{user.lastName}}
+                    </div>
+                    <div class="last-message">sabkdasjdbhbdasbdhasbdhjbahdbashdbsabhsbdbsdhasbdabsda</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="chat">
+        <!-- <form class="example-form" [formGroup]="user">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="State" aria-label="State" [matAutocomplete]="auto" [formControl]="stateCtrl">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
+                        <img class="example-option-img" aria-hidden [src]="state.flag" height="25">
+                        <span>{{state.name}}</span> |
+                        <small>Population: {{state.population}}</small>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form> -->
+    </div>
 </div>

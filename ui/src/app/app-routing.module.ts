@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ChatComponent } from '@components/chat/chat.component';
 import { FeedComponent } from '@components/feed/feed.component';
 import { HomeComponent } from '@components/home/home.component';
 import { PageNotFoundComponent } from '@components/page-not-found/page-not-found.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'feed', component: FeedComponent },
   { path: 'posts/:id', component: PostPreviewComponent },
   { path: 'users/:id', component: UserComponent },
+  { path: 'chat', component: ChatComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 
