@@ -4,7 +4,7 @@
             <div *ngIf="!(isHandset$ | async)">
                 <h2>Chat</h2>
             </div>
-            <button mat-icon-button color="primary" [matTooltip]="'New chat'" (click)="newChat = {}">
+            <button mat-icon-button color="primary" [matTooltip]="'New chat'" (click)="createNewChat()">
           <mat-icon>add_circle_outline</mat-icon>
       </button>
         </div>
@@ -12,17 +12,16 @@
             <div class="chat-user">
                 <img class="user-avatar" src="assets/images/avatar.png" />
                 <div *ngIf="!newChat || !(isHandset$ | async)" class="chat-info">
-                    New message<span *ngIf="newChat?.user?.firstName && newChat?.user?.lastName"> for {{newChat?.user?.firstName}} {{newChat?.user?.lastName}}</span>
+                    New chat<span *ngIf="newChat?.user?.firstName && newChat?.user?.lastName"> with {{newChat?.user?.username}}</span>
                 </div>
             </div>
         </div>
-        <div *ngFor="let user of users" class="chat-user-container" [ngClass]="{'chat-user-container-active': user === activeUser}" (click)="setActiveUser(user)">
+        <div matRipple *ngFor="let user of historyUsers" class="chat-user-container" [ngClass]="{'chat-user-container-active': user === activeUser}" (click)="setActiveUser(user)">
             <div class="chat-user">
-                <img class="user-avatar" src="https://scontent.fbeg1-1.fna.fbcdn.net/v/t1.0-9/65219049_10205705790960731_3096226655077662720_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=u4vs0X-gMQwAX_Uz-_a&_nc_ht=scontent.fbeg1-1.fna&oh=fcc57942bc0f4ee00a6aeb4a4bd62fc9&oe=5FDB9417"
-                    [matTooltip]="user?.firstName + ' ' + user?.lastName" />
+                <img class="user-avatar" src="assets/images/avatar.png" />
                 <div *ngIf="!(isHandset$ | async)" class="chat-info">
                     <div class="username">
-                        {{user.firstName}} {{user.lastName}}
+                        {{user?.username}}
                     </div>
                     <div class="last-message">sabkdasjdbhbdasbdhasbdhjbahdbashdbsabhsbdbsdhasbdabsda</div>
                     <div class="last-message-date">{{fromNow}}</div>
@@ -31,17 +30,53 @@
         </div>
     </div>
     <div class="chat">
-        <!-- <form class="example-form" [formGroup]="user">
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="State" aria-label="State" [matAutocomplete]="auto" [formControl]="stateCtrl">
-                <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
-                        <img class="example-option-img" aria-hidden [src]="state.flag" height="25">
-                        <span>{{state.name}}</span> |
-                        <small>Population: {{state.population}}</small>
+        <form class="new-chat-form" [formGroup]="newChatForm" *ngIf="!activeUser?.username">
+            <mat-form-field class="user-search" appearance="outline">
+                <mat-label>New chat with</mat-label>
+                <input #newChatInput matInput [matAutocomplete]="auto" [formControl]="newChatForm?.controls?.user">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="userOptionSelected()">
+                    <mat-option *ngFor="let user of userService.searchUsers(newChatForm?.controls?.user.value) | async" [value]="user">
+                        {{user.username}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-        </form> -->
+        </form>
+        <div class="message-container" *ngIf="activeUser?.username">
+            <form class="new-message" [formGroup]="newMessageForm">
+                <mat-form-field appearance="outline">
+                    <mat-label>User</mat-label>
+                    <mat-select [formControl]="newMessageForm?.controls?.user">
+                        <mat-option value="0">Me</mat-option>
+                        <mat-option value="1">{{activeUser?.username}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="full-width" appearance="outline">
+                    <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" [formControl]="newMessageForm?.controls?.message" (keydown)="newMessageKeydown($event)"></textarea>
+                </mat-form-field>
+                <div>
+                    <button class="emoji-toggle-button" color="primary" (click)="toggleEmojiPicker()" mat-icon-button>
+                <mat-icon>sentiment_satisfied_alt</mat-icon>
+              </button>
+                    <div class="emoji-wrapper">
+                        <emoji-mart *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" class="emoji-mart" set="facebook" [darkMode]="false" title="Pick your emoji" emoji="joy" [perLine]="8"></emoji-mart>
+                    </div>
+                </div>
+            </form>
+            <div #messageHistoryDiv *ngIf="messages?.length; else noMessageHistory" class="message-history">
+                <div *ngFor="let message of messages" [ngClass]="{'logged-user-message': message.from === '0', 'active-user-message': message.from === '1'}">
+                    <div class="message mat-elevation-z1">
+                        <div class="message-text">{{message.text}}</div>
+                        <div class="message-timestamp">{{message.timestamp | date:'dd.MM.yyyy, HH:mm'}}</div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #noMessageHistory>
+                <div class="no-message-history">
+                    <div>
+                        <span>No previous messages with&nbsp;</span><a [routerLink]="['/users', activeUser?.id]" target="_blank">{{activeUser?.username}}</a>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
     </div>
 </div>

@@ -9,8 +9,12 @@ import { Observable, of } from 'rxjs';
 })
 export class UserService {
   chance = new Chance();
+  usersForSearch: User[] = [];
 
   constructor() {
+    for (let i = 0; i < 100; ++i) {
+      this.usersForSearch.push(this.generateUser());
+    }
   }
 
   getUsers(): Observable<User[]> {
@@ -20,14 +24,27 @@ export class UserService {
       users.push(this.generateUser());
     }
 
+    this.usersForSearch.push(...users);
+
     return of(users);
+  }
+
+  searchUsers(q: string): Observable<User[]> {
+    let filteredUsers = this.usersForSearch;
+
+    if (q) {
+      filteredUsers = filteredUsers.filter(
+        u => u.username.includes(q.toLowerCase())
+      );
+    }
+
+    return of(filteredUsers);
   }
 
   generateUser(): User {
     const user: User = {
       id: this.chance.guid(),
-      firstName: this.chance.first(),
-      lastName: this.chance.last()
+      username: this.chance.name(),
     };
 
     return user;

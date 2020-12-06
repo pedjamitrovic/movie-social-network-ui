@@ -13,7 +13,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -79,6 +79,7 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
         MatTooltipModule,
         MatTreeModule,
         MatStepperModule,
+        MatRippleModule,
         CdkTableModule,
         A11yModule,
         BidiModule,

@@ -1,13 +1,13 @@
 <mat-card class="new-post">
     <div class="new-post-header">
         <a [routerLink]="['/users/', user?.id]">
-            <img class="new-post-avatar" src="assets/images/avatar.png" [matTooltip]="user?.firstName + ' ' + user?.lastName" />
+            <img class="new-post-avatar" src="assets/images/avatar.png" [matTooltip]="user?.username" />
         </a>
         <div class="new-post-info">
             <div class="name-container">
                 <span>
                   <a *ngIf="user" [routerLink]="['/users/', user?.id]">
-                    {{user?.firstName}} {{user?.lastName}}
+                    {{user?.username}}
           </a>
           </span>
             </div>
