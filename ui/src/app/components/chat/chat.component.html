@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </form>
-            <div #messageHistoryDiv *ngIf="messages?.length; else noMessageHistory" class="message-history">
+            <div #messageHistoryDiv *ngIf="messages?.length; else noMessageHistory" class="message-history" infiniteScroll [fromRoot]="true" infiniteScrollContainer=".message-history" (scrolledUp)="onScrolledUp()">
                 <div *ngFor="let message of messages" [ngClass]="{'logged-user-message': message.from === '0', 'active-user-message': message.from === '1'}">
                     <div class="message mat-elevation-z1">
                         <div class="message-text">{{message.text}}</div>

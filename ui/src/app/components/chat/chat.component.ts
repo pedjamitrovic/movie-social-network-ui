@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ChatService } from '@services/chat/chat.service';
 import { forkJoin, Observable } from 'rxjs';
@@ -15,7 +15,7 @@ import { Message } from '@models/message.model';
   styleUrls: ['./chat.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
   @ViewChild('newChatInput') newChatInput: ElementRef;
   @ViewChild('messageHistoryDiv') messageHistoryDiv: ElementRef;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -42,6 +42,16 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
+    for (let i = 0; i < 30; ++i) {
+      this.messages.unshift(
+        {
+          text: 'abc',
+          from: this.newMessageForm.controls.user.value,
+          timestamp: new Date()
+        }
+      );
+    }
+
     forkJoin([this.userService.getUsers(), this.userService.getUsers()])
       .subscribe(
         ([usersA, usersB]) => {
@@ -52,6 +62,10 @@ export class ChatComponent implements OnInit {
       );
 
     this.fromNow = moment(new Date()).fromNow();
+  }
+
+  ngAfterViewInit() {
+    this.scrollChatToBottom();
   }
 
   setActiveUser(user: User) {
@@ -97,10 +111,28 @@ export class ChatComponent implements OnInit {
           }
         );
         this.newMessageForm.controls.message.setValue('');
-        const div = this.messageHistoryDiv.nativeElement as HTMLDivElement;
-        div.scrollTop = div.scrollHeight - div.clientHeight;
+        this.cdr.detectChanges();
+        this.scrollChatToBottom();
       }
     }
   }
 
+  onScrolledUp() {
+    for (let i = 0; i < 10; ++i) {
+      this.messages.unshift(
+        {
+          text: 'abc',
+          from: this.newMessageForm.controls.user.value,
+          timestamp: new Date()
+        }
+      );
+    }
+  }
+
+  scrollChatToBottom() {
+    const div = this.messageHistoryDiv.nativeElement as HTMLDivElement;
+    if (div) {
+      div.scrollBy({ top: div.scrollHeight, behavior: 'smooth' });
+    }
+  }
 }
