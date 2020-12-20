@@ -31,6 +31,7 @@ import { SafeUrlPipe } from './pipes/safe-url.pipe';
 import { UserHeaderComponent } from './components/user-header/user-header.component';
 import { UserAboutComponent } from './components/user-about/user-about.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { ConfirmActionDialogComponent } from './components/dialogs/confirm-action-dialog/confirm-action-dialog.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     SafeUrlPipe,
     UserHeaderComponent,
     UserAboutComponent,
+    ConfirmActionDialogComponent,
   ],
   imports: [
     BrowserModule,

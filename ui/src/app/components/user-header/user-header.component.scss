@@ -29,4 +29,13 @@
             font-weight: bold;
         }
     }
+    .followers {
+        display: flex;
+        justify-content: center;
+    }
+    .follow {
+        display: flex;
+        justify-content: center;
+        padding: 5px 0;
+    }
 }
