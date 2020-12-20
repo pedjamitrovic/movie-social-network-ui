@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Post } from '@models/post.model';
 import { Chance } from 'chance';
 import { User } from '@models/user.model';
 import { Observable, of } from 'rxjs';

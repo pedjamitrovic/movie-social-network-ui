@@ -1,28 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Message } from '@models/message.model';
-
-// const MESSAGES: Message[] =
-//   [
-//     { from: 'John', channel: '1', text: 'Hi', timestamp: '2016-02-10T00:00:00Z' },
-//     { from: 'John', channel: '1', text: 'I\'m John', timestamp: '2016-02-10T00:00:04Z' },
-//     { from: 'John', channel: '1', text: 'Call me later', timestamp: '2016-02-10T00:01:00Z' },
-//     { from: 'Peter', channel: '1', text: 'Will do', timestamp: '2016-02-11T00:01:00Z' },
-//     { from: 'Peter', channel: '1', text: 'Bye :)', timestamp: '2016-02-11T02:00:00Z' },
-//   ];
-
+import { Chance } from 'chance';
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
+  chance = new Chance();
 
   constructor() { }
 
-  // getMessages(): Observable<Message[]> {
-  //   return of(MESSAGES);
-  // }
+  getMessages(): Observable<Message[]> {
+    const messages: Message[] = [];
+    const messageCount = this.chance.integer({ min: 20, max: 50 });
 
-  // sendMessage(message: Message) {
-  //   MESSAGES.push(message);
-  // }
+    for (let i = 0; i < messageCount; ++i) {
+      messages.push(this.generateMessage());
+    }
+
+    return of(messages);
+  }
+
+  generateMessage(): Message {
+    const message: Message = {
+      id: this.chance.guid(),
+      from: this.chance.integer({ min: 0, max: 1 }).toString(),
+      channel: this.chance.guid(),
+      text: this.chance.paragraph({ sentences: this.chance.natural({ min: 1, max: 3 }) }),
+      createdOn: new Date(),
+    };
+
+    return message;
+  }
 }

@@ -16,7 +16,7 @@ export class GroupMessagesPipe implements PipeTransform {
     this.groupedMessages = [];
     value.forEach((m) => {
       if (this.lastGroupedMessage) {
-        const mTimestamp = new Date(m.timestamp);
+        const mTimestamp = new Date(m.createdOn);
         const lgmTimestamp = new Date(this.lastGroupedMessage.timestamp);
         if (this.lastGroupedMessage.from === m.from && mTimestamp.getTime() - lgmTimestamp.getTime() < MESSAGE_MAX_DELAY) {
           this.lastGroupedMessage.texts.push(m.text);
@@ -31,7 +31,7 @@ export class GroupMessagesPipe implements PipeTransform {
   }
 
   public addNewGroupedMessage(m: Message) {
-    const groupedMessage: GroupedMessage = { from: m.from, channel: m.channel, texts: [m.text], timestamp: m.timestamp };
+    const groupedMessage: GroupedMessage = { from: m.from, channel: m.channel, texts: [m.text], timestamp: m.createdOn };
     this.groupedMessages.push(groupedMessage);
     this.lastGroupedMessage = groupedMessage;
   }

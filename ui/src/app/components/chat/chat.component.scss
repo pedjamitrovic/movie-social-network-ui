@@ -99,6 +99,9 @@
                         .message-timestamp {
                             justify-content: flex-end;
                         }
+                        .message-from {
+                            justify-content: flex-end;
+                        }
                     }
                 }
                 .active-user-message {
@@ -106,6 +109,9 @@
                     justify-content: flex-start;
                     .message {
                         .message-timestamp {
+                            justify-content: flex-start;
+                        }
+                        .message-from {
                             justify-content: flex-start;
                         }
                     }
@@ -117,11 +123,17 @@
                     border-radius: 5px;
                     padding: 10px;
                     margin: 5px;
+                    max-width: 66%;
                     .message-text {
                         display: flex;
                         justify-content: flex-start;
                         overflow-wrap: anywhere;
                         white-space: pre-line;
+                        margin: 5px 0;
+                    }
+                    .message-from {
+                        display: flex;
+                        font-size: 14px;
                     }
                     .message-timestamp {
                         display: flex;

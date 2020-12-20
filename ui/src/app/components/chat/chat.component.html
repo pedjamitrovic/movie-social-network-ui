@@ -8,11 +8,11 @@
           <mat-icon>add_circle_outline</mat-icon>
       </button>
         </div>
-        <div *ngIf="newChat" class="chat-user-container" [ngClass]="{'chat-user-container-active': newChat?.user === activeUser}" (click)="setActiveUser(newChat?.user)">
+        <div *ngIf="state === 'new-chat'" class="chat-user-container" [ngClass]="{'chat-user-container-active': newChat?.user === activeUser}" (click)="setActiveUser(newChat?.user)">
             <div class="chat-user">
                 <img class="user-avatar" src="assets/images/avatar.png" />
-                <div *ngIf="!newChat || !(isHandset$ | async)" class="chat-info">
-                    New chat<span *ngIf="newChat?.user?.firstName && newChat?.user?.lastName"> with {{newChat?.user?.username}}</span>
+                <div *ngIf="!(isHandset$ | async)" class="chat-info">
+                    New chat with...
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="chat">
-        <form class="new-chat-form" [formGroup]="newChatForm" *ngIf="!activeUser?.username">
+        <form *ngIf="state === 'new-chat'" class="new-chat-form" [formGroup]="newChatForm">
             <mat-form-field class="user-search" appearance="outline">
                 <mat-label>New chat with</mat-label>
                 <input #newChatInput matInput [matAutocomplete]="auto" [formControl]="newChatForm?.controls?.user">
@@ -41,7 +41,7 @@
                 </mat-autocomplete>
             </mat-form-field>
         </form>
-        <div class="message-container" *ngIf="activeUser?.username">
+        <div *ngIf="state === 'chat-opened'" class="message-container">
             <form class="new-message" [formGroup]="newMessageForm">
                 <mat-form-field appearance="outline">
                     <mat-label>User</mat-label>
@@ -65,15 +65,16 @@
             <div #messageHistoryDiv *ngIf="messages?.length; else noMessageHistory" class="message-history" infiniteScroll [fromRoot]="true" infiniteScrollContainer=".message-history" (scrolledUp)="onScrolledUp()">
                 <div *ngFor="let message of messages" [ngClass]="{'logged-user-message': message.from === '0', 'active-user-message': message.from === '1'}">
                     <div class="message mat-elevation-z1">
+                        <div class="message-from"><a [routerLink]="['/users', activeUser?.id]">{{message.from === '1' ? activeUser?.username : 'Vladimir Sivčev'}}</a></div>
                         <div class="message-text">{{message.text}}</div>
-                        <div class="message-timestamp">{{message.timestamp | date:'dd.MM.yyyy, HH:mm'}}</div>
+                        <div class="message-timestamp">{{message?.createdOn | date:'dd.MM.yyyy, HH:mm'}}</div>
                     </div>
                 </div>
             </div>
             <ng-template #noMessageHistory>
                 <div class="no-message-history">
                     <div>
-                        <span>No previous messages with&nbsp;</span><a [routerLink]="['/users', activeUser?.id]" target="_blank">{{activeUser?.username}}</a>
+                        <span>No previous messages with&nbsp;</span><a [routerLink]="['/users', activeUser?.id]">{{activeUser?.username}}</a>
                     </div>
                 </div>
             </ng-template>
