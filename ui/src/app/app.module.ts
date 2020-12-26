@@ -32,6 +32,7 @@ import { UserHeaderComponent } from './components/user-header/user-header.compon
 import { UserAboutComponent } from './components/user-about/user-about.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ConfirmActionDialogComponent } from './components/dialogs/confirm-action-dialog/confirm-action-dialog.component';
+import { UserListDialogComponent } from './components/dialogs/user-list-dialog/user-list-dialog.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { ConfirmActionDialogComponent } from './components/dialogs/confirm-actio
     UserHeaderComponent,
     UserAboutComponent,
     ConfirmActionDialogComponent,
+    UserListDialogComponent,
   ],
   imports: [
     BrowserModule,

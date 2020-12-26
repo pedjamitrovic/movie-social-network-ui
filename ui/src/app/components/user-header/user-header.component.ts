@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionDialogComponent, ConfirmActionDialogComponentData } from '@components/dialogs/confirm-action-dialog/confirm-action-dialog.component';
+import { UserListDialogComponent, UserListDialogComponentData } from '@components/dialogs/user-list-dialog/user-list-dialog.component';
+import { User } from '@models/user.model';
+import { UserService } from '@services/user/user.service';
 
 @Component({
   selector: 'app-user-header',
@@ -8,17 +11,22 @@ import { ConfirmActionDialogComponent, ConfirmActionDialogComponentData } from '
   styleUrls: ['./user-header.component.scss']
 })
 export class UserHeaderComponent implements OnInit {
-  public following = false;
+  public isFollowing = false;
+  public followers: User[];
+  public following: User[];
 
   constructor(
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private userService: UserService,
   ) { }
 
   ngOnInit(): void {
+    this.userService.getUsers().subscribe((users) => this.followers = users);
+    this.userService.getUsers().subscribe((users) => this.following = users);
   }
 
   follow() {
-    this.following = true;
+    this.isFollowing = true;
   }
 
   unfollow() {
@@ -35,10 +43,36 @@ export class UserHeaderComponent implements OnInit {
     confirmDialog.afterClosed().subscribe(
       (confirmed) => {
         if (confirmed) {
-          this.following = false;
+          this.isFollowing = false;
         }
       }
     )
+  }
+
+  seeFollowers() {
+    const followersDialog = this.dialog.open<UserListDialogComponent, UserListDialogComponentData, boolean>(
+      UserListDialogComponent,
+      {
+        data: {
+          title: 'Followers',
+          users: this.followers
+        },
+        autoFocus: false
+      }
+    );
+  }
+
+  seeFollowing() {
+    const followingDialog = this.dialog.open<UserListDialogComponent, UserListDialogComponentData, boolean>(
+      UserListDialogComponent,
+      {
+        data: {
+          title: 'Following',
+          users: this.following
+        },
+        autoFocus: false
+      }
+    );
   }
 
 }

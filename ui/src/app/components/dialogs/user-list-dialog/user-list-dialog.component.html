@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>{{data?.title ? data.title : 'Users'}}</h1>
+<div mat-dialog-content>
+    <div class="user-container" *ngFor="let user of data?.users" (click)="close()">
+        <a [routerLink]="['/users/', user?.id]">
+            <img class="user-avatar" src="assets/images/avatar.png" [matTooltip]="user?.username" />
+        </a>
+        <div class="user-info">
+            <div class="name-container">
+                <a *ngIf="user" [routerLink]="['/users/', user?.id]">
+                  {{user?.username}}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="actions">
+    <button mat-button color="primary" (click)="close()">Close</button>
+</div>

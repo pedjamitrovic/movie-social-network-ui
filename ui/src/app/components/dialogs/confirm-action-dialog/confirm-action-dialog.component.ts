@@ -18,7 +18,7 @@ export class ConfirmActionDialogComponent implements OnInit {
     public dialog: MatDialogRef<ConfirmActionDialogComponent, boolean>,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
   cancel() {
