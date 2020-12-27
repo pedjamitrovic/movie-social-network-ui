@@ -1,9 +1,25 @@
 <div class="user-header-container">
+    <input #mediaInput (change)="addFiles()" type="file" accept="image/*" multiple hidden>
     <div class="cover-image">
-        <img src="https://scontent.fbeg1-1.fna.fbcdn.net/v/t1.0-9/59022744_10205538098208517_3934019275236311040_o.jpg?_nc_cat=108&ccb=2&_nc_sid=e3f864&_nc_ohc=eGlhnredXP8AX_n8sv4&_nc_ht=scontent.fbeg1-1.fna&oh=6b2272568f43067e6b777823c0a2e762&oe=6004D250" />
+        <img [src]="user?.coverImage">
+    </div>
+    <div class="profile-settings">
+        <button mat-icon-button color="primary" [matMenuTriggerFor]="profileSettings">
+          <mat-icon>settings</mat-icon>
+        </button>
+        <mat-menu #profileSettings="matMenu">
+            <button mat-menu-item (click)="addMedia('cover')">
+            <mat-icon>image</mat-icon>
+            <span>Change cover picture</span>
+          </button>
+            <button mat-menu-item (click)="addMedia('profile')">
+            <mat-icon>face</mat-icon>
+            <span>Change profile picture</span>
+          </button>
+        </mat-menu>
     </div>
     <div class="profile-image">
-        <img src="https://scontent.fbeg1-1.fna.fbcdn.net/v/t1.0-9/65219049_10205705790960731_3096226655077662720_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=_4Und1kngQUAX915ret&_nc_ht=scontent.fbeg1-1.fna&oh=81680a281121991d8bf0d23ac4b5f76f&oe=60071597" />
+        <img [src]="user?.profileImage">
     </div>
     <div class="username">
         <span>Vladimir Sivčev</span>

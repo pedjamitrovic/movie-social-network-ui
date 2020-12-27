@@ -33,6 +33,7 @@ import { UserAboutComponent } from './components/user-about/user-about.component
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ConfirmActionDialogComponent } from './components/dialogs/confirm-action-dialog/confirm-action-dialog.component';
 import { UserListDialogComponent } from './components/dialogs/user-list-dialog/user-list-dialog.component';
+import { ConfirmActionBottomSheetComponent } from './components/bottom-sheets/confirm-action-bottom-sheet/confirm-action-bottom-sheet.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { UserListDialogComponent } from './components/dialogs/user-list-dialog/u
     UserAboutComponent,
     ConfirmActionDialogComponent,
     UserListDialogComponent,
+    ConfirmActionBottomSheetComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,8 +9,13 @@
             border-radius: 4px;
         }
     }
+    .profile-settings {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0 20px;
+    }
     .profile-image {
-        margin-top: -80px;
+        margin-top: -120px;
         display: flex;
         justify-content: center;
         img {

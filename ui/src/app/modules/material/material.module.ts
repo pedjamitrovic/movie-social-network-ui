@@ -41,6 +41,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatStepperModule } from '@angular/material/stepper';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 @NgModule({
     exports: [
@@ -86,7 +87,8 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
         ObserversModule,
         OverlayModule,
         PlatformModule,
-        PortalModule
+        PortalModule,
+        MatBottomSheetModule,
     ]
 })
 export class MaterialModule {
