@@ -1,19 +1,19 @@
 <div class="user-container">
-    <app-user-header>
-    </app-user-header>
-    <mat-tab-group dynamicHeight>
-        <mat-tab label="Posts">
-            <app-feed>
-            </app-feed>
-        </mat-tab>
-        <mat-tab label="Comments">
-            <app-feed>
-            </app-feed>
-        </mat-tab>
-        <mat-tab label="About">
-            <div class="about-wrapper">
-                <app-user-about></app-user-about>
-            </div>
-        </mat-tab>
-    </mat-tab-group>
+	<app-user-header [user]="user"></app-user-header>
+	<mat-tab-group dynamicHeight>
+		<mat-tab label="Posts">
+			<app-feed></app-feed>
+		</mat-tab>
+		<mat-tab label="Comments">
+			<app-feed></app-feed>
+		</mat-tab>
+		<mat-tab label="About">
+			<div class="about-wrapper">
+				<app-user-about
+					[user]="user"
+					[groups]="groups"
+				></app-user-about>
+			</div>
+		</mat-tab>
+	</mat-tab-group>
 </div>

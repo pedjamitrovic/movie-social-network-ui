@@ -1,35 +1,78 @@
 <div class="user-header-container">
-    <input #mediaInput (change)="addFiles()" type="file" accept="image/*" multiple hidden>
-    <div class="cover-image">
-        <img [src]="user?.coverImage">
-    </div>
-    <div class="profile-settings">
-        <button mat-icon-button color="primary" [matMenuTriggerFor]="profileSettings">
-          <mat-icon>settings</mat-icon>
-        </button>
-        <mat-menu #profileSettings="matMenu">
-            <button mat-menu-item (click)="addMedia('cover')">
-            <mat-icon>image</mat-icon>
-            <span>Change cover picture</span>
-          </button>
-            <button mat-menu-item (click)="addMedia('profile')">
-            <mat-icon>face</mat-icon>
-            <span>Change profile picture</span>
-          </button>
-        </mat-menu>
-    </div>
-    <div class="profile-image">
-        <img [src]="user?.profileImage">
-    </div>
-    <div class="username">
-        <span>Vladimir Sivčev</span>
-    </div>
-    <div class="followers">
-        <button mat-button color="primary" (click)="seeFollowers()">1204 followers</button>
-        <button mat-button color="primary" (click)="seeFollowing()">865 following</button>
-    </div>
-    <div class="follow">
-        <button *ngIf="!isFollowing" mat-flat-button color="primary" (click)="follow()">Follow</button>
-        <button *ngIf="isFollowing" mat-button color="warn" (click)="unfollow()">Unfollow</button>
-    </div>
+	<input
+		#mediaInput
+		(change)="addFiles()"
+		type="file"
+		accept="image/*"
+		multiple
+		hidden
+	>
+	<div class="cover-image">
+		<img [src]="user?.coverImage">
+	</div>
+	<div class="profile-settings">
+		<button
+			mat-icon-button
+			color="primary"
+			[matMenuTriggerFor]="profileSettings"
+		>
+			<mat-icon>settings</mat-icon>
+		</button>
+		<mat-menu #profileSettings="matMenu">
+			<button
+				mat-menu-item
+				(click)="addMedia('cover')"
+			>
+				<mat-icon>image</mat-icon>
+				<span>Change cover picture</span>
+			</button>
+			<button
+				mat-menu-item
+				(click)="addMedia('profile')"
+			>
+				<mat-icon>face</mat-icon>
+				<span>Change profile picture</span>
+			</button>
+		</mat-menu>
+	</div>
+	<div class="profile-image">
+		<img [src]="user?.profileImage">
+	</div>
+	<div class="username">
+		<span>Vladimir Sivčev</span>
+	</div>
+	<div class="followers">
+		<button
+			mat-button
+			color="primary"
+			(click)="seeFollowers()"
+		>
+			1204 followers
+		</button>
+		<button
+			mat-button
+			color="primary"
+			(click)="seeFollowing()"
+		>
+			865 following
+		</button>
+	</div>
+	<div class="follow">
+		<button
+			*ngIf="!isFollowing"
+			mat-flat-button
+			color="primary"
+			(click)="follow()"
+		>
+			Follow
+		</button>
+		<button
+			*ngIf="isFollowing"
+			mat-button
+			color="warn"
+			(click)="unfollow()"
+		>
+			Unfollow
+		</button>
+	</div>
 </div>

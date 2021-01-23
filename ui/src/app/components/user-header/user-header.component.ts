@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData } from '@components/bottom-sheets/confirm-action-bottom-sheet/confirm-action-bottom-sheet.component';
@@ -14,14 +14,15 @@ import { UserService } from '@services/user/user.service';
   styleUrls: ['./user-header.component.scss']
 })
 export class UserHeaderComponent implements OnInit {
-  @ViewChild('mediaInput') public mediaInput: ElementRef;
+  @Input() user: User;
 
-  public user: User = new User();
   public isFollowing = false;
   public followers: User[];
   public following: User[];
   public renderedImage: string;
   public newMediaType: 'cover' | 'profile';
+
+  @ViewChild('mediaInput') public mediaInput: ElementRef;
 
   constructor(
     private dialog: MatDialog,
@@ -31,8 +32,6 @@ export class UserHeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user.coverImage = "https://scontent.fbeg1-1.fna.fbcdn.net/v/t1.0-9/59022744_10205538098208517_3934019275236311040_o.jpg?_nc_cat=108&ccb=2&_nc_sid=e3f864&_nc_ohc=eGlhnredXP8AX_n8sv4&_nc_ht=scontent.fbeg1-1.fna&oh=6b2272568f43067e6b777823c0a2e762&oe=6004D250"
-    this.user.profileImage = "https://scontent.fbeg1-1.fna.fbcdn.net/v/t1.0-9/65219049_10205705790960731_3096226655077662720_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=_4Und1kngQUAX915ret&_nc_ht=scontent.fbeg1-1.fna&oh=81680a281121991d8bf0d23ac4b5f76f&oe=60071597";
     this.userService.getUsers().subscribe((users) => this.followers = users);
     this.userService.getUsers().subscribe((users) => this.following = users);
   }

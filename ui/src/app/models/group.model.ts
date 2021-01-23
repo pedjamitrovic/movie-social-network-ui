@@ -1,6 +1,7 @@
-export class User {
+export class Group {
   id?: string;
-  username?: string;
+  title?: string;
+  subtitle?: string;
   description?: string;
   profileImage?: string;
   coverImage?: string;

@@ -1,34 +1,86 @@
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
-        <mat-toolbar>Menu</mat-toolbar>
-        <mat-nav-list>
-            <a mat-list-item routerLink="/home">Home</a>
-            <a mat-list-item href="/feed">Feed</a>
-        </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content class="sidenav-content">
-        <mat-toolbar color="primary">
-            <div class="toolbar-container">
-                <div class="left-side">
-                    <button mat-icon-button aria-label="Toggle sidenav" (click)="drawer.toggle()">
-              <mat-icon>menu</mat-icon>
-            </button>
-                    <span>MSN</span>
-                </div>
-                <div class="right-side">
-                    <button class="right-side-action" mat-icon-button>
-                        <mat-icon matBadge="3" matBadgePosition="after" matBadgeColor="accent">notifications</mat-icon>
-                    </button>
-                    <button class="right-side-action" mat-icon-button [routerLink]="['/chat']">
-                        <mat-icon matBadge="5" matBadgePosition="after" matBadgeColor="accent">chat</mat-icon>
-                    </button>
-                    <a mat-button class="right-side-avatar" [routerLink]="['/users', user?.id]">
-                        <img class="user-avatar" src="https://scontent.fbeg1-1.fna.fbcdn.net/v/t1.0-9/65219049_10205705790960731_3096226655077662720_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=_4Und1kngQUAX915ret&_nc_ht=scontent.fbeg1-1.fna&oh=81680a281121991d8bf0d23ac4b5f76f&oe=60071597">
-                        <span *ngIf="(isHandset$ | async) === false" class="username">Vladimir Sivčev</span>
-                    </a>
-                </div>
-            </div>
-        </mat-toolbar>
-        <router-outlet></router-outlet>
-    </mat-sidenav-content>
+	<mat-sidenav
+		#drawer
+		class="sidenav"
+		fixedInViewport
+		[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+		[mode]="(isHandset$ | async) ? 'over' : 'side'"
+		[opened]="(isHandset$ | async) === false"
+	>
+		<mat-toolbar>Menu</mat-toolbar>
+		<mat-nav-list>
+			<a
+				mat-list-item
+				routerLink="/home"
+			>
+				Home
+			</a>
+			<a
+				mat-list-item
+				href="/feed"
+			>
+				Feed
+			</a>
+		</mat-nav-list>
+	</mat-sidenav>
+	<mat-sidenav-content class="sidenav-content">
+		<mat-toolbar color="primary">
+			<div class="toolbar-container">
+				<div class="left-side">
+					<button
+						mat-icon-button
+						aria-label="Toggle sidenav"
+						(click)="drawer.toggle()"
+					>
+						<mat-icon>menu</mat-icon>
+					</button>
+					<span>MSN</span>
+				</div>
+				<div class="right-side">
+					<button
+						class="right-side-action"
+						mat-icon-button
+					>
+						<mat-icon
+							matBadge="3"
+							matBadgePosition="after"
+							matBadgeColor="accent"
+						>
+							notifications
+						</mat-icon>
+					</button>
+					<button
+						class="right-side-action"
+						mat-icon-button
+						[routerLink]="['/chat']"
+					>
+						<mat-icon
+							matBadge="5"
+							matBadgePosition="after"
+							matBadgeColor="accent"
+						>
+							chat
+						</mat-icon>
+					</button>
+					<a
+						mat-button
+						class="right-side-avatar"
+						[routerLink]="['/users', user?.id]"
+					>
+						<img
+							class="user-avatar"
+							src="assets/images/vlada_profile.jpg"
+						>
+						<span
+							*ngIf="(isHandset$ | async) === false"
+							class="username"
+						>
+							Vladimir Sivčev
+						</span>
+					</a>
+				</div>
+			</div>
+		</mat-toolbar>
+		<router-outlet></router-outlet>
+	</mat-sidenav-content>
 </mat-sidenav-container>
