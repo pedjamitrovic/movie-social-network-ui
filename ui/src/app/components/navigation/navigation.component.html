@@ -40,9 +40,12 @@
 					<button
 						class="right-side-action"
 						mat-icon-button
+						(click)="toggleNotificationMenu()"
 					>
 						<mat-icon
-							matBadge="3"
+							[matBadge]="newNotificationCount"
+							[matBadgeHidden]="newNotificationCount === 0"
+							matBad
 							matBadgePosition="after"
 							matBadgeColor="accent"
 						>
@@ -71,13 +74,45 @@
 							class="user-avatar"
 							src="assets/images/vlada_profile.jpg"
 						>
-						<span
-							*ngIf="(isHandset$ | async) === false"
-							class="username"
-						>
-							Vladimir Sivčev
-						</span>
 					</a>
+					<div class="notifications">
+						<div
+							*ngIf="showNotificationMenu"
+							class="notification-menu mat-elevation-z4 mat-primary"
+						>
+							<div class="notification-pointer mat-primary"></div>
+							<div class="notifications">
+								<div
+									matRipple
+									*ngFor="let notification of notifications"
+									class="notification"
+									[ngClass]="{'new-notification': !notification?.seen}"
+									[routerLink]="notification?.link"
+									(click)="notificationClicked(notification)"
+								>
+									<div class="notification-content">
+										<img
+											class="avatar"
+											src="assets/images/avatar.png"
+										>
+										<div class="notification-info">
+											<div class="notification-notifier">{{notification?.notifier}}</div>
+											<div class="notification-body">{{notification?.body}}</div>
+											<div class="notification-date">{{fromNow}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="all-notifications">
+								<a
+									[routerLink]="'/notifications'"
+									(click)="toggleNotificationMenu()"
+								>
+									See all your notifications
+								</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</mat-toolbar>

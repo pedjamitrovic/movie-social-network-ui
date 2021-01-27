@@ -34,6 +34,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ConfirmActionDialogComponent } from './components/dialogs/confirm-action-dialog/confirm-action-dialog.component';
 import { UserListDialogComponent } from './components/dialogs/user-list-dialog/user-list-dialog.component';
 import { ConfirmActionBottomSheetComponent } from './components/bottom-sheets/confirm-action-bottom-sheet/confirm-action-bottom-sheet.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { ConfirmActionBottomSheetComponent } from './components/bottom-sheets/co
     ConfirmActionDialogComponent,
     UserListDialogComponent,
     ConfirmActionBottomSheetComponent,
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,32 @@
+<mat-card class="notifications-container">
+	<h3>All your notifications</h3>
+	<div class="notifications">
+		<div
+			matRipple
+			*ngFor="let notification of pagedNotifications"
+			class="notification"
+			[ngClass]="{'new-notification': !notification?.seen}"
+			[routerLink]="notification?.link"
+			(click)="notificationClicked(notification)"
+		>
+			<div class="notification-content">
+				<img
+					class="avatar"
+					src="assets/images/avatar.png"
+				>
+				<div class="notification-info">
+					<div class="notification-notifier">{{notification?.notifier}}</div>
+					<div class="notification-body">{{notification?.body}}</div>
+					<div class="notification-date">{{fromNow}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<mat-paginator
+		[pageSizeOptions]="[1,2,4,8,10,20]"
+		[pageSize]="pageSize"
+		[length]="notifications?.length"
+		[showFirstLastButtons]="true"
+		(page)="pageChangeEvent($event)"
+	></mat-paginator>
+</mat-card>
