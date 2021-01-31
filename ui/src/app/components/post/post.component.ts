@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Comment } from '@models/comment.model';
 import { Post } from '@models/post.model';
 import { RenderedMedia } from '@models/rendered-media.model';
 import { MediaService } from '@services/media/media.service';
@@ -96,6 +96,10 @@ export class PostComponent implements OnInit {
 
   public urlToClipboard() {
     return `${location.origin}/posts/${this.post.id}`;
+  }
+
+  commentCreated(comment: Comment) {
+    this.post.comments.unshift(comment);
   }
 
 }

@@ -4,22 +4,45 @@
 		class="sidenav"
 		fixedInViewport
 		[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-		[mode]="(isHandset$ | async) ? 'over' : 'side'"
-		[opened]="(isHandset$ | async) === false"
+		[mode]="'over'"
 	>
 		<mat-toolbar>Menu</mat-toolbar>
 		<mat-nav-list>
 			<a
 				mat-list-item
-				routerLink="/home"
+				routerLink="/feed"
 			>
-				Home
+				<mat-icon>feed</mat-icon>
+				Feed
 			</a>
 			<a
 				mat-list-item
-				href="/feed"
+				routerLink="/feed"
 			>
-				Feed
+				<mat-icon>explore</mat-icon>
+				Explore
+			</a>
+			<a
+				mat-list-item
+				routerLink="/feed"
+			>
+				<mat-icon>search</mat-icon>
+				Search
+			</a>
+			<a
+				mat-list-item
+				routerLink="/feed"
+			>
+				<mat-icon>groups</mat-icon>
+				My groups
+			</a>
+			<div></div>
+			<a
+				mat-list-item
+				routerLink="/feed"
+			>
+				<mat-icon>logout</mat-icon>
+				Logout
 			</a>
 		</mat-nav-list>
 	</mat-sidenav>

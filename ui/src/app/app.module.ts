@@ -35,6 +35,7 @@ import { ConfirmActionDialogComponent } from './components/dialogs/confirm-actio
 import { UserListDialogComponent } from './components/dialogs/user-list-dialog/user-list-dialog.component';
 import { ConfirmActionBottomSheetComponent } from './components/bottom-sheets/confirm-action-bottom-sheet/confirm-action-bottom-sheet.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NewCommentComponent } from './components/new-comment/new-comment.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { NotificationsComponent } from './components/notifications/notifications
     UserListDialogComponent,
     ConfirmActionBottomSheetComponent,
     NotificationsComponent,
+    NewCommentComponent,
   ],
   imports: [
     BrowserModule,

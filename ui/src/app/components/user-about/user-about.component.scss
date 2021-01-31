@@ -22,6 +22,7 @@
   .bio-edit-text {
     display: flex;
     align-items: flex-end;
+    position: relative;
     .full-width {
       width: 100%;
     }
@@ -32,7 +33,7 @@
     .emoji-wrapper {
       position: absolute;
       right: 0px;
-      top: 140px;
+      bottom: -410px;
       z-index: 5;
     }
   }

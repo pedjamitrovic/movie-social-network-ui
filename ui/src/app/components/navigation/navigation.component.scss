@@ -1,5 +1,10 @@
 .sidenav-container {
   height: 100%;
+  mat-nav-list {
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
 }
 
 .sidenav {
@@ -121,6 +126,7 @@
               .notification-body {
                 font-size: 12px;
                 line-height: 12px;
+                color: #000000de;
               }
             }
           }

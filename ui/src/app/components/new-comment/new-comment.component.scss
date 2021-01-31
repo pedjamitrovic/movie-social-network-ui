@@ -1,18 +1,19 @@
-.new-post {
+.new-comment {
   min-height: 100px;
-  .new-post-header {
+  padding: 16px 0;
+  .new-comment-header {
     display: flex;
-    .new-post-avatar {
+    .new-comment-avatar {
       width: 50px;
       height: 50px;
       border-radius: 50%;
       background: #d2d7df;
     }
-    .new-post-avatar:hover {
+    .new-comment-avatar:hover {
       cursor: pointer;
       opacity: 0.9;
     }
-    .new-post-info {
+    .new-comment-info {
       padding-left: 10px;
       flex-grow: 1;
       display: flex;
@@ -26,8 +27,8 @@
       }
     }
   }
-  .new-post-body {
-    .new-post-text {
+  .new-comment-body {
+    .new-comment-text {
       display: flex;
       align-items: flex-end;
       position: relative;
@@ -45,12 +46,12 @@
         z-index: 5;
       }
     }
-
-    .post-media {
-      padding: 10px;
-      * {
-        width: 100%;
-      }
+  }
+  .new-comment-actions {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      text-transform: uppercase;
     }
   }
 }

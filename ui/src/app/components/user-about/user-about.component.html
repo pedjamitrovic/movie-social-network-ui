@@ -40,18 +40,18 @@
 						>
 							<mat-icon>sentiment_satisfied_alt</mat-icon>
 						</button>
-						<div class="emoji-wrapper">
-							<emoji-mart
-								*ngIf="showEmojiPicker"
-								class="emoji-mart"
-								[perLine]="8"
-								[darkMode]="false"
-								set="facebook"
-								title="Pick your emoji"
-								emoji="joy"
-								(emojiSelect)="addEmoji($event)"
-							></emoji-mart>
-						</div>
+					</div>
+					<div class="emoji-wrapper">
+						<emoji-mart
+							*ngIf="showEmojiPicker"
+							class="emoji-mart"
+							[perLine]="8"
+							[darkMode]="false"
+							set="facebook"
+							title="Pick your emoji"
+							emoji="joy"
+							(emojiSelect)="addEmoji($event)"
+						></emoji-mart>
 					</div>
 				</div>
 				<div class="edit-actions">

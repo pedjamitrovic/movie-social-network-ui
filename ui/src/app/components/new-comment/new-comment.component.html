@@ -1,32 +1,32 @@
-<mat-card class="new-post">
-	<div class="new-post-header">
+<div class="new-comment">
+	<div class="new-comment-header">
 		<a [routerLink]="['/users/', user?.id]">
 			<img
-				class="new-post-avatar"
-				src="assets/images/avatar.png"
+				class="new-comment-avatar"
+				src="assets/images/vlada_profile.jpg"
 				[matTooltip]="user?.username"
 			>
 		</a>
-		<div class="new-post-info">
+		<div class="new-comment-info">
 			<div class="name-container">
 				<span>
 					<a
 						*ngIf="user"
 						[routerLink]="['/users/', user?.id]"
 					>
-						{{user?.username}}
+						Vladimir Sivčev
 					</a>
 				</span>
 			</div>
 		</div>
 	</div>
-	<div class="new-post-body">
-		<div class="new-post-text">
+	<div class="new-comment-body">
+		<div class="new-comment-text">
 			<mat-form-field
 				class="full-width"
 				appearance="outline"
 			>
-				<mat-label>What are you thinking about?</mat-label>
+				<mat-label>Reply to {{post?.user?.username}}</mat-label>
 				<textarea
 					(input)="onTextChange($event.target.value)"
 					[value]="command.text"
@@ -57,29 +57,14 @@
 				></emoji-mart>
 			</div>
 		</div>
-		<input
-			#mediaInput
-			(change)="addFiles()"
-			type="file"
-			accept="image/*, video/*"
-			multiple
-			hidden
-		>
-		<div
-			*ngIf="renderedMedia || youtubeUrl"
-			class="post-media"
-		>
-			<app-media-preview
-				*ngIf="renderedMedia"
-				[renderedMedia]="renderedMedia"
-			></app-media-preview>
-			<app-youtube-preview
-				*ngIf="youtubeUrl"
-				[url]="youtubeUrl"
-			></app-youtube-preview>
-		</div>
 	</div>
-	<div class="new-post-actions">
-		<app-new-post-actions (actionActivated)="actionActivated($event)"></app-new-post-actions>
+	<div class="new-comment-actions">
+		<button
+			mat-button
+			color="primary"
+			(click)="createComment()"
+		>
+			<span>Comment</span>
+		</button>
 	</div>
-</mat-card>
+</div>
