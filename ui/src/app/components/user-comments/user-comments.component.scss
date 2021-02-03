@@ -1,0 +1,9 @@
+.user-comments-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: calc(100% - 64px);
+  .comment-wrapper {
+    margin: 10px;
+  }
+}

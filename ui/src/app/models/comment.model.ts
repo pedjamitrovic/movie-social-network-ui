@@ -7,5 +7,4 @@ export class Comment {
   text?: string;
   createdOn?: Date;
   reactions?: Reaction[];
-  comments?: Comment[];
 }

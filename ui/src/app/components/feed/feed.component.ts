@@ -24,7 +24,6 @@ export class FeedComponent implements OnInit {
     this.postService.getPosts().subscribe(
       (posts: Post[]) => {
         this.posts.push(...posts);
-        console.log(posts);
       }
     );
   }

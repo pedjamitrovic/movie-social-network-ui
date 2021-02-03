@@ -1,0 +1,14 @@
+<div
+	class="user-comments-container"
+	infiniteScroll
+	[fromRoot]="true"
+	infiniteScrollContainer=".sidenav-content"
+	(scrolled)="onScrollDown()"
+>
+	<mat-card
+		*ngFor="let comment of comments"
+		class="comment-wrapper"
+	>
+		<app-comment [comment]="comment"></app-comment>
+	</mat-card>
+</div>

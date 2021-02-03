@@ -45,7 +45,6 @@ export class PostService {
         text: this.chance.paragraph({ sentences: this.chance.natural({ min: 1, max: 10 }) }),
         createdOn: this.chance.date({ min: post.createdOn, max: new Date() }) as Date,
         reactions: [],
-        comments: [],
         user: this.userService.generateUser()
       });
     }
