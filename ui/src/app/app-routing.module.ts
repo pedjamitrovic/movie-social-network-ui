@@ -6,6 +6,7 @@ import { HomeComponent } from '@components/home/home.component';
 import { NotificationsComponent } from '@components/notifications/notifications.component';
 import { PageNotFoundComponent } from '@components/page-not-found/page-not-found.component';
 import { PostPreviewComponent } from '@components/post-preview/post-preview.component';
+import { SearchComponent } from '@components/search/search.component';
 import { UserComponent } from '@components/user/user.component';
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'users/:id', component: UserComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'notifications', component: NotificationsComponent },
+  { path: 'search', component: SearchComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

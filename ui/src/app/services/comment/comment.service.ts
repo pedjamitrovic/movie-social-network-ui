@@ -29,6 +29,7 @@ export class CommentService {
   generateComment(): Comment {
     const comment: Comment = {
       id: this.chance.guid(),
+      postId: this.chance.guid(),
       text: this.chance.paragraph({ sentences: this.chance.natural({ min: 1, max: 10 }) }),
       createdOn: this.chance.date({ min: new Date(), max: new Date() }) as Date,
       reactions: [],

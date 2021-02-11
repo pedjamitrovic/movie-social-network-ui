@@ -1,0 +1,38 @@
+.result {
+  border-radius: 5px;
+  margin: 5px;
+  height: 80px;
+  .result-content {
+    display: flex;
+    align-items: center;
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      user-select: none;
+      pointer-events: none;
+    }
+    .result-info {
+      margin-left: 5px;
+      max-width: calc(100% - 60px);
+      height: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      .username,
+      .text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .username {
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .text {
+        font-size: 12px;
+        color: #000000de;
+      }
+    }
+  }
+}

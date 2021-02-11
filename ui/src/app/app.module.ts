@@ -37,6 +37,11 @@ import { ConfirmActionBottomSheetComponent } from './components/bottom-sheets/co
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { NewCommentComponent } from './components/new-comment/new-comment.component';
 import { UserCommentsComponent } from './components/user-comments/user-comments.component';
+import { SearchComponent } from './components/search/search.component';
+import { InfoUserComponent } from './components/info-user/info-user.component';
+import { InfoGroupComponent } from './components/info-group/info-group.component';
+import { InfoPostComponent } from './components/info-post/info-post.component';
+import { InfoCommentComponent } from './components/info-comment/info-comment.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +74,11 @@ import { UserCommentsComponent } from './components/user-comments/user-comments.
     NotificationsComponent,
     NewCommentComponent,
     UserCommentsComponent,
+    SearchComponent,
+    InfoUserComponent,
+    InfoGroupComponent,
+    InfoPostComponent,
+    InfoCommentComponent,
   ],
   imports: [
     BrowserModule,

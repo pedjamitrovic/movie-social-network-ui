@@ -1,0 +1,25 @@
+.search-container {
+  margin: 10px;
+  .search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    .search-text {
+      width: 250px;
+      padding: 10px;
+    }
+    .results-kind {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+    }
+    .search-button {
+      width: 150px;
+      text-transform: uppercase;
+    }
+  }
+  .search-results {
+    color: black;
+  }
+}

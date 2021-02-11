@@ -1,0 +1,60 @@
+<mat-card class="search-container">
+	<h3>Search</h3>
+	<form
+		class="search-form"
+		[formGroup]="searchForm"
+		(submit)="search()"
+	>
+		<mat-form-field
+			class="search-text"
+			appearance="outline"
+		>
+			<mat-label>Search text</mat-label>
+			<input
+				matInput
+				[formControl]="searchForm?.controls.searchText"
+			>
+		</mat-form-field>
+		<div class="results-kind">
+			<mat-checkbox [formControl]="searchForm?.controls.searchUsers">Users</mat-checkbox>
+			<mat-checkbox [formControl]="searchForm?.controls.searchGroups">Groups</mat-checkbox>
+			<mat-checkbox [formControl]="searchForm?.controls.searchPosts">Posts</mat-checkbox>
+			<mat-checkbox [formControl]="searchForm?.controls.searchComments">Comments</mat-checkbox>
+		</div>
+		<button
+			class="search-button"
+			mat-button
+			color="primary"
+			(click)="search()"
+		>
+			<span>Search</span>
+		</button>
+	</form>
+	<div class="search-results">
+		<ng-container *ngFor="let searchResult of pagedSearchResults">
+			<ng-container [ngSwitch]="searchResult.kind">
+				<ng-container *ngSwitchCase="'user'">
+					<app-info-user [user]="searchResult.result"></app-info-user>
+				</ng-container>
+				<ng-container *ngSwitchCase="'group'">
+					<app-info-group [group]="searchResult.result"></app-info-group>
+				</ng-container>
+				<ng-container *ngSwitchCase="'post'">
+					<app-info-post [post]="searchResult.result"></app-info-post>
+				</ng-container>
+				<ng-container *ngSwitchCase="'comment'">
+					<app-info-comment [comment]="searchResult.result"></app-info-comment>
+				</ng-container>
+			</ng-container>
+		</ng-container>
+	</div>
+	<div [hidden]="!searchResults?.length">
+		<mat-paginator
+			[pageSizeOptions]="[1,2,4,8,10,20]"
+			[pageSize]="pageSize"
+			[length]="searchResults?.length"
+			[showFirstLastButtons]="true"
+			(page)="pageChangeEvent($event)"
+		></mat-paginator>
+	</div>
+</mat-card>
