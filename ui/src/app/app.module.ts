@@ -43,6 +43,7 @@ import { InfoGroupComponent } from './components/info-group/info-group.component
 import { InfoPostComponent } from './components/info-post/info-post.component';
 import { InfoCommentComponent } from './components/info-comment/info-comment.component';
 import { MyGroupsComponent } from './components/my-groups/my-groups.component';
+import { ScrollTopComponent } from './components/scroll-top/scroll-top.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { MyGroupsComponent } from './components/my-groups/my-groups.component';
     InfoPostComponent,
     InfoCommentComponent,
     MyGroupsComponent,
+    ScrollTopComponent,
   ],
   imports: [
     BrowserModule,

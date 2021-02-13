@@ -22,7 +22,10 @@
 	</div>
 	<div class="new-comment-body">
 		<div class="new-comment-text">
-			<mat-form-field class="full-width">
+			<mat-form-field
+				class="full-width"
+				appearance="outline"
+			>
 				<mat-label>Reply to {{post?.user?.username}}</mat-label>
 				<textarea
 					(input)="onTextChange($event.target.value)"

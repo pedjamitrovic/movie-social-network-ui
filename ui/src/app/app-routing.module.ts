@@ -13,6 +13,7 @@ import { UserComponent } from '@components/user/user.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'feed', component: FeedComponent },
+  { path: 'explore', component: FeedComponent },
   { path: 'posts/:id', component: PostPreviewComponent },
   { path: 'users/:id', component: UserComponent },
   { path: 'chat', component: ChatComponent },

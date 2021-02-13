@@ -22,7 +22,10 @@
 	</div>
 	<div class="new-post-body">
 		<div class="new-post-text">
-			<mat-form-field class="full-width">
+			<mat-form-field
+				class="full-width"
+				appearance="outline"
+			>
 				<mat-label>What are you thinking about?</mat-label>
 				<textarea
 					(input)="onTextChange($event.target.value)"

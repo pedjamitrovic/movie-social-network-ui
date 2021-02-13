@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Post } from '@models/post.model';
 import { PostService } from '@services/post/post.service';
 
@@ -9,10 +10,20 @@ import { PostService } from '@services/post/post.service';
 })
 export class FeedComponent implements OnInit {
   posts: Post[] = [];
+  isExploreMode = false;
 
-  constructor(public postService: PostService) { }
+  constructor(
+    private postService: PostService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.activatedRoute.url.subscribe(
+      (e) => {
+        this.isExploreMode = e[0].path === 'explore';
+      }
+    );
+
     this.getPosts();
   }
 
