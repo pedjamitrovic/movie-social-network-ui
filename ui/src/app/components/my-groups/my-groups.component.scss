@@ -26,4 +26,14 @@
   .search-results {
     color: black;
   }
+  .new-group-container {
+    display: flex;
+    justify-content: flex-end;
+    .new-group-button {
+      text-transform: uppercase;
+      mat-icon {
+        margin-right: 5px;
+      }
+    }
+  }
 }

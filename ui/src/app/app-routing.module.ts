@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ChatComponent } from '@components/chat/chat.component';
 import { FeedComponent } from '@components/feed/feed.component';
 import { HomeComponent } from '@components/home/home.component';
+import { MyGroupsComponent } from '@components/my-groups/my-groups.component';
 import { NotificationsComponent } from '@components/notifications/notifications.component';
 import { PageNotFoundComponent } from '@components/page-not-found/page-not-found.component';
 import { PostPreviewComponent } from '@components/post-preview/post-preview.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'chat', component: ChatComponent },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'groups', component: MyGroupsComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

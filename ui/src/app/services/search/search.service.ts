@@ -55,30 +55,28 @@ export class SearchService {
   search(q: string, kinds: SearchResult.KindEnum[]): Observable<SearchResult[]> {
     let searchResults = [];
 
-    if (q) {
-      searchResults = this.searchItems.filter(
-        (e) => {
-          if (!kinds.includes(e.kind)) return false;
-          switch (e.kind) {
-            case SearchResult.KindEnum.User:
-              const user = e.result as User;
-              return user.username.toLowerCase().includes(q.toLowerCase()) ||
-                user.description.toLowerCase().includes(q.toLowerCase());
-            case SearchResult.KindEnum.Group:
-              const group = e.result as Group;
-              return group.title.toLowerCase().includes(q.toLowerCase()) ||
-                group.subtitle.toLowerCase().includes(q.toLowerCase()) ||
-                group.description.toLowerCase().includes(q.toLowerCase());
-            case SearchResult.KindEnum.Post:
-              const post = e.result as Post;
-              return post.text.toLowerCase().includes(q.toLowerCase());
-            case SearchResult.KindEnum.Comment:
-              const comment = e.result as Comment;
-              return comment.text.toLowerCase().includes(q.toLowerCase());
-          }
+    searchResults = this.searchItems.filter(
+      (e) => {
+        if (!kinds.includes(e.kind)) return false;
+        switch (e.kind) {
+          case SearchResult.KindEnum.User:
+            const user = e.result as User;
+            return user.username.toLowerCase().includes(q.toLowerCase()) ||
+              user.description.toLowerCase().includes(q.toLowerCase());
+          case SearchResult.KindEnum.Group:
+            const group = e.result as Group;
+            return group.title.toLowerCase().includes(q.toLowerCase()) ||
+              group.subtitle.toLowerCase().includes(q.toLowerCase()) ||
+              group.description.toLowerCase().includes(q.toLowerCase());
+          case SearchResult.KindEnum.Post:
+            const post = e.result as Post;
+            return post.text.toLowerCase().includes(q.toLowerCase());
+          case SearchResult.KindEnum.Comment:
+            const comment = e.result as Comment;
+            return comment.text.toLowerCase().includes(q.toLowerCase());
         }
-      );
-    }
+      }
+    );
 
     return of(searchResults);
   }

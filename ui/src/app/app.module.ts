@@ -42,6 +42,7 @@ import { InfoUserComponent } from './components/info-user/info-user.component';
 import { InfoGroupComponent } from './components/info-group/info-group.component';
 import { InfoPostComponent } from './components/info-post/info-post.component';
 import { InfoCommentComponent } from './components/info-comment/info-comment.component';
+import { MyGroupsComponent } from './components/my-groups/my-groups.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { InfoCommentComponent } from './components/info-comment/info-comment.com
     InfoGroupComponent,
     InfoPostComponent,
     InfoCommentComponent,
+    MyGroupsComponent,
   ],
   imports: [
     BrowserModule,

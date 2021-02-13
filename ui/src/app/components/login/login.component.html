@@ -1,17 +1,35 @@
-<form class="login-form" [formGroup]="form">
-    <mat-form-field appearance="outline">
-        <mat-label>Username</mat-label>
-        <input matInput [formControl]="f?.username">
-        <mat-error *ngIf="f?.username.hasError('required')">
-            Username is <strong>required</strong>
-        </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput [formControl]="f?.password" type="password">
-        <mat-error *ngIf="f?.password.hasError('required')">
-            Password is <strong>required</strong>
-        </mat-error>
-    </mat-form-field>
-    <button mat-flat-button color="primary" (click)="login()">Login</button>
+<form
+	class="login-form"
+	[formGroup]="form"
+>
+	<mat-form-field>
+		<mat-label>Username</mat-label>
+		<input
+			matInput
+			[formControl]="f?.username"
+		>
+		<mat-error *ngIf="f?.username.hasError('required')">
+			Username is
+			<strong>required</strong>
+		</mat-error>
+	</mat-form-field>
+	<mat-form-field>
+		<mat-label>Password</mat-label>
+		<input
+			matInput
+			[formControl]="f?.password"
+			type="password"
+		>
+		<mat-error *ngIf="f?.password.hasError('required')">
+			Password is
+			<strong>required</strong>
+		</mat-error>
+	</mat-form-field>
+	<button
+		mat-flat-button
+		color="primary"
+		(click)="login()"
+	>
+		Login
+	</button>
 </form>

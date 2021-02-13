@@ -8,6 +8,7 @@ import { Group } from '@models/group.model';
 })
 export class InfoGroupComponent implements OnInit {
   @Input() group: Group;
+  @Input() showAdminText: boolean;
 
   constructor() { }
 

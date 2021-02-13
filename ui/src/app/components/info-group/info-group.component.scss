@@ -14,7 +14,7 @@
     }
     .result-info {
       margin-left: 5px;
-      max-width: calc(100% - 60px);
+      width: calc(100% - 60px);
       height: 80px;
       display: flex;
       flex-direction: column;
@@ -27,6 +27,8 @@
         text-overflow: ellipsis;
       }
       .title {
+        display: flex;
+        justify-content: space-between;
         font-size: 14px;
         font-weight: bold;
       }
