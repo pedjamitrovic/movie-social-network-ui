@@ -1,0 +1,12 @@
+.comment-preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  .comment-wrapper {
+    margin: 10px;
+  }
+  .navigate-to-post-container {
+    display: flex;
+    justify-content: start;
+  }
+}

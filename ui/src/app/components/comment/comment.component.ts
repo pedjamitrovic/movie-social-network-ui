@@ -14,7 +14,7 @@ export class CommentComponent implements OnInit {
       this.fromNow = moment(this._comment.createdOn).fromNow();
     }
   }
-  public get comment() : Comment {
+  public get comment(): Comment {
     return this._comment;
   }
 
@@ -61,6 +61,10 @@ export class CommentComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  urlToClipboard() {
+    return `${location.origin}/comments/${this.comment.id}`;
   }
 
 }

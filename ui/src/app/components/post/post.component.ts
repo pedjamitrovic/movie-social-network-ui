@@ -94,7 +94,7 @@ export class PostComponent implements OnInit {
     }
   }
 
-  public urlToClipboard() {
+  urlToClipboard() {
     return `${location.origin}/posts/${this.post.id}`;
   }
 

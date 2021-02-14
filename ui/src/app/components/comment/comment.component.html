@@ -41,6 +41,13 @@
 				<mat-icon>report</mat-icon>
 				<span>Report</span>
 			</button>
+			<button
+				mat-menu-item
+				[cdkCopyToClipboard]="urlToClipboard()"
+			>
+				<mat-icon>link</mat-icon>
+				<span>Copy link to clipboard</span>
+			</button>
 			<button mat-menu-item>
 				<mat-icon>delete</mat-icon>
 				<span>Delete comment</span>

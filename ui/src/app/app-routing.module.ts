@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ChatComponent } from '@components/chat/chat.component';
+import { CommentPreviewComponent } from '@components/comment-preview/comment-preview.component';
 import { FeedComponent } from '@components/feed/feed.component';
 import { HomeComponent } from '@components/home/home.component';
 import { MyGroupsComponent } from '@components/my-groups/my-groups.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'feed', component: FeedComponent },
   { path: 'explore', component: FeedComponent },
   { path: 'posts/:id', component: PostPreviewComponent },
+  { path: 'comments/:id', component: CommentPreviewComponent },
   { path: 'users/:id', component: UserComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'notifications', component: NotificationsComponent },
