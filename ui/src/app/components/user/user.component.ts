@@ -21,7 +21,6 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.userService.generateUser();
     this.groupService.getGroups().subscribe(groups => this.groups = groups);
-    console.log(this.user);
   }
 
 }
