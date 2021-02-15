@@ -63,6 +63,13 @@
 					<button
 						class="right-side-action"
 						mat-icon-button
+						(click)="switchContext()"
+					>
+						<mat-icon>loop</mat-icon>
+					</button>
+					<button
+						class="right-side-action"
+						mat-icon-button
 						(click)="toggleNotificationMenu()"
 					>
 						<mat-icon
@@ -91,11 +98,11 @@
 					<a
 						mat-button
 						class="right-side-avatar"
-						[routerLink]="['/users', user?.id]"
+						[routerLink]="['/users', activeUser?.id]"
 					>
 						<img
 							class="user-avatar"
-							src="assets/images/vlada_profile.jpg"
+							[src]="activeUser?.profileImage"
 						>
 					</a>
 					<div class="notifications">

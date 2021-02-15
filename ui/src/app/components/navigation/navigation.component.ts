@@ -5,6 +5,8 @@ import { map, shareReplay } from 'rxjs/operators';
 import { User } from '@models/user.model';
 import { UserService } from '@services/user/user.service';
 import * as moment from 'moment';
+import { ContextService } from '@services/context/context.service';
+import { Group } from '@models/group.model';
 
 @Component({
   selector: 'app-navigation',
@@ -18,7 +20,7 @@ export class NavigationComponent implements OnInit {
       map(result => result.matches),
       shareReplay()
     );
-  user: User;
+  activeUser: User | Group;
   showNotificationMenu = false;
   notifications: any[] = [
     { notifier: 'Miki', body: 'Liked your post aaaaaaaaaaaaaaaaaaaaaaa', seen: false, link: '/posts/123' },
@@ -31,11 +33,16 @@ export class NavigationComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private userService: UserService,
+    private contextService: ContextService,
   ) { }
 
   ngOnInit(): void {
-    this.user = this.userService.generateUser();
+    this.contextService.getActiveUser().subscribe(
+      (user) => {
+        this.activeUser = user;
+        console.log(this.activeUser);
+      }
+    );
     this.fromNow = moment(new Date()).fromNow();
     this.newNotificationCount = 3;
   }
@@ -51,6 +58,10 @@ export class NavigationComponent implements OnInit {
   notificationClicked(notification: any) {
     notification.seen = true;
     this.newNotificationCount = this.notifications.filter((e) => !e.seen).length;
+  }
+
+  switchContext() {
+    this.contextService.switchContext();
   }
 
 }

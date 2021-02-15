@@ -1,0 +1,77 @@
+.group-about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: calc(100% - 64px);
+  mat-card {
+    margin: 10px 0;
+    .card-title {
+      margin: 0;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  .bio-text {
+    padding: 10px;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+  }
+  .bio-edit-text {
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    .full-width {
+      width: 100%;
+    }
+    .emoji-toggle-button {
+      margin-bottom: 35px;
+      margin-left: 10px;
+    }
+    .emoji-wrapper {
+      position: absolute;
+      right: 0px;
+      bottom: -410px;
+      z-index: 5;
+    }
+  }
+  .edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      text-transform: uppercase;
+    }
+  }
+  .groups-container {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 10px;
+    @media only screen and (max-width: 1200px) {
+      grid-template-columns: repeat(3, auto);
+    }
+    @media only screen and (max-width: 900px) {
+      grid-template-columns: repeat(2, auto);
+    }
+    @media only screen and (max-width: 767px) {
+      grid-template-columns: auto;
+    }
+    .group-card {
+      margin: 0;
+      .group-title {
+        width: 200px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: inline-block;
+      }
+      .group-description {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+    }
+  }
+}

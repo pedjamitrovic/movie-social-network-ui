@@ -26,7 +26,8 @@ input {
   box-shadow: none;
 }
 
-.user-container {
+.user-container,
+.group-container {
   .mat-tab-header {
     background: #fff;
     z-index: 2;

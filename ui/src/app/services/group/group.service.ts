@@ -47,6 +47,8 @@ export class GroupService {
       title: this.chance.name(),
       subtitle: this.chance.name(),
       description: this.chance.paragraph({ sentences: this.chance.natural({ min: 1, max: 10 }) }),
+      profileImage: 'assets/images/group_profile.jpg',
+      coverImage: 'assets/images/group_cover.jpg',
     };
 
     return group;

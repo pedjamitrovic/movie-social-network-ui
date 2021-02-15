@@ -46,6 +46,9 @@ import { MyGroupsComponent } from './components/my-groups/my-groups.component';
 import { ScrollTopComponent } from './components/scroll-top/scroll-top.component';
 import { CommentPreviewComponent } from './components/comment-preview/comment-preview.component';
 import { CreateGroupDialogComponent } from './components/dialogs/create-group-dialog/create-group-dialog.component';
+import { GroupComponent } from './components/group/group.component';
+import { GroupHeaderComponent } from './components/group-header/group-header.component';
+import { GroupAboutComponent } from './components/group-about/group-about.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +90,9 @@ import { CreateGroupDialogComponent } from './components/dialogs/create-group-di
     ScrollTopComponent,
     CommentPreviewComponent,
     CreateGroupDialogComponent,
+    GroupComponent,
+    GroupHeaderComponent,
+    GroupAboutComponent,
   ],
   imports: [
     BrowserModule,

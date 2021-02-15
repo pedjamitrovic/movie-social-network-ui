@@ -1,0 +1,112 @@
+<div class="group-about-container">
+	<mat-card class="bio-container">
+		<div class="card-header">
+			<h3 class="card-title">Bio</h3>
+			<button
+				mat-icon-button
+				color="primary"
+				(click)="editBio()"
+			>
+				<mat-icon>edit</mat-icon>
+			</button>
+		</div>
+
+		<mat-card-content>
+			<div
+				*ngIf="!editMode; else bioEdit"
+				class="bio-text"
+			>
+				{{group?.description}}
+			</div>
+			<ng-template #bioEdit>
+				<div class="bio-edit-text">
+					<mat-form-field
+						class="full-width"
+						appearance="outline"
+					>
+						<textarea
+							[value]="command?.text"
+							cdkTextareaAutosize
+							matInput
+							(input)="onTextChange($event.target.value)"
+						></textarea>
+					</mat-form-field>
+					<div>
+						<button
+							class="emoji-toggle-button"
+							color="primary"
+							mat-icon-button
+							(click)="toggleEmojiPicker()"
+						>
+							<mat-icon>sentiment_satisfied_alt</mat-icon>
+						</button>
+					</div>
+					<div class="emoji-wrapper">
+						<emoji-mart
+							*ngIf="showEmojiPicker"
+							class="emoji-mart"
+							[perLine]="8"
+							[darkMode]="false"
+							set="facebook"
+							title="Pick your emoji"
+							emoji="joy"
+							(emojiSelect)="addEmoji($event)"
+						></emoji-mart>
+					</div>
+				</div>
+				<div class="edit-actions">
+					<button
+						color="primary"
+						mat-button
+						(click)="cancelEditBio()"
+					>
+						Cancel
+					</button>
+					<button
+						color="primary"
+						mat-button
+						(click)="saveBio()"
+					>
+						Confirm
+					</button>
+				</div>
+			</ng-template>
+		</mat-card-content>
+	</mat-card>
+	<mat-card>
+		<h3>Groups</h3>
+		<div class="groups-container">
+			<mat-card
+				class="group-card"
+				*ngFor="let group of pagedGroups"
+			>
+				<mat-card-header>
+					<mat-card-title>
+						<a
+							class="group-title"
+							[routerLink]="['/groups/', group?.id]"
+						>
+							{{group?.title}}
+						</a>
+					</mat-card-title>
+					<mat-card-subtitle>{{group?.subtitle}}</mat-card-subtitle>
+				</mat-card-header>
+				<img
+					mat-card-image
+					src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+					alt="Photo of a Shiba Inu"
+				>
+				<mat-card-content>
+					<p class="group-description">{{group?.description}}</p>
+				</mat-card-content>
+			</mat-card>
+		</div>
+		<mat-paginator
+			[pageSizeOptions]="[1,2,4,8,10,20]"
+			[pageSize]="pageSize"
+			[length]="groups?.length"
+			[showFirstLastButtons]="true"
+			(page)="pageChangeEvent($event)"
+		></mat-paginator>
+	</mat-card>
+</div>
