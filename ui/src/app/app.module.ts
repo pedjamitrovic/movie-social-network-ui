@@ -45,6 +45,7 @@ import { InfoCommentComponent } from './components/info-comment/info-comment.com
 import { MyGroupsComponent } from './components/my-groups/my-groups.component';
 import { ScrollTopComponent } from './components/scroll-top/scroll-top.component';
 import { CommentPreviewComponent } from './components/comment-preview/comment-preview.component';
+import { CreateGroupDialogComponent } from './components/dialogs/create-group-dialog/create-group-dialog.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { CommentPreviewComponent } from './components/comment-preview/comment-pr
     MyGroupsComponent,
     ScrollTopComponent,
     CommentPreviewComponent,
+    CreateGroupDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { CreateGroupDialogComponent } from '@components/dialogs/create-group-dialog/create-group-dialog.component';
+import { NewGroupCommand } from '@models/new-group-command.model';
 import { SearchResult } from '@models/search-result.model';
 import { GroupService } from '@services/group/group.service';
 import { SearchService } from '@services/search/search.service';
@@ -26,6 +29,7 @@ export class MyGroupsComponent implements OnInit {
     private groupService: GroupService,
     private router: Router,
     private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -56,10 +60,22 @@ export class MyGroupsComponent implements OnInit {
   }
 
   createNewGroup() {
-    const group = this.groupService.generateGroup();
-    timer(1000).subscribe(
-      () => {
-        this.router.navigate(['/groups', group.id]);
+    const createGroupDialog = this.dialog.open<CreateGroupDialogComponent, any, NewGroupCommand>(
+      CreateGroupDialogComponent,
+      {
+        autoFocus: false
+      }
+    );
+    createGroupDialog.afterClosed().subscribe(
+      (command) => {
+        if (command) {
+          const group = this.groupService.generateGroup();
+          timer(1000).subscribe(
+            () => {
+              this.router.navigate(['/groups', group.id]);
+            }
+          );
+        }
       }
     );
   }
