@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { Chance } from 'chance';
 import { User } from '@models/user.model';
 import { Observable, of } from 'rxjs';
+import { EnvironmentService } from '@services/environment.service';
+import { HttpClient } from '@angular/common/http';
+import { RegisterCommand } from '@models/register-command.model';
+import { map, tap } from 'rxjs/operators';
+import { UserVM } from '@models/user-vm.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +14,14 @@ import { Observable, of } from 'rxjs';
 export class UserService {
   chance = new Chance();
   usersForSearch: User[] = [];
+  apiUrl: string;
 
-  constructor() {
+  constructor(
+    private environment: EnvironmentService,
+    private http: HttpClient,
+  ) {
+    this.apiUrl = `${this.environment.apiUrl}/users`;
+    console.log(this.apiUrl);
     for (let i = 0; i < 100; ++i) {
       this.usersForSearch.push(this.generateUser());
     }
@@ -50,5 +61,9 @@ export class UserService {
     };
 
     return user;
+  }
+
+  getById(id: number) {
+    return this.http.get<UserVM>(`${this.apiUrl}/${id}`);
   }
 }
