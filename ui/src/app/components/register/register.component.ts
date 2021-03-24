@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Account } from '@models/account.model';
+import { RegisterCommand } from '@models/register-command.model';
+import { Role } from '@models/role.model';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -7,25 +11,37 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  public get f() {
-    return this.form.controls;
-  }
-
   form: FormGroup;
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      username: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-    });
+    this.initForm();
+  }
+
+  initForm() {
+    this.form = new FormGroup(
+      {
+        email: new FormControl('', [Validators.required, Validators.email]),
+        username: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      }
+    );
   }
 
   register() {
     this.form.markAllAsTouched();
     if (this.form.invalid) { return; }
+
+    const command: RegisterCommand = {
+      email: this.form.controls.email.value,
+      username: this.form.controls.username.value,
+      password: this.form.controls.password.value,
+    };
+
+    this.authService.register(command).subscribe();
   }
 
 }

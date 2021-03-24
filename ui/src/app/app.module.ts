@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -49,6 +49,10 @@ import { CreateGroupDialogComponent } from './components/dialogs/create-group-di
 import { GroupComponent } from './components/group/group.component';
 import { GroupHeaderComponent } from './components/group-header/group-header.component';
 import { GroupAboutComponent } from './components/group-about/group-about.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorInterceptor } from '@util/error.interceptor';
+import { JwtInterceptor } from '@util/jwt.interceptor';
+import { fakeBackendProvider } from '@util/fake-bakend';
 
 @NgModule({
   declarations: [
@@ -104,8 +108,14 @@ import { GroupAboutComponent } from './components/group-about/group-about.compon
     InfiniteScrollModule,
     ClipboardModule,
     PickerModule,
+    HttpClientModule,
   ],
-  providers: [ShortNumberPipe],
+  providers: [
+    ShortNumberPipe,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

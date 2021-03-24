@@ -34,5 +34,8 @@
     "@util/*": [
       "app/util/*"
     ],
+    "@environments/*": [
+      "environments/*"
+    ]
   }
 }

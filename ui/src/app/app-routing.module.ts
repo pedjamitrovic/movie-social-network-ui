@@ -11,19 +11,21 @@ import { PageNotFoundComponent } from '@components/page-not-found/page-not-found
 import { PostPreviewComponent } from '@components/post-preview/post-preview.component';
 import { SearchComponent } from '@components/search/search.component';
 import { UserComponent } from '@components/user/user.component';
+import { AuthGuard } from '@util/auth.guard';
 
 const routes: Routes = [
+  { path: 'feed', component: FeedComponent, canActivate: [AuthGuard] },
+  { path: 'explore', component: FeedComponent, canActivate: [AuthGuard] },
+  { path: 'posts/:id', component: PostPreviewComponent, canActivate: [AuthGuard] },
+  { path: 'comments/:id', component: CommentPreviewComponent, canActivate: [AuthGuard] },
+  { path: 'users/:id', component: UserComponent, canActivate: [AuthGuard] },
+  { path: 'groups/:id', component: GroupComponent, canActivate: [AuthGuard] },
+  { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
+  { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard] },
+  { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
+  { path: 'groups', component: MyGroupsComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent },
-  { path: 'feed', component: FeedComponent },
-  { path: 'explore', component: FeedComponent },
-  { path: 'posts/:id', component: PostPreviewComponent },
-  { path: 'comments/:id', component: CommentPreviewComponent },
-  { path: 'users/:id', component: UserComponent },
-  { path: 'groups/:id', component: GroupComponent },
-  { path: 'chat', component: ChatComponent },
-  { path: 'notifications', component: NotificationsComponent },
-  { path: 'search', component: SearchComponent },
-  { path: 'groups', component: MyGroupsComponent },
+  { path: '', component: HomeComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 
