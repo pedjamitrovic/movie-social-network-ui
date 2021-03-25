@@ -8,7 +8,7 @@
 		hidden
 	>
 	<div class="cover-image">
-		<img [src]="user?.coverImage">
+		<img [src]="user?.coverImagePath || 'assets/images/avatar.png'">
 	</div>
 	<div class="profile-settings">
 		<button
@@ -40,10 +40,10 @@
 		</mat-menu>
 	</div>
 	<div class="profile-image">
-		<img [src]="user?.profileImage">
+		<img [src]="user?.profileImagePath || 'assets/images/avatar.png'">
 	</div>
 	<div class="username">
-		<span>Vladimir Sivčev</span>
+		<span>{{user?.username}}</span>
 	</div>
 	<div class="followers">
 		<button

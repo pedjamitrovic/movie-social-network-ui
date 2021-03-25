@@ -1,6 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
 	<mat-sidenav
 		#drawer
+		[hidden]="!sysEntity"
 		class="sidenav"
 		fixedInViewport
 		[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
@@ -51,6 +52,7 @@
 			<div class="toolbar-container">
 				<div class="left-side">
 					<button
+						*ngIf="sysEntity"
 						mat-icon-button
 						aria-label="Toggle sidenav"
 						(click)="drawer.toggle()"
@@ -59,7 +61,10 @@
 					</button>
 					<span>MSN</span>
 				</div>
-				<div class="right-side">
+				<div
+					*ngIf="sysEntity"
+					class="right-side"
+				>
 					<button
 						class="right-side-action"
 						mat-icon-button
@@ -98,11 +103,11 @@
 					<a
 						mat-button
 						class="right-side-avatar"
-						[routerLink]="['/users', activeUser?.id]"
+						[routerLink]="['/users', sysEntity?.id]"
 					>
 						<img
 							class="user-avatar"
-							[src]="activeUser?.profileImage"
+							[src]="sysEntity?.profileImagePath || 'assets/images/avatar.png'"
 						>
 					</a>
 					<div class="notifications">

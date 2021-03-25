@@ -66,4 +66,8 @@ export class UserService {
   getById(id: number) {
     return this.http.get<UserVM>(`${this.apiUrl}/${id}`);
   }
+
+  changeImage() {
+
+  }
 }

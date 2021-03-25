@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData } from '@components/bottom-sheets/confirm-action-bottom-sheet/confirm-action-bottom-sheet.component';
 import { ConfirmActionDialogComponent, ConfirmActionDialogComponentData } from '@components/dialogs/confirm-action-dialog/confirm-action-dialog.component';
 import { UserListDialogComponent, UserListDialogComponentData } from '@components/dialogs/user-list-dialog/user-list-dialog.component';
+import { UserVM } from '@models/user-vm.model';
 import { User } from '@models/user.model';
 import { MediaService } from '@services/media/media.service';
 import { UserService } from '@services/user/user.service';
@@ -14,7 +15,7 @@ import { UserService } from '@services/user/user.service';
   styleUrls: ['./user-header.component.scss']
 })
 export class UserHeaderComponent implements OnInit {
-  @Input() user: User;
+  @Input() user: UserVM;
 
   public isFollowing = false;
   public followers: User[];
@@ -61,7 +62,7 @@ export class UserHeaderComponent implements OnInit {
   }
 
   seeFollowers() {
-    const followersDialog = this.dialog.open<UserListDialogComponent, UserListDialogComponentData, boolean>(
+    this.dialog.open<UserListDialogComponent, UserListDialogComponentData, boolean>(
       UserListDialogComponent,
       {
         data: {
@@ -74,7 +75,7 @@ export class UserHeaderComponent implements OnInit {
   }
 
   seeFollowing() {
-    const followingDialog = this.dialog.open<UserListDialogComponent, UserListDialogComponentData, boolean>(
+    this.dialog.open<UserListDialogComponent, UserListDialogComponentData, boolean>(
       UserListDialogComponent,
       {
         data: {
@@ -87,8 +88,8 @@ export class UserHeaderComponent implements OnInit {
   }
 
   editCoverPicture() {
-    const oldImage = this.user.coverImage;
-    this.user.coverImage = this.renderedImage;
+    const oldImage = this.user.coverImagePath;
+    this.user.coverImagePath = this.renderedImage;
     const editCoverPictureBS = this.bottomSheet.open<ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData, boolean>(
       ConfirmActionBottomSheetComponent,
       {
@@ -103,15 +104,15 @@ export class UserHeaderComponent implements OnInit {
         if (confirmed) {
           // Call api
         } else {
-          this.user.coverImage = oldImage;
+          this.user.coverImagePath = oldImage;
         }
       }
     );
   }
 
   editProfilePicture() {
-    const oldImage = this.user.profileImage;
-    this.user.profileImage = this.renderedImage;
+    const oldImage = this.user.profileImagePath;
+    this.user.profileImagePath = this.renderedImage;
     const editProfilePictureBS = this.bottomSheet.open<ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData, boolean>(
       ConfirmActionBottomSheetComponent,
       {
@@ -126,7 +127,7 @@ export class UserHeaderComponent implements OnInit {
         if (confirmed) {
           // Call api
         } else {
-          this.user.profileImage = oldImage;
+          this.user.profileImagePath = oldImage;
         }
       }
     );

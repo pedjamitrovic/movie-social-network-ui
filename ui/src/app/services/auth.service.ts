@@ -31,7 +31,7 @@ export class AuthService {
     private http: HttpClient,
     private userService: UserService,
   ) {
-    this.apiUrl = `${this.environment.apiUrl}/authentication`;
+    this.apiUrl = `${this.environment.apiUrl}/users`;
 
     this.authUserSubject = new BehaviorSubject<AuthenticatedUser>(null);
     this.loggedUserSubject = new BehaviorSubject<UserVM>(null);
@@ -64,16 +64,29 @@ export class AuthService {
           }
         ),
         tap(
-          (authUser) => {
-            this.loggedUserSubject.next(authUser);
-            this.activeSystemEntitySubject.next(authUser);
+          (user: UserVM) => {
+            this.loggedUserSubject.next(user);
+            this.activeSystemEntitySubject.next(user);
           }
         ),
       );
   }
 
   register(command: RegisterCommand) {
-    return this.http.post<AuthenticatedUser>(`${this.apiUrl}/register`, command);
+    return this.http.post<AuthenticatedUser>(`${this.apiUrl}/register`, command).pipe(
+      switchMap(
+        (authUser: AuthenticatedUser) => {
+          this.authUserSubject.next(authUser);
+          return this.userService.getById(authUser.id);
+        }
+      ),
+      tap(
+        (user: UserVM) => {
+          this.loggedUserSubject.next(user);
+          this.activeSystemEntitySubject.next(user);
+        }
+      ),
+    );
   }
 
   logout() {
