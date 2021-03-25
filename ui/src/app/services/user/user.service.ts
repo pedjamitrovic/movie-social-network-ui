@@ -21,7 +21,6 @@ export class UserService {
     private http: HttpClient,
   ) {
     this.apiUrl = `${this.environment.apiUrl}/users`;
-    console.log(this.apiUrl);
     for (let i = 0; i < 100; ++i) {
       this.usersForSearch.push(this.generateUser());
     }

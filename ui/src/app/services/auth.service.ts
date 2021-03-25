@@ -118,6 +118,6 @@ export class AuthService {
 
     localStorage.removeItem(Constants.MSN_AUTH_USER_KEY);
 
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 }
