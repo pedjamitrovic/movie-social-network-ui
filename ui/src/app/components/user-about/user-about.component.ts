@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Group } from '@models/group.model';
+import { UserVM } from '@models/user-vm.model';
 import { User } from '@models/user.model';
 
 @Component({
@@ -9,7 +10,7 @@ import { User } from '@models/user.model';
   styleUrls: ['./user-about.component.scss']
 })
 export class UserAboutComponent implements OnInit, OnChanges {
-  @Input() user: User;
+  @Input() user: UserVM;
   @Input() groups: Group[];
 
   showEmojiPicker = false;
@@ -26,7 +27,7 @@ export class UserAboutComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(sc: SimpleChanges) {
-    if (sc.groups.currentValue) {
+    if (sc.groups && sc.groups.currentValue) {
       this.pagedGroups = this.groups.slice(0, this.pageSize);
       this.paginator.firstPage();
     }

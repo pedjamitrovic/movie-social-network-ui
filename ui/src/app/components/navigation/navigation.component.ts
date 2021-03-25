@@ -58,4 +58,7 @@ export class NavigationComponent implements OnInit {
     this.contextService.switchContext();
   }
 
+  logout() {
+    this.authService.logout();
+  }
 }

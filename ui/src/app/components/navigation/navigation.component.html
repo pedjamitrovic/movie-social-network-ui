@@ -40,7 +40,7 @@
 			<div></div>
 			<a
 				mat-list-item
-				routerLink="/logout"
+				(click)="logout(); drawer.toggle()"
 			>
 				<mat-icon>logout</mat-icon>
 				Logout

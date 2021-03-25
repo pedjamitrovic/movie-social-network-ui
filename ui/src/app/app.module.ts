@@ -53,6 +53,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from '@util/error.interceptor';
 import { JwtInterceptor } from '@util/jwt.interceptor';
 import { fakeBackendProvider } from '@util/fake-bakend';
+import { AuthService } from '@services/auth.service';
+import { appInitializer } from '@util/app-initializer';
 
 @NgModule({
   declarations: [
@@ -111,10 +113,10 @@ import { fakeBackendProvider } from '@util/fake-bakend';
     HttpClientModule,
   ],
   providers: [
-    ShortNumberPipe,
+    { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    //fakeBackendProvider
+    ShortNumberPipe,
   ],
   bootstrap: [AppComponent]
 })

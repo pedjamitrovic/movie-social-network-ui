@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { EnvironmentService } from '@services/environment.service';
 
@@ -12,6 +12,7 @@ import { LoginCommand } from '@models/login-command.model';
 import { UserVM } from '@models/user-vm.model';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { UserService } from './user/user.service';
+import { Constants } from '@util/constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -40,6 +41,8 @@ export class AuthService {
     this.authUser = this.authUserSubject.asObservable();
     this.loggedUser = this.loggedUserSubject.asObservable();
     this.activeSystemEntity = this.activeSystemEntitySubject.asObservable();
+
+    //this.initAuthUser();
   }
 
   get authUserValue(): AuthenticatedUser {
@@ -54,12 +57,30 @@ export class AuthService {
     return this.activeSystemEntitySubject.value;
   }
 
+  initAuthUser() {
+    const authUser = JSON.parse(localStorage.getItem(Constants.MSN_AUTH_USER_KEY)) as AuthenticatedUser;
+    if (!authUser) { return of(); }
+
+    this.authUserSubject.next(authUser);
+
+    return this.userService.getById(authUser.id).pipe(
+      tap(
+        (user: UserVM) => {
+          this.loggedUserSubject.next(user);
+          this.activeSystemEntitySubject.next(user);
+          console.log(user);
+        }
+      )
+    );
+  }
+
   login(command: LoginCommand) {
     return this.http.post<AuthenticatedUser>(`${this.apiUrl}/login`, command)
       .pipe(
         switchMap(
           (authUser: AuthenticatedUser) => {
             this.authUserSubject.next(authUser);
+            localStorage.setItem(Constants.MSN_AUTH_USER_KEY, JSON.stringify(authUser));
             return this.userService.getById(authUser.id);
           }
         ),
@@ -77,6 +98,7 @@ export class AuthService {
       switchMap(
         (authUser: AuthenticatedUser) => {
           this.authUserSubject.next(authUser);
+          localStorage.setItem(Constants.MSN_AUTH_USER_KEY, JSON.stringify(authUser));
           return this.userService.getById(authUser.id);
         }
       ),
@@ -93,6 +115,8 @@ export class AuthService {
     this.authUserSubject.next(null);
     this.loggedUserSubject.next(null);
     this.activeSystemEntitySubject.next(null);
+
+    localStorage.removeItem(Constants.MSN_AUTH_USER_KEY);
 
     this.router.navigate(['/home']);
   }
