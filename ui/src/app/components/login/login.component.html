@@ -12,6 +12,7 @@
 			Username is
 			<strong>required</strong>
 		</mat-error>
+		<mat-error *ngIf="form?.controls.username.hasError('invalid')">Username is invalid</mat-error>
 	</mat-form-field>
 	<mat-form-field>
 		<mat-label>Password</mat-label>
@@ -19,11 +20,13 @@
 			matInput
 			[formControl]="form?.controls.password"
 			type="password"
+			autocomplete
 		>
 		<mat-error *ngIf="form?.controls.password.hasError('required')">
 			Password is
 			<strong>required</strong>
 		</mat-error>
+		<mat-error *ngIf="form?.controls.password.hasError('invalid')">Password is invalid</mat-error>
 	</mat-form-field>
 	<button
 		mat-flat-button

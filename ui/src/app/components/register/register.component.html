@@ -13,6 +13,7 @@
 			Email is
 			<strong>required</strong>
 		</mat-error>
+		<mat-error *ngIf="form?.controls.email.hasError('alreadyExists')">Email already exists</mat-error>
 	</mat-form-field>
 	<mat-form-field>
 		<mat-label>Username</mat-label>
@@ -27,6 +28,7 @@
 			Username is
 			<strong>required</strong>
 		</mat-error>
+		<mat-error *ngIf="form?.controls.username.hasError('alreadyExists')">Username already exists</mat-error>
 	</mat-form-field>
 	<mat-form-field>
 		<mat-label>Password</mat-label>
@@ -34,6 +36,7 @@
 			matInput
 			[formControl]="form?.controls.password"
 			type="password"
+			autocomplete
 		>
 		<mat-error *ngIf="form?.controls.password.hasError('minlength') && !form?.controls.password.hasError('required')">
 			Password should be at least 8 characters long

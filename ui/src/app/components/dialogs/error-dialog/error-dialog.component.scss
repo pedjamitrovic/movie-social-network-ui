@@ -1,0 +1,19 @@
+.icon-container {
+  display: flex;
+  justify-content: center;
+  .material-icons {
+    color: #f44336;
+    font-size: 60px;
+  }
+}
+.error-text {
+  color: #f44336;
+  text-align: center;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  button {
+    text-transform: uppercase;
+  }
+}

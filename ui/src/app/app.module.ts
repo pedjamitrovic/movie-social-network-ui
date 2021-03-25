@@ -52,9 +52,9 @@ import { GroupAboutComponent } from './components/group-about/group-about.compon
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from '@util/error.interceptor';
 import { JwtInterceptor } from '@util/jwt.interceptor';
-import { fakeBackendProvider } from '@util/fake-bakend';
 import { AuthService } from '@services/auth.service';
 import { appInitializer } from '@util/app-initializer';
+import { ErrorDialogComponent } from '@components/dialogs/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +99,7 @@ import { appInitializer } from '@util/app-initializer';
     GroupComponent,
     GroupHeaderComponent,
     GroupAboutComponent,
+    ErrorDialogComponent,
   ],
   imports: [
     BrowserModule,
