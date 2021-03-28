@@ -24,6 +24,7 @@ const routes: Routes = [
   { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
   { path: 'groups', component: MyGroupsComponent, canActivate: [AuthGuard] },
+  { path: 'not-found', component: PageNotFoundComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent },
   { path: '**', component: PageNotFoundComponent, canActivate: [AuthGuard] },
 ];

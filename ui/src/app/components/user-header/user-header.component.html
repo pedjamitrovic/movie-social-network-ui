@@ -7,9 +7,23 @@
 		multiple
 		hidden
 	>
-	<div class="cover-image">
-		<img [src]="user?.coverImagePath || 'assets/images/avatar.png'">
+	<div
+		*ngIf="!coverPreviewMode; else coverPreview"
+		class="cover-image"
+	>
+		<img
+			*ngIf="user?.coverImagePath; else coverPlaceholder"
+			[src]="environment.apiUrl + '\\' + user?.coverImagePath"
+		>
+		<ng-template #coverPlaceholder>
+			<img [src]="'assets/images/avatar.png'">
+		</ng-template>
 	</div>
+	<ng-template #coverPreview>
+		<div class="cover-image">
+			<img [src]="user?.coverImagePath">
+		</div>
+	</ng-template>
 	<div class="profile-settings">
 		<button
 			mat-icon-button
@@ -39,9 +53,23 @@
 			</button>
 		</mat-menu>
 	</div>
-	<div class="profile-image">
-		<img [src]="user?.profileImagePath || 'assets/images/avatar.png'">
+	<div
+		*ngIf="!profilePreviewMode; else profilePreview"
+		class="profile-image"
+	>
+		<img
+			*ngIf="user?.profileImagePath; else profilePlaceholder"
+			[src]="environment.apiUrl + '\\' + user?.profileImagePath"
+		>
+		<ng-template #profilePlaceholder>
+			<img [src]="'assets/images/avatar.png'">
+		</ng-template>
 	</div>
+	<ng-template #profilePreview>
+		<div class="profile-image">
+			<img [src]="user?.profileImagePath">
+		</div>
+	</ng-template>
 	<div class="username">
 		<span>{{user?.username}}</span>
 	</div>

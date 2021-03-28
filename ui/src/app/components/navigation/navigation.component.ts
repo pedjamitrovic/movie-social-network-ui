@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { ContextService } from '@services/context/context.service';
 import { AuthService } from '@services/auth.service';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
+import { EnvironmentService } from '@services/environment.service';
 
 @Component({
   selector: 'app-navigation',
@@ -30,6 +31,7 @@ export class NavigationComponent implements OnInit {
   newNotificationCount = 3;
 
   constructor(
+    public environment: EnvironmentService,
     private breakpointObserver: BreakpointObserver,
     private contextService: ContextService,
     private authService: AuthService,

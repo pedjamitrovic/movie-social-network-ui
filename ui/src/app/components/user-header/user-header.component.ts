@@ -4,10 +4,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData } from '@components/bottom-sheets/confirm-action-bottom-sheet/confirm-action-bottom-sheet.component';
 import { ConfirmActionDialogComponent, ConfirmActionDialogComponentData } from '@components/dialogs/confirm-action-dialog/confirm-action-dialog.component';
 import { UserListDialogComponent, UserListDialogComponentData } from '@components/dialogs/user-list-dialog/user-list-dialog.component';
+import { ImageType } from '@models/image-type.model';
 import { UserVM } from '@models/user-vm.model';
 import { User } from '@models/user.model';
+import { AuthService } from '@services/auth.service';
 import { MediaService } from '@services/media/media.service';
+import { SystemEntityService } from '@services/system-entity.service';
 import { UserService } from '@services/user/user.service';
+import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
+import { EnvironmentService } from '@services/environment.service';
 
 @Component({
   selector: 'app-user-header',
@@ -21,15 +26,20 @@ export class UserHeaderComponent implements OnInit {
   public followers: User[];
   public following: User[];
   public renderedImage: string;
-  public newMediaType: 'cover' | 'profile';
+  public newMediaType: string;
+  public coverPreviewMode = false;
+  public profilePreviewMode = false;
 
   @ViewChild('mediaInput') public mediaInput: ElementRef;
 
   constructor(
+    public environment: EnvironmentService,
     private dialog: MatDialog,
     private bottomSheet: MatBottomSheet,
     private userService: UserService,
     private mediaService: MediaService,
+    private systemEntityService: SystemEntityService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -69,7 +79,8 @@ export class UserHeaderComponent implements OnInit {
           title: 'Followers',
           users: this.followers
         },
-        autoFocus: false
+        autoFocus: false,
+        minWidth: '300px'
       }
     );
   }
@@ -82,12 +93,14 @@ export class UserHeaderComponent implements OnInit {
           title: 'Following',
           users: this.following
         },
-        autoFocus: false
+        autoFocus: false,
+        minWidth: '300px'
       }
     );
   }
 
-  editCoverPicture() {
+  editCoverPicture(image: File) {
+    this.coverPreviewMode = true;
     const oldImage = this.user.coverImagePath;
     this.user.coverImagePath = this.renderedImage;
     const editCoverPictureBS = this.bottomSheet.open<ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData, boolean>(
@@ -102,15 +115,31 @@ export class UserHeaderComponent implements OnInit {
     editCoverPictureBS.afterDismissed().subscribe(
       (confirmed) => {
         if (confirmed) {
-          // Call api
+          this.systemEntityService.changeImage(this.authService.activeSystemEntityValue.id, ImageType.Cover, image).subscribe(
+            () => { },
+            () => {
+              this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+                ErrorDialogComponent,
+                {
+                  data: {
+                    text: 'Unable to change cover picture, something unexpected happened'
+                  }
+                }
+              );
+              this.user.coverImagePath = oldImage;
+              this.coverPreviewMode = false;
+            }
+          );
         } else {
           this.user.coverImagePath = oldImage;
+          this.coverPreviewMode = false;
         }
       }
     );
   }
 
-  editProfilePicture() {
+  editProfilePicture(image: File) {
+    this.profilePreviewMode = true;
     const oldImage = this.user.profileImagePath;
     this.user.profileImagePath = this.renderedImage;
     const editProfilePictureBS = this.bottomSheet.open<ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData, boolean>(
@@ -125,15 +154,30 @@ export class UserHeaderComponent implements OnInit {
     editProfilePictureBS.afterDismissed().subscribe(
       (confirmed) => {
         if (confirmed) {
-          // Call api
+          this.systemEntityService.changeImage(this.authService.activeSystemEntityValue.id, ImageType.Profile, image).subscribe(
+            () => { },
+            () => {
+              this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+                ErrorDialogComponent,
+                {
+                  data: {
+                    text: 'Unable to change profile picture, something unexpected happened'
+                  }
+                }
+              );
+              this.user.profileImagePath = oldImage;
+              this.profilePreviewMode = false;
+            }
+          );
         } else {
           this.user.profileImagePath = oldImage;
+          this.profilePreviewMode = false;
         }
       }
     );
   }
 
-  public addMedia(type: 'cover' | 'profile') {
+  public addMedia(type: string) {
     this.newMediaType = type;
     const mediaInput = this.mediaInput.nativeElement as HTMLInputElement;
     mediaInput.click();
@@ -152,10 +196,10 @@ export class UserHeaderComponent implements OnInit {
 
     if (image) {
       this.renderedImage = image;
-      if (this.newMediaType === 'cover') {
-        this.editCoverPicture();
-      } else if (this.newMediaType === 'profile') {
-        this.editProfilePicture();
+      if (this.newMediaType === ImageType.Cover) {
+        this.editCoverPicture(images[0]);
+      } else if (this.newMediaType === ImageType.Profile) {
+        this.editProfilePicture(images[0]);
       }
     }
 

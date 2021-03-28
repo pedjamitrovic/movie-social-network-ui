@@ -106,9 +106,13 @@
 						[routerLink]="['/users', sysEntity?.id]"
 					>
 						<img
+							*ngIf="sysEntity?.profileImagePath; else profilePlaceholder"
+							[src]="environment.apiUrl + '\\' + sysEntity?.profileImagePath"
 							class="user-avatar"
-							[src]="sysEntity?.profileImagePath || 'assets/images/avatar.png'"
 						>
+						<ng-template #profilePlaceholder>
+							<img [src]="'assets/images/avatar.png'">
+						</ng-template>
 					</a>
 					<div class="notifications">
 						<div
