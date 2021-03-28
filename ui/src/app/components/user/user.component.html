@@ -1,5 +1,9 @@
 <div class="user-container">
-	<app-user-header [user]="user"></app-user-header>
+	<app-user-header
+		[user]="user"
+		[followers]="followers"
+		[following]="following"
+	></app-user-header>
 	<mat-tab-group dynamicHeight>
 		<mat-tab label="Posts">
 			<app-feed></app-feed>

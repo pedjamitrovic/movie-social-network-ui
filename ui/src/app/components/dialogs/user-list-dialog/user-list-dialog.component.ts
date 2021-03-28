@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { User } from '@models/user.model';
+import { SystemEntityVM } from '@models/system-entity-vm.model';
+import { EnvironmentService } from '@services/environment.service';
 
 export interface UserListDialogComponentData {
   title?: string;
-  users?: User[];
+  systemEntities?: SystemEntityVM[];
 }
 
 @Component({
@@ -17,6 +18,7 @@ export class UserListDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: UserListDialogComponentData,
     public dialog: MatDialogRef<UserListDialogComponent, boolean>,
+    public environment: EnvironmentService,
   ) { }
 
   ngOnInit() {

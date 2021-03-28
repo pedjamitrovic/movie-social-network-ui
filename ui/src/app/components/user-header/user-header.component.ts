@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData } from '@components/bottom-sheets/confirm-action-bottom-sheet/confirm-action-bottom-sheet.component';
@@ -6,25 +6,24 @@ import { ConfirmActionDialogComponent, ConfirmActionDialogComponentData } from '
 import { UserListDialogComponent, UserListDialogComponentData } from '@components/dialogs/user-list-dialog/user-list-dialog.component';
 import { ImageType } from '@models/image-type.model';
 import { UserVM } from '@models/user-vm.model';
-import { User } from '@models/user.model';
 import { AuthService } from '@services/auth.service';
 import { MediaService } from '@services/media/media.service';
 import { SystemEntityService } from '@services/system-entity.service';
-import { UserService } from '@services/user/user.service';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
 import { EnvironmentService } from '@services/environment.service';
+import { SystemEntityVM } from '@models/system-entity-vm.model';
 
 @Component({
   selector: 'app-user-header',
   templateUrl: './user-header.component.html',
   styleUrls: ['./user-header.component.scss']
 })
-export class UserHeaderComponent implements OnInit {
+export class UserHeaderComponent implements OnInit, OnChanges {
   @Input() user: UserVM;
+  @Input() followers: SystemEntityVM[];
+  @Input() following: SystemEntityVM[];
 
   public isFollowing = false;
-  public followers: User[];
-  public following: User[];
   public renderedImage: string;
   public newMediaType: string;
   public coverPreviewMode = false;
@@ -34,21 +33,41 @@ export class UserHeaderComponent implements OnInit {
 
   constructor(
     public environment: EnvironmentService,
+    public authService: AuthService,
     private dialog: MatDialog,
     private bottomSheet: MatBottomSheet,
-    private userService: UserService,
     private mediaService: MediaService,
     private systemEntityService: SystemEntityService,
-    private authService: AuthService,
   ) { }
 
-  ngOnInit(): void {
-    this.userService.getUsers().subscribe((users) => this.followers = users);
-    this.userService.getUsers().subscribe((users) => this.following = users);
+  ngOnInit() {
+  }
+
+  ngOnChanges() {
+    if (this.followers) {
+      if (this.followers.find((e) => e.id === this.authService.activeSystemEntityValue.id)) {
+        this.isFollowing = true;
+      }
+    }
   }
 
   follow() {
-    this.isFollowing = true;
+    this.systemEntityService.follow(this.user.id).subscribe(
+      () => {
+        this.isFollowing = true;
+        this.followers.push(this.authService.activeSystemEntityValue);
+      },
+      () => {
+        this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+          ErrorDialogComponent,
+          {
+            data: {
+              text: 'Something unexpected happened'
+            }
+          }
+        );
+      }
+    );
   }
 
   unfollow() {
@@ -65,7 +84,25 @@ export class UserHeaderComponent implements OnInit {
     confirmDialog.afterClosed().subscribe(
       (confirmed) => {
         if (confirmed) {
-          this.isFollowing = false;
+          this.systemEntityService.unfollow(this.user.id).subscribe(
+            () => {
+              this.isFollowing = false;
+              const index = this.followers.findIndex((e) => e.id === this.authService.activeSystemEntityValue.id);
+              if (index !== -1) {
+                this.followers.splice(index, 1);
+              }
+            },
+            () => {
+              this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+                ErrorDialogComponent,
+                {
+                  data: {
+                    text: 'Something unexpected happened'
+                  }
+                }
+              );
+            }
+          );
         }
       }
     );
@@ -77,7 +114,7 @@ export class UserHeaderComponent implements OnInit {
       {
         data: {
           title: 'Followers',
-          users: this.followers
+          systemEntities: this.followers
         },
         autoFocus: false,
         minWidth: '300px'
@@ -91,7 +128,7 @@ export class UserHeaderComponent implements OnInit {
       {
         data: {
           title: 'Following',
-          users: this.following
+          systemEntities: this.following
         },
         autoFocus: false,
         minWidth: '300px'

@@ -5,4 +5,6 @@ export class SystemEntityVM {
   description: string;
   profileImagePath: string;
   coverImagePath: string;
+  username?: string;
+  title?: string;
 }

@@ -32,13 +32,12 @@ export class NavigationComponent implements OnInit {
 
   constructor(
     public environment: EnvironmentService,
+    public authService: AuthService,
     private breakpointObserver: BreakpointObserver,
     private contextService: ContextService,
-    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
-    this.authService.activeSystemEntity.subscribe((sysEntity) => this.sysEntity = sysEntity);
     this.fromNow = moment(new Date()).fromNow();
     this.newNotificationCount = 3;
   }

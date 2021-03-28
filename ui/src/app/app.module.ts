@@ -55,6 +55,7 @@ import { JwtInterceptor } from '@util/jwt.interceptor';
 import { AuthService } from '@services/auth.service';
 import { appInitializer } from '@util/app-initializer';
 import { ErrorDialogComponent } from '@components/dialogs/error-dialog/error-dialog.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { ErrorDialogComponent } from '@components/dialogs/error-dialog/error-dia
     ClipboardModule,
     PickerModule,
     HttpClientModule,
+    CommonModule,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService] },

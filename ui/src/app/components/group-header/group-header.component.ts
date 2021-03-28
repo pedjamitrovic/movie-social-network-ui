@@ -5,6 +5,7 @@ import { ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentDat
 import { ConfirmActionDialogComponent, ConfirmActionDialogComponentData } from '@components/dialogs/confirm-action-dialog/confirm-action-dialog.component';
 import { UserListDialogComponent, UserListDialogComponentData } from '@components/dialogs/user-list-dialog/user-list-dialog.component';
 import { Group } from '@models/group.model';
+import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { User } from '@models/user.model';
 import { MediaService } from '@services/media/media.service';
 import { UserService } from '@services/user/user.service';
@@ -18,8 +19,8 @@ export class GroupHeaderComponent implements OnInit {
   @Input() group: Group;
 
   public isFollowing = false;
-  public followers: User[];
-  public following: User[];
+  public followers: SystemEntityVM[];
+  public following: SystemEntityVM[];
   public renderedImage: string;
   public newMediaType: 'cover' | 'profile';
 
@@ -33,8 +34,6 @@ export class GroupHeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe((users) => this.followers = users);
-    this.userService.getUsers().subscribe((users) => this.following = users);
   }
 
   follow() {
@@ -67,7 +66,7 @@ export class GroupHeaderComponent implements OnInit {
       {
         data: {
           title: 'Followers',
-          users: this.followers
+          systemEntities: this.followers
         },
         autoFocus: false
       }
@@ -80,7 +79,7 @@ export class GroupHeaderComponent implements OnInit {
       {
         data: {
           title: 'Following',
-          users: this.following
+          systemEntities: this.following
         },
         autoFocus: false
       }

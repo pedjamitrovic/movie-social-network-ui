@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
 	<mat-sidenav
 		#drawer
-		[hidden]="!sysEntity"
+		[hidden]="!authService?.activeSystemEntityValue"
 		class="sidenav"
 		fixedInViewport
 		[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
@@ -52,7 +52,7 @@
 			<div class="toolbar-container">
 				<div class="left-side">
 					<button
-						*ngIf="sysEntity"
+						*ngIf="authService?.activeSystemEntityValue"
 						mat-icon-button
 						aria-label="Toggle sidenav"
 						(click)="drawer.toggle()"
@@ -62,7 +62,7 @@
 					<span>MSN</span>
 				</div>
 				<div
-					*ngIf="sysEntity"
+					*ngIf="authService?.activeSystemEntityValue"
 					class="right-side"
 				>
 					<button
@@ -103,15 +103,18 @@
 					<a
 						mat-button
 						class="right-side-avatar"
-						[routerLink]="['/users', sysEntity?.id]"
+						[routerLink]="['/users', authService?.activeSystemEntityValue?.id]"
 					>
 						<img
-							*ngIf="sysEntity?.profileImagePath; else profilePlaceholder"
-							[src]="environment.apiUrl + '\\' + sysEntity?.profileImagePath"
+							*ngIf="authService?.activeSystemEntityValue?.profileImagePath; else profilePlaceholder"
+							[src]="environment.apiUrl + '\\' + authService?.activeSystemEntityValue?.profileImagePath"
 							class="user-avatar"
 						>
 						<ng-template #profilePlaceholder>
-							<img [src]="'assets/images/avatar.png'">
+							<img
+								[src]="'assets/images/avatar.png'"
+								class="user-avatar"
+							>
 						</ng-template>
 					</a>
 					<div class="notifications">

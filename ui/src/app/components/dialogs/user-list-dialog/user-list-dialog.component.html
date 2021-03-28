@@ -1,18 +1,75 @@
 <h1 mat-dialog-title>{{data?.title ? data.title : 'Users'}}</h1>
 <div mat-dialog-content>
-    <div class="user-container" *ngFor="let user of data?.users" (click)="close()">
-        <a [routerLink]="['/users/', user?.id]">
-            <img class="user-avatar" src="assets/images/avatar.png" [matTooltip]="user?.username" />
-        </a>
-        <div class="user-info">
-            <div class="name-container">
-                <a *ngIf="user" [routerLink]="['/users/', user?.id]">
-                  {{user?.username}}
-                </a>
-            </div>
-        </div>
-    </div>
+	<div *ngIf="data?.systemEntities?.length; else noItems">
+		<div
+			class="user-container"
+			*ngFor="let systemEntity of data?.systemEntities"
+			(click)="close()"
+		>
+			<a
+				*ngIf="systemEntity?.username"
+				[routerLink]="['/users/', systemEntity?.id]"
+			>
+				<img
+					*ngIf="systemEntity?.profileImagePath; else profilePlaceholder"
+					[src]="environment.apiUrl + '\\' + systemEntity?.profileImagePath"
+					[matTooltip]="systemEntity?.username"
+					class="user-avatar"
+				>
+				<ng-template #profilePlaceholder>
+					<img
+						[src]="'assets/images/avatar.png'"
+						[matTooltip]="systemEntity?.username"
+						class="user-avatar"
+					>
+				</ng-template>
+			</a>
+			<a
+				*ngIf="systemEntity?.title"
+				[routerLink]="['/groups/', systemEntity?.id]"
+			>
+				<img
+					*ngIf="systemEntity?.profileImagePath; else profilePlaceholder"
+					[src]="environment.apiUrl + '\\' + systemEntity?.profileImagePath"
+					[matTooltip]="systemEntity?.title"
+					class="user-avatar"
+				>
+				<ng-template #profilePlaceholder>
+					<img
+						[src]="'assets/images/avatar.png'"
+						[matTooltip]="systemEntity?.title"
+						class="user-avatar"
+					>
+				</ng-template>
+			</a>
+			<div class="user-info">
+				<div class="name-container">
+					<a
+						*ngIf="systemEntity?.username"
+						[routerLink]="['/users/', systemEntity?.id]"
+					>
+						{{systemEntity?.username}}
+					</a>
+					<a
+						*ngIf="systemEntity?.username"
+						[routerLink]="['/groups/', systemEntity?.id]"
+					>
+						{{systemEntity?.title}}
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ng-template #noItems>
+		<div>No items to display</div>
+	</ng-template>
 </div>
 <div class="actions">
-    <button mat-button color="primary" (click)="close()">Close</button>
+	<button
+		mat-button
+		color="primary"
+		(click)="close()"
+	>
+		Close
+	</button>
 </div>
