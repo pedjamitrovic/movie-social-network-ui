@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ChangeDescriptionCommand } from '@models/change-description-command';
 import { PagedList } from '@models/paged-list.model';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { EnvironmentService } from './environment.service';
@@ -39,5 +40,9 @@ export class SystemEntityService {
     const formData = new FormData();
     formData.append('file', image, image.name);
     return this.http.post(`${this.apiUrl}/${id}/image/${type}`, formData, { responseType: 'text' });
+  }
+
+  changeDescription(id: number, command: ChangeDescriptionCommand) {
+    return this.http.patch(`${this.apiUrl}/${id}/description`, command);
   }
 }

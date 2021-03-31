@@ -1,6 +1,11 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
+import { ChangeDescriptionCommand } from '@models/change-description-command';
 import { Group } from '@models/group.model';
+import { AuthService } from '@services/auth.service';
+import { SystemEntityService } from '@services/system-entity.service';
 
 @Component({
   selector: 'app-group-about',
@@ -13,13 +18,17 @@ export class GroupAboutComponent implements OnInit, OnChanges {
 
   showEmojiPicker = false;
   editMode = false;
-  command: any;
+  command: ChangeDescriptionCommand;
   pagedGroups: Group[];
   pageSize = 8;
 
   @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
 
-  constructor() { }
+  constructor(
+    private systemEntityService: SystemEntityService,
+    private authService: AuthService,
+    private dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
   }
@@ -33,7 +42,7 @@ export class GroupAboutComponent implements OnInit, OnChanges {
 
   editBio() {
     this.editMode = !this.editMode;
-    this.command = { text: this.group.description };
+    this.command = { description: this.group.description };
   }
 
   cancelEditBio() {
@@ -41,8 +50,23 @@ export class GroupAboutComponent implements OnInit, OnChanges {
   }
 
   saveBio() {
-    this.editMode = false;
-    this.group.description = this.command.text;
+    this.systemEntityService.changeDescription(this.authService.activeSystemEntityValue.id, this.command).subscribe(
+      () => {
+        this.editMode = false;
+        this.group.description = this.command.description;
+      },
+      () => {
+        this.editMode = false;
+        this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+          ErrorDialogComponent,
+          {
+            data: {
+              text: 'Unable to change description, something unexpected happened'
+            }
+          }
+        );
+      }
+    );
   }
 
   toggleEmojiPicker() {
@@ -50,11 +74,11 @@ export class GroupAboutComponent implements OnInit, OnChanges {
   }
 
   addEmoji(event) {
-    this.command.text += event.emoji.native;
+    this.command.description += event.emoji.native;
   }
 
   onTextChange(value: string) {
-    this.command.text = value;
+    this.command.description = value;
   }
 
   pageChangeEvent(event: PageEvent) {
