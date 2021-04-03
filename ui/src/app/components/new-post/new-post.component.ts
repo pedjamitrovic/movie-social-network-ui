@@ -1,11 +1,16 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-import { NewPostCommand } from '@models/new-post-command.model';
+import { CreatePostCommand } from '@models/create-post-command.model';
+import { PostVM } from '@models/post-vm.model';
 import { Post } from '@models/post.model';
 import { RenderedMedia } from '@models/rendered-media.model';
 import { User } from '@models/user.model';
+import { AuthService } from '@services/auth.service';
+import { EnvironmentService } from '@services/environment.service';
 import { MediaService } from '@services/media/media.service';
-import { PostService } from '@services/post/post.service';
+import { PostService } from '@services/post.service';
 import { UserService } from '@services/user/user.service';
 import { Constants } from '@util/constants';
 
@@ -15,10 +20,9 @@ import { Constants } from '@util/constants';
   styleUrls: ['./new-post.component.scss']
 })
 export class NewPostComponent implements OnInit {
-  @Output() public postCreated = new EventEmitter<Post>();
+  @Output() public postCreated = new EventEmitter<PostVM>();
 
-  public user: User;
-  public command = new NewPostCommand();
+  public command: CreatePostCommand = { text: '', file: null };
   public renderedMedia: RenderedMedia;
   public youtubeUrl: string;
   public showEmojiPicker = false;
@@ -26,16 +30,17 @@ export class NewPostComponent implements OnInit {
   @ViewChild('mediaInput') public mediaInput: ElementRef;
 
   constructor(
-    private userService: UserService,
+    public authService: AuthService,
+    public environment: EnvironmentService,
     private postService: PostService,
     private mediaService: MediaService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
-    this.user = this.userService.generateUser();
   }
 
-  public actionActivated(action: string) {
+  actionActivated(action: string) {
     switch (action) {
       case 'addMedia':
         this.addMedia();
@@ -51,18 +56,28 @@ export class NewPostComponent implements OnInit {
     }
   }
 
-  public createPost() {
-    if (!this.command.text && !this.command.media?.length) return;
-    const post = this.postService.generatePost();
-    post.createdOn = new Date();
-    post.text = this.command.text;
-    post.user = this.user;
-    post.media = this.command.media;
-    this.postCreated.emit(post);
-    this.reset();
+  createPost() {
+    if (!this.command.text && !this.command.file) return;
+    this.postService.create(this.command)
+      .subscribe(
+        (post: PostVM) => {
+          this.postCreated.emit(post);
+          this.reset();
+        },
+        () => {
+          this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+            ErrorDialogComponent,
+            {
+              data: {
+                text: 'Unable to create post, something unexpected happened'
+              }
+            }
+          );
+        }
+      )
   }
 
-  public addMedia() {
+  addMedia() {
     const mediaInput = this.mediaInput.nativeElement as HTMLInputElement;
     mediaInput.click();
   }
@@ -72,14 +87,14 @@ export class NewPostComponent implements OnInit {
 
     if (mediaInput?.files?.length === 0) { return; }
 
-    this.command.media = Array.from(mediaInput.files);
+    this.command.file = Array.from(mediaInput.files)[0];
 
-    this.renderedMedia = await this.mediaService.renderMedia(this.command.media);
+    this.renderedMedia = await this.mediaService.renderMedia([this.command.file]);
 
     mediaInput.value = null;
   }
 
-  public onTextChange(value: string) {
+  onTextChange(value: string) {
     this.command.text = value;
 
     const execArray = Constants.YOUTUBE_URL_REGEX.exec(value);
@@ -92,17 +107,17 @@ export class NewPostComponent implements OnInit {
     }
   }
 
-  public reset() {
+  reset() {
     this.renderedMedia = null;
     this.youtubeUrl = null;
-    this.command = new NewPostCommand();
+    this.command = { text: '', file: null };
   }
 
-  public toggleEmojiPicker() {
+  toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
 
-  public addEmoji(event) {
+  addEmoji(event) {
     this.command.text += event.emoji.native;
   }
 

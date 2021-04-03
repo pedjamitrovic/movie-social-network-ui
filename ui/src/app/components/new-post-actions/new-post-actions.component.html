@@ -1,18 +1,21 @@
 <div class="new-post-actions-container">
-    <div class="secondary-actions-container">
-        <button mat-button (click)="activate('addMedia')">
-    <mat-icon>add_photo_alternate</mat-icon>
-    <span>Add photos or videos</span>
-  </button>
-        <button mat-button (click)="activate('tagFriends')">
-    <mat-icon>person_add</mat-icon>
-    <span>Tag friends</span>
-  </button>
-    </div>
-    <div class="post-container">
-        <button mat-flat-button color="primary" (click)="activate('post')">
-      <mat-icon>post_add</mat-icon>
-      <span>Post</span>
-    </button>
-    </div>
+	<div class="secondary-actions-container">
+		<button
+			mat-button
+			(click)="activate('addMedia')"
+		>
+			<mat-icon>add_photo_alternate</mat-icon>
+			<span>Add photos or videos</span>
+		</button>
+	</div>
+	<div class="post-container">
+		<button
+			mat-flat-button
+			color="primary"
+			(click)="activate('post')"
+		>
+			<mat-icon>post_add</mat-icon>
+			<span>Post</span>
+		</button>
+	</div>
 </div>

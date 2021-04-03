@@ -3,21 +3,21 @@
 	class="post"
 >
 	<div class="post-header">
-		<a [routerLink]="['/users/', post?.user?.id]">
+		<a [routerLink]="[post?.creator?.discriminator === 'User' ? '/users' : '/groups', post?.creator?.id]">
 			<img
 				class="post-avatar"
-				src="assets/images/avatar.png"
-				[matTooltip]="post?.user?.username"
+				[src]="environment.apiUrl + '\\' + post?.creator?.profileImagePath"
+				[matTooltip]="post?.creator?.qualifiedName || 'Unknown'"
 			>
 		</a>
 		<div class="post-info">
 			<div class="name-container">
 				<span>
 					<a
-						*ngIf="post?.user"
-						[routerLink]="['/users/', post?.user?.id]"
+						*ngIf="post?.creator"
+						[routerLink]="[post?.creator?.discriminator === 'User' ? '/users' : '/groups', post?.creator?.id]"
 					>
-						{{post?.user?.username}}
+						{{post?.creator?.qualifiedName}}
 					</a>
 				</span>
 			</div>
@@ -37,7 +37,10 @@
 			<mat-icon>more_vert</mat-icon>
 		</button>
 		<mat-menu #postActions="matMenu">
-			<button mat-menu-item>
+			<button
+				*ngIf="authService?.activeSystemEntityValue?.id !== post?.creator?.id"
+				mat-menu-item
+			>
 				<mat-icon>report</mat-icon>
 				<span>Report</span>
 			</button>
@@ -48,7 +51,10 @@
 				<mat-icon>link</mat-icon>
 				<span>Copy link to clipboard</span>
 			</button>
-			<button mat-menu-item>
+			<button
+				*ngIf="authService?.activeSystemEntityValue?.id === post?.creator?.id"
+				mat-menu-item
+			>
 				<mat-icon>delete</mat-icon>
 				<span>Delete post</span>
 			</button>
@@ -67,14 +73,13 @@
 	</div>
 	<div class="post-activity">
 		<div class="post-reactions">
-			{{ ((post?.reactions?.length || '0') | shortNumber) + ' people like this' }}
+			{{ (score | shortNumber) || '0' }} people like this
 		</div>
-
 		<div
 			class="post-comments"
 			(click)="toggleComments()"
 		>
-			{{ (post?.comments?.length || '0') + ' comments' }}
+			{{ (comments?.length | shortNumber) || '0' }} comments
 		</div>
 	</div>
 	<div class="post-actions">
@@ -95,7 +100,7 @@
 		></app-new-comment>
 		<mat-divider></mat-divider>
 		<app-comment
-			*ngFor="let comment of post?.comments"
+			*ngFor="let comment of comments"
 			[comment]="comment"
 		></app-comment>
 	</div>

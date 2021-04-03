@@ -4,7 +4,7 @@ import { NewCommentCommand } from '@models/new-comment-command.model';
 import { Post } from '@models/post.model';
 import { RenderedMedia } from '@models/rendered-media.model';
 import { User } from '@models/user.model';
-import { PostService } from '@services/post/post.service';
+import { PostService } from '@services/post.service';
 import { UserService } from '@services/user/user.service';
 
 @Component({

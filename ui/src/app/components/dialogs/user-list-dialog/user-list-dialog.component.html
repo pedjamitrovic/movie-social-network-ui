@@ -7,37 +7,19 @@
 			(click)="close()"
 		>
 			<a
-				*ngIf="systemEntity?.username"
-				[routerLink]="['/users/', systemEntity?.id]"
+				*ngIf="systemEntity?.qualifiedName"
+				[routerLink]="[systemEntity?.discriminator === 'User' ? '/users' : '/groups', systemEntity?.id]"
 			>
 				<img
 					*ngIf="systemEntity?.profileImagePath; else profilePlaceholder"
 					[src]="environment.apiUrl + '\\' + systemEntity?.profileImagePath"
-					[matTooltip]="systemEntity?.username"
+					[matTooltip]="systemEntity?.qualifiedName"
 					class="user-avatar"
 				>
 				<ng-template #profilePlaceholder>
 					<img
 						[src]="'assets/images/avatar.png'"
-						[matTooltip]="systemEntity?.username"
-						class="user-avatar"
-					>
-				</ng-template>
-			</a>
-			<a
-				*ngIf="systemEntity?.title"
-				[routerLink]="['/groups/', systemEntity?.id]"
-			>
-				<img
-					*ngIf="systemEntity?.profileImagePath; else profilePlaceholder"
-					[src]="environment.apiUrl + '\\' + systemEntity?.profileImagePath"
-					[matTooltip]="systemEntity?.title"
-					class="user-avatar"
-				>
-				<ng-template #profilePlaceholder>
-					<img
-						[src]="'assets/images/avatar.png'"
-						[matTooltip]="systemEntity?.title"
+						[matTooltip]="systemEntity?.qualifiedName"
 						class="user-avatar"
 					>
 				</ng-template>
@@ -45,16 +27,10 @@
 			<div class="user-info">
 				<div class="name-container">
 					<a
-						*ngIf="systemEntity?.username"
-						[routerLink]="['/users/', systemEntity?.id]"
+						*ngIf="systemEntity?.qualifiedName"
+						[routerLink]="[systemEntity?.discriminator === 'User' ? '/users' : '/groups', systemEntity?.id]"
 					>
-						{{systemEntity?.username}}
-					</a>
-					<a
-						*ngIf="systemEntity?.username"
-						[routerLink]="['/groups/', systemEntity?.id]"
-					>
-						{{systemEntity?.title}}
+						{{systemEntity?.qualifiedName}}
 					</a>
 				</div>
 			</div>

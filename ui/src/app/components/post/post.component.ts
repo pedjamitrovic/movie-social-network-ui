@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Comment } from '@models/comment.model';
-import { Post } from '@models/post.model';
+import { CommentVM } from '@models/comment-vm.model';
+import { PostVM } from '@models/post-vm.model';
 import { RenderedMedia } from '@models/rendered-media.model';
+import { AuthService } from '@services/auth.service';
+import { EnvironmentService } from '@services/environment.service';
 import { MediaService } from '@services/media/media.service';
 import { Constants } from '@util/constants';
 import * as moment from 'moment';
@@ -12,11 +14,11 @@ import * as moment from 'moment';
   styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
-  @Input() public set post(v: Post) {
+  @Input() public set post(v: PostVM) {
     this._post = v;
     this.initData();
   }
-  public get post(): Post {
+  public get post(): PostVM {
     return this._post;
   }
 
@@ -26,10 +28,14 @@ export class PostComponent implements OnInit {
   public disliked = false;
   public renderedMedia: RenderedMedia;
   public youtubeUrl: string;
+  public comments: CommentVM[] = [];
+  public score = 0;
 
-  private _post: Post;
+  private _post: PostVM;
 
   constructor(
+    public environment: EnvironmentService,
+    public authService: AuthService,
     private mediaService: MediaService,
   ) { }
 
@@ -40,8 +46,8 @@ export class PostComponent implements OnInit {
     if (!this._post) { return; }
     this.fromNow = moment(this._post.createdOn).fromNow();
 
-    if (this._post.media?.length) {
-      this.renderedMedia = await this.mediaService.renderMedia(this._post.media);
+    if (this._post.filePath) {
+      //this.renderedMedia = await this.mediaService.renderMedia(this._post.media);
     }
 
     const execArray = Constants.YOUTUBE_URL_REGEX.exec(this._post.text);
@@ -58,9 +64,9 @@ export class PostComponent implements OnInit {
     this.liked = !this.liked;
     if (this.liked) {
       this.disliked = false;
-      this.post.reactions.push({});
+      //this.post.reactions.push({});
     } else {
-      this.post.reactions.pop();
+      //this.post.reactions.pop();
     }
   }
 
@@ -68,9 +74,9 @@ export class PostComponent implements OnInit {
     this.disliked = !this.disliked;
     if (this.disliked) {
       this.liked = false;
-      this.post.reactions.pop();
+      //this.post.reactions.pop();
     } else {
-      this.post.reactions.push({});
+      //this.post.reactions.push({});
     }
   }
 
@@ -98,8 +104,8 @@ export class PostComponent implements OnInit {
     return `${location.origin}/posts/${this.post.id}`;
   }
 
-  commentCreated(comment: Comment) {
-    this.post.comments.unshift(comment);
+  commentCreated(comment: CommentVM) {
+    this.comments.unshift(comment);
   }
 
 }

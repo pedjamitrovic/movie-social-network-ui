@@ -3,12 +3,12 @@ import { User } from '@models/user.model';
 import { Observable, of } from 'rxjs';
 import { GroupService } from '@services/group/group.service';
 import { CommentService } from '@services/comment/comment.service';
-import { PostService } from '@services/post/post.service';
 import { UserService } from '@services/user/user.service';
 import { SearchResult } from '@models/search-result.model';
 import { Group } from '@models/group.model';
 import { Post } from '@models/post.model';
 import { Comment } from '@models/comment.model';
+import { PostService } from '@services/post.service';
 
 @Injectable({
   providedIn: 'root'

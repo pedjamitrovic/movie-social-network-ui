@@ -1,10 +1,8 @@
-import { Role } from '@models/role.model';
-
-export class SystemEntityVM {
-  id: number;
-  description: string;
-  profileImagePath: string;
-  coverImagePath: string;
-  username?: string;
-  title?: string;
+export interface SystemEntityVM {
+  id?: number;
+  description?: string;
+  profileImagePath?: string;
+  coverImagePath?: string;
+  qualifiedName?: string;
+  discriminator?: string;
 }

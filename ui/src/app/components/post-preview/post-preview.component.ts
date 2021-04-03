@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Post } from '@models/post.model';
-import { PostService } from '@services/post/post.service';
+import { PostVM } from '@models/post-vm.model';
+import { PostService } from '@services/post.service';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -10,28 +10,28 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./post-preview.component.scss']
 })
 export class PostPreviewComponent implements OnInit {
-  public post: Post;
-  public id: string;
+  public post: PostVM;
+  public id: number;
 
   constructor(
-    public ar: ActivatedRoute,
-    public ps: PostService,
+    public activatedRoute: ActivatedRoute,
+    public postService: PostService,
   ) { }
 
   ngOnInit(): void {
-    this.ar.params
+    this.activatedRoute.params
       .pipe(
         switchMap(
           (params) => {
             this.id = params.id;
-            return this.ps.getPosts();
+            return this.postService.getById(this.id);
           }
         )
       )
       .subscribe(
-        (posts) => {
-          this.post = posts[0];
-          this.post.id = this.id;
+        (post: PostVM) => {
+          this.post = post;
+          console.log(this.post);
         }
       );
   }

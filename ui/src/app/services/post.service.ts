@@ -1,19 +1,32 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CreatePostCommand } from '@models/create-post-command.model';
+import { PostVM } from '@models/post-vm.model';
+import { EnvironmentService } from './environment.service';
 import { Observable, of } from 'rxjs';
 import { Post } from '@models/post.model';
 import { Chance } from 'chance';
 import { UserService } from '@services/user/user.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PostService {
   chance = new Chance();
+  apiUrl: string;
 
   constructor(
-    private userService: UserService
+    private environment: EnvironmentService,
+    private http: HttpClient,
+    private userService: UserService,
   ) {
-    this.chance = new Chance();
+    this.apiUrl = `${this.environment.apiUrl}/posts`;
+  }
+
+  getById(id: number) {
+    return this.http.get<PostVM>(`${this.apiUrl}/${id}`);
+  }
+
+  create(command: CreatePostCommand) {
+    return this.http.post<PostVM>(`${this.apiUrl}`, command);
   }
 
   getPosts(): Observable<Post[]> {
