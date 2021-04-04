@@ -38,18 +38,18 @@
 		</button>
 		<mat-menu #postActions="matMenu">
 			<button
-				*ngIf="authService?.activeSystemEntityValue?.id !== post?.creator?.id"
-				mat-menu-item
-			>
-				<mat-icon>report</mat-icon>
-				<span>Report</span>
-			</button>
-			<button
 				mat-menu-item
 				[cdkCopyToClipboard]="urlToClipboard()"
 			>
 				<mat-icon>link</mat-icon>
 				<span>Copy link to clipboard</span>
+			</button>
+			<button
+				*ngIf="authService?.activeSystemEntityValue?.id !== post?.creator?.id"
+				mat-menu-item
+			>
+				<mat-icon>report</mat-icon>
+				<span>Report</span>
 			</button>
 			<button
 				*ngIf="authService?.activeSystemEntityValue?.id === post?.creator?.id"

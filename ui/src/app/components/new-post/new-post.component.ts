@@ -58,6 +58,7 @@ export class NewPostComponent implements OnInit {
 
   createPost() {
     if (!this.command.text && !this.command.file) return;
+    console.log(this.command.file);
     this.postService.create(this.command)
       .subscribe(
         (post: PostVM) => {

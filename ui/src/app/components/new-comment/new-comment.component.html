@@ -1,20 +1,17 @@
 <div class="new-comment">
 	<div class="new-comment-header">
-		<a [routerLink]="['/users/', user?.id]">
+		<a [routerLink]="[authService?.activeSystemEntityValue?.discriminator === 'User' ? '/users' : '/groups', authService?.activeSystemEntityValue?.id]">
 			<img
 				class="new-comment-avatar"
-				src="assets/images/vlada_profile.jpg"
-				[matTooltip]="user?.username"
+				[src]="environment.apiUrl + '\\' + authService?.activeSystemEntityValue?.profileImagePath"
+				[matTooltip]="authService?.activeSystemEntityValue?.qualifiedName"
 			>
 		</a>
 		<div class="new-comment-info">
 			<div class="name-container">
 				<span>
-					<a
-						*ngIf="user"
-						[routerLink]="['/users/', user?.id]"
-					>
-						Vladimir Sivčev
+					<a [routerLink]="[authService?.activeSystemEntityValue?.discriminator === 'User' ? '/users' : '/groups', authService?.activeSystemEntityValue?.id]">
+						{{authService?.activeSystemEntityValue?.qualifiedName}}
 					</a>
 				</span>
 			</div>
@@ -26,7 +23,9 @@
 				class="full-width"
 				appearance="outline"
 			>
-				<mat-label>Reply to {{post?.user?.username}}</mat-label>
+				<mat-label>
+					Reply to {{post?.creator?.qualifiedName}}
+				</mat-label>
 				<textarea
 					(input)="onTextChange($event.target.value)"
 					[value]="command.text"

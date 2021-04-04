@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Comment } from '@models/comment.model';
-import { NewCommentCommand } from '@models/new-comment-command.model';
-import { Post } from '@models/post.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
+import { CommentVM } from '@models/comment-vm.model';
+import { CreateCommentCommand } from '@models/create-comment-command';
+import { PostVM } from '@models/post-vm.model';
 import { RenderedMedia } from '@models/rendered-media.model';
-import { User } from '@models/user.model';
-import { PostService } from '@services/post.service';
-import { UserService } from '@services/user/user.service';
+import { AuthService } from '@services/auth.service';
+import { CommentService } from '@services/comment.service';
+import { EnvironmentService } from '@services/environment.service';
 
 @Component({
   selector: 'app-new-comment',
@@ -13,37 +15,51 @@ import { UserService } from '@services/user/user.service';
   styleUrls: ['./new-comment.component.scss']
 })
 export class NewCommentComponent implements OnInit {
-  @Input() public set post(v: Post) {
+  @Input() public set post(v: PostVM) {
     this._post = v;
   }
-  public get post(): Post {
+  public get post(): PostVM {
     return this._post;
   }
-  @Output() public commentCreated = new EventEmitter<Comment>();
+  @Output() public commentCreated = new EventEmitter<CommentVM>();
 
-  public user: User;
-  public command: NewCommentCommand = { text: '' };
+  public command: CreateCommentCommand = { text: '' };
   public renderedMedia: RenderedMedia;
   public showEmojiPicker = false;
-  private _post: Post;
+  private _post: PostVM;
 
   constructor(
-    private userService: UserService,
-    private postService: PostService,
+    public environment: EnvironmentService,
+    public authService: AuthService,
+    private commentService: CommentService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
-    this.user = this.userService.generateUser();
   }
 
   public createComment() {
     if (!this.command.text) return;
-    const comment = this.postService.generatePost();
-    comment.createdOn = new Date();
-    comment.text = this.command.text;
-    comment.user = this.user;
-    this.commentCreated.emit(comment);
-    this.reset();
+
+    this.command.postId = this.post.id;
+
+    this.commentService.create(this.command)
+      .subscribe(
+        (comment: CommentVM) => {
+          this.commentCreated.emit(comment);
+          this.reset();
+        },
+        () => {
+          this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+            ErrorDialogComponent,
+            {
+              data: {
+                text: 'Unable to create comment, something unexpected happened'
+              }
+            }
+          );
+        }
+      )
   }
 
   public onTextChange(value: string) {

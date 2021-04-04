@@ -26,7 +26,14 @@ export class PostService {
   }
 
   create(command: CreatePostCommand) {
-    return this.http.post<PostVM>(`${this.apiUrl}`, command);
+    const formData = new FormData();
+    if (command.file) {
+      formData.append('file', command.file, command.file.name);
+    }
+    if (command.text) {
+      formData.append('text', command.text);
+    }
+    return this.http.post<PostVM>(`${this.apiUrl}`, formData);
   }
 
   getPosts(): Observable<Post[]> {

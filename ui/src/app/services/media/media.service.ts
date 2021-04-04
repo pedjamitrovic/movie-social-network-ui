@@ -1,12 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RenderedMedia } from '@models/rendered-media.model';
+import { EnvironmentService } from '@services/environment.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaService {
+  apiUrl: string;
 
-  constructor() {
+  constructor(
+    private environment: EnvironmentService,
+    private http: HttpClient,
+  ) {
+    this.apiUrl = `${this.environment.apiUrl}`;
   }
 
   async renderMedia(media: File[]): Promise<RenderedMedia> {
@@ -42,5 +51,9 @@ export class MediaService {
         reader.readAsDataURL(file);
       }
     );
+  }
+
+  readFileFromUrl(url: string): Observable<File> {
+    return this.http.get(`${this.apiUrl}/${url}`, { responseType: 'blob' }).pipe(map((blob) => new File([blob], url, { type: blob.type })));
   }
 }

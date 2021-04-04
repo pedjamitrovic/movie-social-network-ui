@@ -12,6 +12,7 @@
 			<a
 				mat-list-item
 				routerLink="/feed"
+				(click)="drawer.toggle()"
 			>
 				<mat-icon>feed</mat-icon>
 				Feed
@@ -19,6 +20,7 @@
 			<a
 				mat-list-item
 				routerLink="/explore"
+				(click)="drawer.toggle()"
 			>
 				<mat-icon>explore</mat-icon>
 				Explore
@@ -26,6 +28,7 @@
 			<a
 				mat-list-item
 				routerLink="/search"
+				(click)="drawer.toggle()"
 			>
 				<mat-icon>search</mat-icon>
 				Search
@@ -33,6 +36,7 @@
 			<a
 				mat-list-item
 				routerLink="/groups"
+				(click)="drawer.toggle()"
 			>
 				<mat-icon>groups</mat-icon>
 				My groups

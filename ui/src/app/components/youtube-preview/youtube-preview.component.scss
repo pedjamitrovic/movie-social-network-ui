@@ -1,10 +1,10 @@
 .youtube-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  .youtube-video {
     width: 100%;
-    .youtube-video {
-        width: 100%;
-        height: 50vw;
-        max-height: 600px;
-    }
+    height: 50vw;
+    max-height: 600px;
+  }
 }

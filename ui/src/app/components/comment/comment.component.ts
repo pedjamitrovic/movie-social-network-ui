@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Comment } from '@models/comment.model';
+import { CommentVM } from '@models/comment-vm.model';
+import { AuthService } from '@services/auth.service';
+import { EnvironmentService } from '@services/environment.service';
 import * as moment from 'moment';
 
 @Component({
@@ -8,13 +10,13 @@ import * as moment from 'moment';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
-  @Input() public set comment(v: Comment) {
+  @Input() public set comment(v: CommentVM) {
     this._comment = v;
     if (this._comment) {
       this.fromNow = moment(this._comment.createdOn).fromNow();
     }
   }
-  public get comment(): Comment {
+  public get comment(): CommentVM {
     return this._comment;
   }
 
@@ -22,10 +24,14 @@ export class CommentComponent implements OnInit {
   fromNow: string;
   public liked = false;
   public disliked = false;
+  public score = 0;
 
-  private _comment: Comment;
+  private _comment: CommentVM;
 
-  constructor() { }
+  constructor(
+    public environment: EnvironmentService,
+    public authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
   }
@@ -34,9 +40,9 @@ export class CommentComponent implements OnInit {
     this.liked = !this.liked;
     if (this.liked) {
       this.disliked = false;
-      this.comment.reactions.push({});
+      //this.comment.reactions.push({});
     } else {
-      this.comment.reactions.pop();
+      //this.comment.reactions.pop();
     }
   }
 
@@ -44,9 +50,9 @@ export class CommentComponent implements OnInit {
     this.disliked = !this.disliked;
     if (this.disliked) {
       this.liked = false;
-      this.comment.reactions.pop();
+      //this.comment.reactions.pop();
     } else {
-      this.comment.reactions.push({});
+      //this.comment.reactions.push({});
     }
   }
 

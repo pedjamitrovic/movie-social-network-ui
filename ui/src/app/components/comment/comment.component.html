@@ -3,21 +3,21 @@
 	class="comment"
 >
 	<div class="comment-header">
-		<a [routerLink]="['/users/', comment?.user?.id]">
+		<a [routerLink]="[comment?.creator?.discriminator === 'User' ? '/users' : '/groups', comment?.creator?.id]">
 			<img
 				class="comment-avatar"
-				src="assets/images/avatar.png"
-				[matTooltip]="comment?.user?.username"
+				[src]="environment.apiUrl + '\\' + comment?.creator?.profileImagePath"
+				[matTooltip]="comment?.creator?.qualifiedName || 'Unknown'"
 			>
 		</a>
 		<div class="comment-info">
 			<div class="name-container">
 				<span>
 					<a
-						*ngIf="comment?.user"
-						[routerLink]="['/users/', comment?.user?.id]"
+						*ngIf="comment?.creator"
+						[routerLink]="[comment?.creator?.discriminator === 'User' ? '/users' : '/groups', comment?.creator?.id]"
 					>
-						{{comment?.user?.username}}
+						{{comment?.creator?.qualifiedName}}
 					</a>
 				</span>
 			</div>
@@ -37,10 +37,6 @@
 			<mat-icon>more_vert</mat-icon>
 		</button>
 		<mat-menu #commentActions="matMenu">
-			<button mat-menu-item>
-				<mat-icon>report</mat-icon>
-				<span>Report</span>
-			</button>
 			<button
 				mat-menu-item
 				[cdkCopyToClipboard]="urlToClipboard()"
@@ -48,7 +44,17 @@
 				<mat-icon>link</mat-icon>
 				<span>Copy link to clipboard</span>
 			</button>
-			<button mat-menu-item>
+			<button
+				*ngIf="authService?.activeSystemEntityValue?.id !== comment?.creator?.id"
+				mat-menu-item
+			>
+				<mat-icon>report</mat-icon>
+				<span>Report</span>
+			</button>
+			<button
+				*ngIf="authService?.activeSystemEntityValue?.id === comment?.creator?.id"
+				mat-menu-item
+			>
 				<mat-icon>delete</mat-icon>
 				<span>Delete comment</span>
 			</button>
@@ -57,7 +63,7 @@
 	<div class="comment-text">{{ comment?.text }}</div>
 	<div class="comment-activity">
 		<div class="comment-reactions">
-			{{ ((comment?.reactions?.length || '0') | shortNumber) + ' people like this' }}
+			{{ (score | shortNumber) || '0' }} people like this
 		</div>
 	</div>
 	<div class="component-actions">

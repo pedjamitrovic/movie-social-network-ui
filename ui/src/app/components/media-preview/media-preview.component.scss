@@ -1,16 +1,16 @@
 .media-preview {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    .video-preview {
-        width: 100%;
-        height: auto;
-        max-height: 600px;
-    }
-    .image-preview {
-        width: 100%;
-        height: auto;
-        max-height: 600px;
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .video-preview {
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+  }
+  .image-preview {
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+  }
 }
