@@ -1,4 +1,5 @@
 export interface FeedCompConfig {
   creatorId?: number;
-  mode?: string;
+  followerId?: number;
+  mode?: 'feed' | 'explore';
 }

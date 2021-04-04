@@ -24,7 +24,6 @@ export class FeedComponent implements OnInit {
   }
 
   posts: PostVM[];
-  isExploreMode: boolean;
   paging: Paging;
   pagedList: PagedList<PostVM>;
   private _config: FeedCompConfig;
@@ -38,7 +37,14 @@ export class FeedComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.url.subscribe(
       (e) => {
-        this.isExploreMode = e[0].path === 'explore';
+        switch (e[0].path) {
+          case 'feed':
+            this.config = { mode: 'feed', followerId: this.authService.activeSystemEntityValue.id };
+            break;
+          case 'explore':
+            this.config = { mode: 'explore' };
+            break;
+        }
       }
     );
   }
@@ -62,6 +68,7 @@ export class FeedComponent implements OnInit {
     };
 
     if (this.config.creatorId) { queryParams.creatorId = this.config.creatorId; }
+    if (this.config.followerId) { queryParams.followerId = this.config.followerId; }
 
     this.postService.getList(queryParams).subscribe(
       (pagedList) => {

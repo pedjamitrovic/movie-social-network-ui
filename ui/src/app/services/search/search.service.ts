@@ -36,13 +36,13 @@ export class SearchService {
       };
       this.searchItems.push(item);
     }
-    for (let i = 0; i < 100; i++) {
-      const item: SearchResult = {
-        kind: SearchResult.KindEnum.Post,
-        result: this.postService.generatePost()
-      };
-      this.searchItems.push(item);
-    }
+    // for (let i = 0; i < 100; i++) {
+    //   const item: SearchResult = {
+    //     kind: SearchResult.KindEnum.Post,
+    //     result: this.postService.generatePost()
+    //   };
+    //   this.searchItems.push(item);
+    // }
     for (let i = 0; i < 100; i++) {
       const item: SearchResult = {
         kind: SearchResult.KindEnum.Comment,
