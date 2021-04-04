@@ -4,11 +4,12 @@ import { Group } from '@models/group.model';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { UserVM } from '@models/user-vm.model';
 import { GroupService } from '@services/group/group.service';
-import { SystemEntityService } from '@services/system-entity.service';
 import { UserService } from '@services/user/user.service';
 import { forkJoin } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
+import { SystemEntityService } from '@services/system-entity.service';
+import { FeedCompConfig } from '@models/feed-comp-config';
 
 @Component({
   selector: 'app-user',
@@ -20,6 +21,7 @@ export class UserComponent implements OnInit {
   followers: SystemEntityVM[];
   following: SystemEntityVM[];
   groups: Group[];
+  feedCompConfig: FeedCompConfig;
 
   constructor(
     private userService: UserService,
@@ -48,6 +50,7 @@ export class UserComponent implements OnInit {
             this.user = res.user;
             this.followers = res.followers.items;
             this.following = res.following.items;
+            this.feedCompConfig = { creatorId: this.user.id };
           },
           () => {
             this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(

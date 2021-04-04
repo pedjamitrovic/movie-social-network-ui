@@ -26,8 +26,8 @@ export class UserAboutComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
 
   constructor(
+    public authService: AuthService,
     private systemEntityService: SystemEntityService,
-    private authService: AuthService,
     private dialog: MatDialog,
   ) { }
 

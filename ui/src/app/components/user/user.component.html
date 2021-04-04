@@ -6,7 +6,10 @@
 	></app-user-header>
 	<mat-tab-group dynamicHeight>
 		<mat-tab label="Posts">
-			<app-feed></app-feed>
+			<app-feed
+				*ngIf="feedCompConfig"
+				[config]="feedCompConfig"
+			></app-feed>
 		</mat-tab>
 		<mat-tab label="Comments">
 			<app-user-comments></app-user-comments>

@@ -8,10 +8,10 @@ import { ImageType } from '@models/image-type.model';
 import { UserVM } from '@models/user-vm.model';
 import { AuthService } from '@services/auth.service';
 import { MediaService } from '@services/media/media.service';
-import { SystemEntityService } from '@services/system-entity.service';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
 import { EnvironmentService } from '@services/environment.service';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
+import { SystemEntityService } from '@services/system-entity.service';
 
 @Component({
   selector: 'app-user-header',

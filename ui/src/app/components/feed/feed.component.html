@@ -5,9 +5,18 @@
 	infiniteScrollContainer=".sidenav-content"
 	(scrolled)="onScrollDown()"
 >
-	<app-new-post (postCreated)="createPost($event)"></app-new-post>
+	<app-new-post
+		*ngIf="authService?.activeSystemEntityValue?.id === config?.creatorId"
+		(postCreated)="createPost($event)"
+	></app-new-post>
 	<app-post
 		*ngFor="let post of posts"
 		[post]="post"
 	></app-post>
+	<mat-card
+		class="no-posts"
+		*ngIf="!posts?.length"
+	>
+		No posts to show.
+	</mat-card>
 </div>
