@@ -31,7 +31,6 @@ export class PostPreviewComponent implements OnInit {
       .subscribe(
         (post: PostVM) => {
           this.post = post;
-          console.log(this.post);
         }
       );
   }

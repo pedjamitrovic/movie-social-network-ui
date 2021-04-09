@@ -78,8 +78,8 @@ export class UserAboutComponent implements OnInit, OnChanges {
     this.command.description += event.emoji.native;
   }
 
-  onTextChange(value: string) {
-    this.command.description = value;
+  onTextChange(event: Event) {
+    this.command.description = (event.target as HTMLTextAreaElement).value;
   }
 
   pageChangeEvent(event: PageEvent) {

@@ -58,7 +58,6 @@ export class NewPostComponent implements OnInit {
 
   createPost() {
     if (!this.command.text && !this.command.file) return;
-    console.log(this.command.file);
     this.postService.create(this.command)
       .subscribe(
         (post: PostVM) => {
@@ -95,10 +94,10 @@ export class NewPostComponent implements OnInit {
     mediaInput.value = null;
   }
 
-  onTextChange(value: string) {
-    this.command.text = value;
+  onTextChange(event: Event) {
+    this.command.text = (event.target as HTMLTextAreaElement).value;
 
-    const execArray = Constants.YOUTUBE_URL_REGEX.exec(value);
+    const execArray = Constants.YOUTUBE_URL_REGEX.exec(this.command.text);
 
     if (execArray) {
       this.youtubeUrl = execArray[0];

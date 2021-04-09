@@ -18,7 +18,7 @@ export class GroupService {
   }
 
   getGroups(): Observable<Group[]> {
-    const groups: User[] = [];
+    const groups: Group[] = [];
 
     for (let i = 0; i < 10; ++i) {
       groups.push(this.generateGroup());
@@ -43,7 +43,7 @@ export class GroupService {
 
   generateGroup(): Group {
     const group: Group = {
-      id: this.chance.guid(),
+      id: 0,
       title: this.chance.name(),
       subtitle: this.chance.name(),
       description: this.chance.paragraph({ sentences: this.chance.natural({ min: 1, max: 10 }) }),

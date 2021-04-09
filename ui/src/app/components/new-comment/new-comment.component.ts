@@ -62,8 +62,8 @@ export class NewCommentComponent implements OnInit {
       )
   }
 
-  public onTextChange(value: string) {
-    this.command.text = value;
+  onTextChange(event: Event) {
+    this.command.text = (event.target as HTMLTextAreaElement).value;
   }
 
   public reset() {

@@ -68,7 +68,7 @@ export class AuthService {
         (user: UserVM) => {
           this.loggedUserSubject.next(user);
           this.activeSystemEntitySubject.next(user);
-          console.log(user);
+          console.log('Logged user', user);
         }
       )
     );

@@ -25,7 +25,7 @@
 			>
 				<mat-label>What are you thinking about?</mat-label>
 				<textarea
-					(input)="onTextChange($event.target.value)"
+					(input)="onTextChange($event)"
 					[value]="command?.text"
 					cdkTextareaAutosize
 					matInput
