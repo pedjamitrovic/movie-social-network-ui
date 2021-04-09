@@ -12,7 +12,10 @@
 			></app-feed>
 		</mat-tab>
 		<mat-tab label="Comments">
-			<app-user-comments></app-user-comments>
+			<app-comments-feed
+				*ngIf="user"
+				[systemEntity]="user"
+			></app-comments-feed>
 		</mat-tab>
 		<mat-tab label="About">
 			<div class="about-wrapper">

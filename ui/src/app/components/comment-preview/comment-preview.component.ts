@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommentService } from '@services/comment/comment.service';
-import { Comment } from '@models/comment.model';
+import { CommentVM } from '@models/comment-vm.model';
+import { CommentService } from '@services/comment.service';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -10,8 +10,8 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./comment-preview.component.scss']
 })
 export class CommentPreviewComponent implements OnInit {
-  public comment: Comment;
-  public id: string;
+  public comment: CommentVM;
+  public id: number;
 
   constructor(
     public ar: ActivatedRoute,
@@ -24,14 +24,13 @@ export class CommentPreviewComponent implements OnInit {
         switchMap(
           (params) => {
             this.id = params.id;
-            return this.commentService.getComments();
+            return this.commentService.getById(this.id);
           }
         )
       )
       .subscribe(
-        (comments) => {
-          this.comment = comments[0];
-          this.comment.id = this.id;
+        (comment) => {
+          this.comment = comment;
         }
       );
   }

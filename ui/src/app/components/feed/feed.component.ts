@@ -23,9 +23,10 @@ export class FeedComponent implements OnInit {
     return this._config;
   }
 
-  posts: PostVM[];
-  paging: Paging;
-  pagedList: PagedList<PostVM>;
+  posts: PostVM[] = [];
+  paging: Paging = new Paging();
+  pagedList: PagedList<PostVM> = null;
+
   private _config: FeedCompConfig;
 
   constructor(
@@ -50,9 +51,6 @@ export class FeedComponent implements OnInit {
   }
 
   init() {
-    this.posts = [];
-    this.paging = new Paging();
-    this.pagedList = null;
     this.getPosts();
   }
 

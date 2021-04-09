@@ -36,7 +36,7 @@ import { UserListDialogComponent } from './components/dialogs/user-list-dialog/u
 import { ConfirmActionBottomSheetComponent } from './components/bottom-sheets/confirm-action-bottom-sheet/confirm-action-bottom-sheet.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { NewCommentComponent } from './components/new-comment/new-comment.component';
-import { UserCommentsComponent } from './components/user-comments/user-comments.component';
+import { CommentsFeedComponent } from './components/comments-feed/comments-feed.component';
 import { SearchComponent } from './components/search/search.component';
 import { InfoUserComponent } from './components/info-user/info-user.component';
 import { InfoGroupComponent } from './components/info-group/info-group.component';
@@ -87,7 +87,7 @@ import { CommonModule } from '@angular/common';
     ConfirmActionBottomSheetComponent,
     NotificationsComponent,
     NewCommentComponent,
-    UserCommentsComponent,
+    CommentsFeedComponent,
     SearchComponent,
     InfoUserComponent,
     InfoGroupComponent,

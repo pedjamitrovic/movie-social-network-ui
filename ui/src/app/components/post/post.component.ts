@@ -3,6 +3,7 @@ import { CommentVM } from '@models/comment-vm.model';
 import { PostVM } from '@models/post-vm.model';
 import { RenderedMedia } from '@models/rendered-media.model';
 import { AuthService } from '@services/auth.service';
+import { CommentService } from '@services/comment.service';
 import { EnvironmentService } from '@services/environment.service';
 import { MediaService } from '@services/media/media.service';
 import { Constants } from '@util/constants';
@@ -37,6 +38,7 @@ export class PostComponent implements OnInit {
     public environment: EnvironmentService,
     public authService: AuthService,
     private mediaService: MediaService,
+    private commentService: CommentService,
   ) { }
 
   public ngOnInit() {
