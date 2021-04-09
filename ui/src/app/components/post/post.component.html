@@ -79,7 +79,7 @@
 			class="post-comments"
 			(click)="toggleComments()"
 		>
-			{{ (comments?.length | shortNumber) || '0' }} comments
+			{{ (pagedList?.totalCount | shortNumber) || '0' }} comments
 		</div>
 	</div>
 	<div class="post-actions">
@@ -103,13 +103,15 @@
 			*ngFor="let comment of comments"
 			[comment]="comment"
 		></app-comment>
-		<mat-divider></mat-divider>
-		<button
-			mat-button
-			(click)="getComments()"
-		>
-			<mat-icon>delete</mat-icon>
-			<span>Load more posts</span>
-		</button>
+		<div class="load-more-container">
+			<button
+				*ngIf="pagedList && this.paging.pageNumber <= this.pagedList.totalPages"
+				mat-button
+				color="primary"
+				(click)="getComments()"
+			>
+				<span>Load more posts</span>
+			</button>
+		</div>
 	</div>
 </mat-card>

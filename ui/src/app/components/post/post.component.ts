@@ -121,6 +121,7 @@ export class PostComponent implements OnInit {
 
   commentCreated(comment: CommentVM) {
     this.comments.unshift(comment);
+    this.pagedList.totalCount++;
   }
 
 

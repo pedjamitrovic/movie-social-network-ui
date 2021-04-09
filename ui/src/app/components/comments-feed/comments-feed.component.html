@@ -11,4 +11,10 @@
 	>
 		<app-comment [comment]="comment"></app-comment>
 	</mat-card>
+	<mat-card
+		class="no-comments"
+		*ngIf="!comments?.length"
+	>
+		No comments to show.
+	</mat-card>
 </div>

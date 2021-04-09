@@ -21,9 +21,9 @@ export class CommentsFeedComponent implements OnInit {
     return this._systemEntity;
   }
 
-  comments: CommentVM[] = [];
-  paging: Paging = new Paging();
-  pagedList: PagedList<CommentVM> = null;
+  comments: CommentVM[];
+  paging: Paging;
+  pagedList: PagedList<CommentVM>;
 
   private _systemEntity: SystemEntityVM;
 
@@ -35,6 +35,9 @@ export class CommentsFeedComponent implements OnInit {
   }
 
   init() {
+    this.comments = [];
+    this.paging = new Paging();
+    this.pagedList = null;
     this.getComments();
   }
 
