@@ -9,14 +9,14 @@
 			<mat-label>Search text</mat-label>
 			<input
 				matInput
-				[formControl]="searchForm?.controls.searchText"
+				formControlName="searchText"
 			>
 		</mat-form-field>
 		<div class="results-kind">
-			<mat-checkbox [formControl]="searchForm?.controls.searchUsers">Users</mat-checkbox>
-			<mat-checkbox [formControl]="searchForm?.controls.searchGroups">Groups</mat-checkbox>
-			<mat-checkbox [formControl]="searchForm?.controls.searchPosts">Posts</mat-checkbox>
-			<mat-checkbox [formControl]="searchForm?.controls.searchComments">Comments</mat-checkbox>
+			<mat-checkbox formControlName="searchUsers">Users</mat-checkbox>
+			<mat-checkbox formControlName="searchGroups">Groups</mat-checkbox>
+			<mat-checkbox formControlName="searchPosts">Posts</mat-checkbox>
+			<mat-checkbox formControlName="searchComments">Comments</mat-checkbox>
 		</div>
 		<button
 			class="search-button"

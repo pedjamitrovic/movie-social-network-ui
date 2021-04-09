@@ -6,7 +6,7 @@
 		<mat-label>Username</mat-label>
 		<input
 			matInput
-			[formControl]="form?.controls.username"
+			formControlName="username"
 		>
 		<mat-error *ngIf="form?.controls.username.hasError('required')">
 			Username is
@@ -18,7 +18,7 @@
 		<mat-label>Password</mat-label>
 		<input
 			matInput
-			[formControl]="form?.controls.password"
+			formControlName="password"
 			type="password"
 			autocomplete
 		>

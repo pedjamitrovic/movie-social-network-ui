@@ -1,11 +1,6 @@
-import { Post } from './post.model';
-import { User } from './user.model';
-import { Group } from './group.model';
-import { Comment } from './comment.model';
-
 export interface SearchResult {
   kind?: SearchResult.KindEnum;
-  result: User | Group | Post | Comment;
+  result: any;
 }
 
 // tslint:disable-next-line: no-namespace

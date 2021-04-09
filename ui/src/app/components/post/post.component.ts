@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommentVM } from '@models/comment-vm.model';
+import { PagedList } from '@models/paged-list.model';
+import { Paging } from '@models/paging.model';
 import { PostVM } from '@models/post-vm.model';
 import { RenderedMedia } from '@models/rendered-media.model';
 import { AuthService } from '@services/auth.service';
@@ -15,22 +17,25 @@ import * as moment from 'moment';
   styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
-  @Input() public set post(v: PostVM) {
+  @Input() set post(v: PostVM) {
     this._post = v;
     this.initData();
   }
-  public get post(): PostVM {
+  get post(): PostVM {
     return this._post;
   }
 
-  public fromNow: string;
-  public commentsExpanded = false;
-  public liked = false;
-  public disliked = false;
-  public renderedMedia: RenderedMedia;
-  public youtubeUrl: string;
-  public comments: CommentVM[] = [];
-  public score = 0;
+  fromNow: string;
+  commentsExpanded = false;
+  liked = false;
+  disliked = false;
+  renderedMedia: RenderedMedia;
+  youtubeUrl: string;
+  score = 0;
+
+  comments: CommentVM[] = [];
+  paging: Paging = new Paging();
+  pagedList: PagedList<CommentVM> = null;
 
   private _post: PostVM;
 
@@ -46,6 +51,9 @@ export class PostComponent implements OnInit {
 
   async initData() {
     if (!this._post) { return; }
+
+    this.getComments();
+
     this.fromNow = moment(this._post.createdOn).fromNow();
 
     if (this._post.filePath) {
@@ -71,9 +79,9 @@ export class PostComponent implements OnInit {
     this.liked = !this.liked;
     if (this.liked) {
       this.disliked = false;
-      //this.post.reactions.push({});
+      // this.post.reactions.push({});
     } else {
-      //this.post.reactions.pop();
+      // this.post.reactions.pop();
     }
   }
 
@@ -81,9 +89,9 @@ export class PostComponent implements OnInit {
     this.disliked = !this.disliked;
     if (this.disliked) {
       this.liked = false;
-      //this.post.reactions.pop();
+      // this.post.reactions.pop();
     } else {
-      //this.post.reactions.push({});
+      // this.post.reactions.push({});
     }
   }
 
@@ -113,6 +121,25 @@ export class PostComponent implements OnInit {
 
   commentCreated(comment: CommentVM) {
     this.comments.unshift(comment);
+  }
+
+
+  getComments() {
+    if (this.pagedList && this.paging.pageNumber > this.pagedList.totalPages) { return; }
+
+    const queryParams: any = {
+      ...this.paging
+    };
+
+    if (this.post) { queryParams.postId = this.post.id; }
+
+    this.commentService.getList(queryParams).subscribe(
+      (pagedList) => {
+        this.comments.push(...pagedList.items);
+        this.pagedList = pagedList;
+        this.paging.pageNumber = this.pagedList.page + 1;
+      }
+    );
   }
 
 }

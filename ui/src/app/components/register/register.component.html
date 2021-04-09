@@ -6,7 +6,7 @@
 		<mat-label>Email</mat-label>
 		<input
 			matInput
-			[formControl]="form?.controls.email"
+			formControlName="email"
 		>
 		<mat-error *ngIf="form?.controls.email.hasError('email') && !form?.controls.email.hasError('required')">Please enter a valid email address</mat-error>
 		<mat-error *ngIf="form?.controls.email.hasError('required')">
@@ -19,7 +19,7 @@
 		<mat-label>Username</mat-label>
 		<input
 			matInput
-			[formControl]="form?.controls.username"
+			formControlName="username"
 		>
 		<mat-error *ngIf="form?.controls.username.hasError('minlength') && !form?.controls.username.hasError('required')">
 			Username should be at least 3 characters long
@@ -34,7 +34,7 @@
 		<mat-label>Password</mat-label>
 		<input
 			matInput
-			[formControl]="form?.controls.password"
+			formControlName="password"
 			type="password"
 			autocomplete
 		>

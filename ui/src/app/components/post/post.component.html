@@ -103,5 +103,13 @@
 			*ngFor="let comment of comments"
 			[comment]="comment"
 		></app-comment>
+		<mat-divider></mat-divider>
+		<button
+			mat-button
+			(click)="getComments()"
+		>
+			<mat-icon>delete</mat-icon>
+			<span>Load more posts</span>
+		</button>
 	</div>
 </mat-card>
