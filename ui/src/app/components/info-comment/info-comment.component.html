@@ -1,12 +1,21 @@
 <div class="result mat-elevation-z1">
 	<div class="result-content">
 		<img
+			*ngIf="comment?.creator?.profileImagePath; else profilePlaceholder"
+			[src]="environment.apiUrl + '\\' + comment?.creator?.profileImagePath"
 			class="avatar"
-			src="assets/images/avatar.png"
 		>
+		<ng-template #profilePlaceholder>
+			<img
+				[src]="'assets/images/avatar.png'"
+				class="avatar"
+			>
+		</ng-template>
 		<div class="result-info">
 			<div class="username">
-				<a [routerLink]="['/comments', comment?.id]">{{comment?.user?.username}}'s comment</a>
+				<a [routerLink]="['/comments', comment?.id]">
+					{{comment?.creator?.qualifiedName}}'s comment
+				</a>
 			</div>
 			<div class="text">{{comment?.text}}</div>
 		</div>

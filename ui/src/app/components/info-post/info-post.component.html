@@ -1,12 +1,19 @@
 <div class="result mat-elevation-z1">
 	<div class="result-content">
 		<img
+			*ngIf="post?.creator?.profileImagePath; else profilePlaceholder"
+			[src]="environment.apiUrl + '\\' + post?.creator?.profileImagePath"
 			class="avatar"
-			src="assets/images/avatar.png"
 		>
+		<ng-template #profilePlaceholder>
+			<img
+				[src]="'assets/images/avatar.png'"
+				class="avatar"
+			>
+		</ng-template>
 		<div class="result-info">
 			<div class="username">
-				<a [routerLink]="['/posts', post?.id]">{{post?.user?.username}}'s post</a>
+				<a [routerLink]="['/posts', post?.id]">{{post?.creator?.qualifiedName}}'s post</a>
 			</div>
 			<div class="text">{{post?.text}}</div>
 		</div>

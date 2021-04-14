@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Post } from '@models/post.model';
+import { PostVM } from '@models/post-vm.model';
+import { EnvironmentService } from '@services/environment.service';
 
 @Component({
   selector: 'app-info-post',
@@ -7,9 +8,9 @@ import { Post } from '@models/post.model';
   styleUrls: ['./info-post.component.scss']
 })
 export class InfoPostComponent implements OnInit {
-  @Input() post: Post;
+  @Input() post: PostVM;
 
-  constructor() { }
+  constructor(public environment: EnvironmentService) { }
 
   ngOnInit(): void {
   }

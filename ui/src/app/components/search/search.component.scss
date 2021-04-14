@@ -14,6 +14,9 @@
       display: flex;
       flex-direction: column;
       padding: 10px;
+      mat-radio-button {
+        margin-bottom: 5px;
+      }
     }
     .search-button {
       width: 150px;

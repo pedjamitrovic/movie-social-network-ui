@@ -12,12 +12,17 @@
 				formControlName="searchText"
 			>
 		</mat-form-field>
-		<div class="results-kind">
-			<mat-checkbox formControlName="searchUsers">Users</mat-checkbox>
-			<mat-checkbox formControlName="searchGroups">Groups</mat-checkbox>
-			<mat-checkbox formControlName="searchPosts">Posts</mat-checkbox>
-			<mat-checkbox formControlName="searchComments">Comments</mat-checkbox>
-		</div>
+		<mat-radio-group
+			class="results-kind"
+			formControlName="searchKind"
+		>
+			<mat-radio-button
+				*ngFor="let kind of searchKinds"
+				[value]="kind"
+			>
+				{{kind | titlecase}}
+			</mat-radio-button>
+		</mat-radio-group>
 		<button
 			class="search-button"
 			mat-button
@@ -29,7 +34,7 @@
 		</button>
 	</form>
 	<div class="search-results">
-		<ng-container *ngFor="let searchResult of pagedSearchResults">
+		<ng-container *ngFor="let searchResult of pagedList?.items">
 			<ng-container [ngSwitch]="searchResult.kind">
 				<ng-container *ngSwitchCase="'user'">
 					<app-info-user [user]="searchResult.result"></app-info-user>
@@ -46,11 +51,11 @@
 			</ng-container>
 		</ng-container>
 	</div>
-	<div [hidden]="!searchResults?.length">
+	<div [hidden]="!pagedList?.totalCount">
 		<mat-paginator
 			[pageSizeOptions]="[1,2,4,8,10,20]"
-			[pageSize]="pageSize"
-			[length]="searchResults?.length"
+			[pageSize]="paging?.pageSize"
+			[length]="pagedList?.totalCount"
 			[showFirstLastButtons]="true"
 			(page)="pageChangeEvent($event)"
 		></mat-paginator>

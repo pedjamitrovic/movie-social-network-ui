@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { User } from '@models/user.model';
+import { UserVM } from '@models/user-vm.model';
+import { EnvironmentService } from '@services/environment.service';
 
 @Component({
   selector: 'app-info-user',
@@ -7,9 +8,9 @@ import { User } from '@models/user.model';
   styleUrls: ['./info-user.component.scss']
 })
 export class InfoUserComponent implements OnInit {
-  @Input() user: User;
+  @Input() user: UserVM;
 
-  constructor() { }
+  constructor(public environment: EnvironmentService) { }
 
   ngOnInit(): void {
   }

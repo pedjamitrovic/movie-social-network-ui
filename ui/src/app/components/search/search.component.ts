@@ -1,9 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { PagedList } from '@models/paged-list.model';
+import { Paging } from '@models/paging.model';
 import { SearchResult } from '@models/search-result.model';
-import { SearchService } from '@services/search/search.service';
-import * as moment from 'moment';
+import { CommentService } from '@services/comment.service';
+import { GroupService } from '@services/group.service';
+import { PostService } from '@services/post.service';
+import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'app-search',
@@ -12,53 +16,153 @@ import * as moment from 'moment';
 })
 export class SearchComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
   searchForm: FormGroup;
-  searchResults: SearchResult[] = [];
-  pagedSearchResults: SearchResult[];
-  pageSize = 10;
-  fromNow: string;
+  searchKinds = [SearchResult.KindEnum.User, SearchResult.KindEnum.Group, SearchResult.KindEnum.Post, SearchResult.KindEnum.Comment];
+
+  paging: Paging;
+  pagedList: PagedList<SearchResult>;
+  loading = false;
 
   constructor(
-    private searchService: SearchService,
+    private userService: UserService,
+    private groupService: GroupService,
+    private postService: PostService,
+    private commentService: CommentService,
   ) { }
 
   ngOnInit(): void {
-    this.searchForm = new FormGroup({
-      searchText: new FormControl(''),
-      searchUsers: new FormControl(true),
-      searchGroups: new FormControl(true),
-      searchPosts: new FormControl(true),
-      searchComments: new FormControl(true),
-    });
-    this.fromNow = moment(new Date()).fromNow();
+    this.init();
+    this.searchForm = new FormGroup(
+      {
+        searchText: new FormControl(''),
+        searchKind: new FormControl(SearchResult.KindEnum.User),
+      }
+    );
+  }
+
+  init() {
+    this.paging = new Paging();
+    this.pagedList = null;
   }
 
   pageChangeEvent(event: PageEvent) {
-    const offset = ((event.pageIndex + 1) - 1) * event.pageSize;
-    this.pagedSearchResults = this.searchResults.slice(offset).slice(0, event.pageSize);
-    this.pageSize = event.pageSize;
+    this.paging.pageNumber = event.pageIndex + 1;
+    this.paging.pageSize = event.pageSize;
+    if (event.previousPageIndex === event.pageIndex) {
+      this.paginator.firstPage();
+    }
+    this.pageChange();
+  }
+
+  pageChange() {
+    this.loading = true;
+
+    switch (this.searchForm.controls.searchKind.value) {
+      case SearchResult.KindEnum.User:
+        this.getGroups();
+        break;
+      case SearchResult.KindEnum.Group:
+        this.getUsers();
+        break;
+      case SearchResult.KindEnum.Post:
+        this.getPosts();
+        break;
+      case SearchResult.KindEnum.Comment:
+        this.getComments();
+        break;
+    }
   }
 
   search() {
-    const kinds = [];
-    if (this.searchForm.controls.searchUsers.value) {
-      kinds.push(SearchResult.KindEnum.User);
+    if (this.loading) { return; }
+
+    this.loading = true;
+
+    this.init();
+
+    switch (this.searchForm.controls.searchKind.value) {
+      case SearchResult.KindEnum.User:
+        this.getUsers();
+        break;
+      case SearchResult.KindEnum.Group:
+        this.getGroups();
+        break;
+      case SearchResult.KindEnum.Post:
+        this.getPosts();
+        break;
+      case SearchResult.KindEnum.Comment:
+        this.getComments();
+        break;
     }
-    if (this.searchForm.controls.searchGroups.value) {
-      kinds.push(SearchResult.KindEnum.Group);
-    }
-    if (this.searchForm.controls.searchPosts.value) {
-      kinds.push(SearchResult.KindEnum.Post);
-    }
-    if (this.searchForm.controls.searchComments.value) {
-      kinds.push(SearchResult.KindEnum.Comment);
-    }
-    this.searchService.search(this.searchForm.controls.searchText.value, kinds).subscribe(
-      (results) => {
-        this.searchResults = results;
-        this.pagedSearchResults = this.searchResults.slice(0, this.pageSize);
-        this.paginator.firstPage();
-      }
+    this.paginator.firstPage();
+  }
+
+  getUsers() {
+    const queryParams: any = {
+      ...this.paging
+    };
+
+    if (this.searchForm.controls.searchText.value) { queryParams.q = this.searchForm.controls.searchText.value; }
+
+    this.userService.getList(queryParams).subscribe(
+      (pagedList) => {
+        const searchResults: SearchResult[] = pagedList.items.map(e => ({ kind: SearchResult.KindEnum.User, result: e }));
+        this.pagedList = Object.assign({}, pagedList, { items: searchResults });
+        this.loading = false;
+      },
+      () => this.loading = false
+    );
+  }
+
+  getGroups() {
+    const queryParams: any = {
+      ...this.paging
+    };
+
+    if (this.searchForm.controls.searchText.value) { queryParams.q = this.searchForm.controls.searchText.value; }
+
+    this.groupService.getList(queryParams).subscribe(
+      (pagedList) => {
+        const searchResults: SearchResult[] = pagedList.items.map(e => ({ kind: SearchResult.KindEnum.Group, result: e }));
+        this.pagedList = Object.assign({}, pagedList, { items: searchResults });
+        this.loading = false;
+      },
+      () => this.loading = false
+    );
+  }
+
+  getPosts() {
+    const queryParams: any = {
+      ...this.paging
+    };
+
+    if (this.searchForm.controls.searchText.value) { queryParams.q = this.searchForm.controls.searchText.value; }
+
+    this.postService.getList(queryParams).subscribe(
+      (pagedList) => {
+        const searchResults: SearchResult[] = pagedList.items.map(e => ({ kind: SearchResult.KindEnum.Post, result: e }));
+        this.pagedList = Object.assign({}, pagedList, { items: searchResults });
+        this.loading = false;
+      },
+      () => this.loading = false
+    );
+  }
+
+  getComments() {
+    const queryParams: any = {
+      ...this.paging
+    };
+
+    if (this.searchForm.controls.searchText.value) { queryParams.q = this.searchForm.controls.searchText.value; }
+
+    this.commentService.getList(queryParams).subscribe(
+      (pagedList) => {
+        const searchResults: SearchResult[] = pagedList.items.map(e => ({ kind: SearchResult.KindEnum.Comment, result: e }));
+        this.pagedList = Object.assign({}, pagedList, { items: searchResults });
+        this.loading = false;
+      },
+      () => this.loading = false
     );
   }
 }

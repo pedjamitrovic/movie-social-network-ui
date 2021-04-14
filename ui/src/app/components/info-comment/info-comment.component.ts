@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Comment } from '@models/comment.model';
-import { Post } from '@models/post.model';
+import { CommentVM } from '@models/comment-vm.model';
+import { EnvironmentService } from '@services/environment.service';
 
 @Component({
   selector: 'app-info-comment',
@@ -8,9 +8,9 @@ import { Post } from '@models/post.model';
   styleUrls: ['./info-comment.component.scss']
 })
 export class InfoCommentComponent implements OnInit {
-  @Input() comment: Comment;
+  @Input() comment: CommentVM;
 
-  constructor() { }
+  constructor(public environment: EnvironmentService) { }
 
   ngOnInit(): void {
   }

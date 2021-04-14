@@ -1,12 +1,19 @@
 <div class="result mat-elevation-z1">
 	<div class="result-content">
 		<img
+			*ngIf="group?.profileImagePath; else profilePlaceholder"
+			[src]="environment.apiUrl + '\\' + group?.profileImagePath"
 			class="avatar"
-			src="assets/images/avatar.png"
 		>
+		<ng-template #profilePlaceholder>
+			<img
+				[src]="'assets/images/avatar.png'"
+				class="avatar"
+			>
+		</ng-template>
 		<div class="result-info">
 			<div class="title">
-				<a [routerLink]="['/groups', group?.id]">{{group?.title}}</a>
+				<a [routerLink]="['/groups', group?.id]">{{group?.qualifiedName}}</a>
 				<span *ngIf="showAdminText">You are admin</span>
 			</div>
 			<div class="subtitle">{{group?.subtitle}}</div>
