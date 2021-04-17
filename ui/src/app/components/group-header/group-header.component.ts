@@ -1,43 +1,73 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData } from '@components/bottom-sheets/confirm-action-bottom-sheet/confirm-action-bottom-sheet.component';
 import { ConfirmActionDialogComponent, ConfirmActionDialogComponentData } from '@components/dialogs/confirm-action-dialog/confirm-action-dialog.component';
+import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
 import { UserListDialogComponent, UserListDialogComponentData } from '@components/dialogs/user-list-dialog/user-list-dialog.component';
-import { Group } from '@models/group.model';
+import { GroupVM } from '@models/group-vm.model';
+import { ImageType } from '@models/image-type.model';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
-import { User } from '@models/user.model';
+import { AuthService } from '@services/auth.service';
+import { EnvironmentService } from '@services/environment.service';
 import { MediaService } from '@services/media/media.service';
-import { UserService } from '@services/user/user.service';
+import { SystemEntityService } from '@services/system-entity.service';
 
 @Component({
   selector: 'app-group-header',
   templateUrl: './group-header.component.html',
   styleUrls: ['./group-header.component.scss']
 })
-export class GroupHeaderComponent implements OnInit {
-  @Input() group: Group;
+export class GroupHeaderComponent implements OnInit, OnChanges {
+  @Input() group: GroupVM;
+  @Input() followers: SystemEntityVM[];
+  @Input() following: SystemEntityVM[];
 
   public isFollowing = false;
-  public followers: SystemEntityVM[];
-  public following: SystemEntityVM[];
   public renderedImage: string;
-  public newMediaType: 'cover' | 'profile';
+  public newMediaType: string;
+  public coverPreviewMode = false;
+  public profilePreviewMode = false;
 
   @ViewChild('mediaInput') public mediaInput: ElementRef;
 
   constructor(
+    public environment: EnvironmentService,
+    public authService: AuthService,
     private dialog: MatDialog,
     private bottomSheet: MatBottomSheet,
-    private userService: UserService,
     private mediaService: MediaService,
+    private systemEntityService: SystemEntityService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+  }
+
+  ngOnChanges() {
+    if (this.followers) {
+      if (this.followers.find((e) => e.id === this.authService.activeSystemEntityValue.id)) {
+        this.isFollowing = true;
+      }
+    }
   }
 
   follow() {
-    this.isFollowing = true;
+    this.systemEntityService.follow(this.group.id).subscribe(
+      () => {
+        this.isFollowing = true;
+        this.followers.push(this.authService.activeSystemEntityValue);
+      },
+      () => {
+        this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+          ErrorDialogComponent,
+          {
+            data: {
+              text: 'Something unexpected happened'
+            }
+          }
+        );
+      }
+    );
   }
 
   unfollow() {
@@ -54,41 +84,62 @@ export class GroupHeaderComponent implements OnInit {
     confirmDialog.afterClosed().subscribe(
       (confirmed) => {
         if (confirmed) {
-          this.isFollowing = false;
+          this.systemEntityService.unfollow(this.group.id).subscribe(
+            () => {
+              this.isFollowing = false;
+              const index = this.followers.findIndex((e) => e.id === this.authService.activeSystemEntityValue.id);
+              if (index !== -1) {
+                this.followers.splice(index, 1);
+              }
+            },
+            () => {
+              this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+                ErrorDialogComponent,
+                {
+                  data: {
+                    text: 'Something unexpected happened'
+                  }
+                }
+              );
+            }
+          );
         }
       }
     );
   }
 
   seeFollowers() {
-    const followersDialog = this.dialog.open<UserListDialogComponent, UserListDialogComponentData, boolean>(
+    this.dialog.open<UserListDialogComponent, UserListDialogComponentData, boolean>(
       UserListDialogComponent,
       {
         data: {
           title: 'Followers',
           systemEntities: this.followers
         },
-        autoFocus: false
+        autoFocus: false,
+        minWidth: '300px'
       }
     );
   }
 
   seeFollowing() {
-    const followingDialog = this.dialog.open<UserListDialogComponent, UserListDialogComponentData, boolean>(
+    this.dialog.open<UserListDialogComponent, UserListDialogComponentData, boolean>(
       UserListDialogComponent,
       {
         data: {
           title: 'Following',
           systemEntities: this.following
         },
-        autoFocus: false
+        autoFocus: false,
+        minWidth: '300px'
       }
     );
   }
 
-  editCoverPicture() {
-    const oldImage = this.group.coverImage;
-    this.group.coverImage = this.renderedImage;
+  editCoverPicture(image: File) {
+    this.coverPreviewMode = true;
+    const oldImage = this.group.coverImagePath;
+    this.group.coverImagePath = this.renderedImage;
     const editCoverPictureBS = this.bottomSheet.open<ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData, boolean>(
       ConfirmActionBottomSheetComponent,
       {
@@ -101,17 +152,33 @@ export class GroupHeaderComponent implements OnInit {
     editCoverPictureBS.afterDismissed().subscribe(
       (confirmed) => {
         if (confirmed) {
-          // Call api
+          this.systemEntityService.changeImage(this.authService.activeSystemEntityValue.id, ImageType.Cover, image).subscribe(
+            () => { },
+            () => {
+              this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+                ErrorDialogComponent,
+                {
+                  data: {
+                    text: 'Unable to change cover picture, something unexpected happened'
+                  }
+                }
+              );
+              this.group.coverImagePath = oldImage;
+              this.coverPreviewMode = false;
+            }
+          );
         } else {
-          this.group.coverImage = oldImage;
+          this.group.coverImagePath = oldImage;
+          this.coverPreviewMode = false;
         }
       }
     );
   }
 
-  editProfilePicture() {
-    const oldImage = this.group.profileImage;
-    this.group.profileImage = this.renderedImage;
+  editProfilePicture(image: File) {
+    this.profilePreviewMode = true;
+    const oldImage = this.group.profileImagePath;
+    this.group.profileImagePath = this.renderedImage;
     const editProfilePictureBS = this.bottomSheet.open<ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData, boolean>(
       ConfirmActionBottomSheetComponent,
       {
@@ -124,15 +191,30 @@ export class GroupHeaderComponent implements OnInit {
     editProfilePictureBS.afterDismissed().subscribe(
       (confirmed) => {
         if (confirmed) {
-          // Call api
+          this.systemEntityService.changeImage(this.authService.activeSystemEntityValue.id, ImageType.Profile, image).subscribe(
+            () => { },
+            () => {
+              this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+                ErrorDialogComponent,
+                {
+                  data: {
+                    text: 'Unable to change profile picture, something unexpected happened'
+                  }
+                }
+              );
+              this.group.profileImagePath = oldImage;
+              this.profilePreviewMode = false;
+            }
+          );
         } else {
-          this.group.profileImage = oldImage;
+          this.group.profileImagePath = oldImage;
+          this.profilePreviewMode = false;
         }
       }
     );
   }
 
-  public addMedia(type: 'cover' | 'profile') {
+  public addMedia(type: string) {
     this.newMediaType = type;
     const mediaInput = this.mediaInput.nativeElement as HTMLInputElement;
     mediaInput.click();
@@ -151,13 +233,14 @@ export class GroupHeaderComponent implements OnInit {
 
     if (image) {
       this.renderedImage = image;
-      if (this.newMediaType === 'cover') {
-        this.editCoverPicture();
-      } else if (this.newMediaType === 'profile') {
-        this.editProfilePicture();
+      if (this.newMediaType === ImageType.Cover) {
+        this.editCoverPicture(images[0]);
+      } else if (this.newMediaType === ImageType.Profile) {
+        this.editProfilePicture(images[0]);
       }
     }
 
     mediaInput.value = null;
   }
+
 }

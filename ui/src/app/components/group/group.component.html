@@ -1,11 +1,21 @@
 <div class="group-container">
-	<app-group-header [group]="group"></app-group-header>
+	<app-group-header
+		[group]="group"
+		[followers]="followers"
+		[following]="following"
+	></app-group-header>
 	<mat-tab-group dynamicHeight>
 		<mat-tab label="Posts">
-			<app-feed></app-feed>
+			<app-feed
+				*ngIf="feedCompConfig"
+				[config]="feedCompConfig"
+			></app-feed>
 		</mat-tab>
 		<mat-tab label="Comments">
-			<app-comments-feed [systemEntity]="group"></app-comments-feed>
+			<app-comments-feed
+				*ngIf="group"
+				[systemEntity]="group"
+			></app-comments-feed>
 		</mat-tab>
 		<mat-tab label="About">
 			<div class="about-wrapper">

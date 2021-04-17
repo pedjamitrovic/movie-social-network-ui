@@ -7,9 +7,23 @@
 		multiple
 		hidden
 	>
-	<div class="cover-image">
-		<img [src]="group?.coverImage">
+	<div
+		*ngIf="!coverPreviewMode; else coverPreview"
+		class="cover-image"
+	>
+		<img
+			*ngIf="group?.coverImagePath; else coverPlaceholder"
+			[src]="environment.apiUrl + '\\' + group?.coverImagePath"
+		>
+		<ng-template #coverPlaceholder>
+			<img [src]="'assets/images/cover.jpg'">
+		</ng-template>
 	</div>
+	<ng-template #coverPreview>
+		<div class="cover-image">
+			<img [src]="group?.coverImagePath">
+		</div>
+	</ng-template>
 	<div class="profile-settings">
 		<button
 			mat-icon-button
@@ -19,11 +33,15 @@
 			<mat-icon>settings</mat-icon>
 		</button>
 		<mat-menu #profileSettings="matMenu">
-			<button mat-menu-item>
+			<button
+				*ngIf="group?.id !== authService?.activeSystemEntityValue?.id"
+				mat-menu-item
+			>
 				<mat-icon>report</mat-icon>
 				<span>Report group</span>
 			</button>
 			<button
+				*ngIf="group?.id === authService?.activeSystemEntityValue?.id"
 				mat-menu-item
 				(click)="addMedia('cover')"
 			>
@@ -31,6 +49,7 @@
 				<span>Change cover picture</span>
 			</button>
 			<button
+				*ngIf="group?.id === authService?.activeSystemEntityValue?.id"
 				mat-menu-item
 				(click)="addMedia('profile')"
 			>
@@ -39,16 +58,28 @@
 			</button>
 		</mat-menu>
 	</div>
-	<div class="profile-image">
-		<img [src]="group?.profileImage">
+	<div
+		*ngIf="!profilePreviewMode; else profilePreview"
+		class="profile-image"
+	>
+		<img
+			*ngIf="group?.profileImagePath; else profilePlaceholder"
+			[src]="environment.apiUrl + '\\' + group?.profileImagePath"
+		>
+		<ng-template #profilePlaceholder>
+			<img [src]="'assets/images/avatar.png'">
+		</ng-template>
 	</div>
+	<ng-template #profilePreview>
+		<div class="profile-image">
+			<img [src]="group?.profileImagePath">
+		</div>
+	</ng-template>
 	<div class="title">
-		<span>Sample group</span>
+		<span>{{group?.title}}</span>
 	</div>
 	<div class="subtitle">
-		<span>
-			MOVIE NITE @ PARTY ROYALE'S BIG SCREEN FEATURES INCEPTION
-		</span>
+		<span>{{group?.subtitle}}</span>
 	</div>
 	<div class="followers">
 		<button
@@ -56,17 +87,20 @@
 			color="primary"
 			(click)="seeFollowers()"
 		>
-			1204 followers
+			{{followers?.length || 0}} followers
 		</button>
 		<button
 			mat-button
 			color="primary"
 			(click)="seeFollowing()"
 		>
-			865 following
+			{{following?.length || 0}} following
 		</button>
 	</div>
-	<div class="follow">
+	<div
+		class="follow"
+		*ngIf="group?.id !== authService?.activeSystemEntityValue?.id"
+	>
 		<button
 			*ngIf="!isFollowing"
 			mat-flat-button

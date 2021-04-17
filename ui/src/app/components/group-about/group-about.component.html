@@ -3,6 +3,7 @@
 		<div class="card-header">
 			<h3 class="card-title">Bio</h3>
 			<button
+				*ngIf="authService?.activeSystemEntityValue?.id === group?.id"
 				mat-icon-button
 				color="primary"
 				(click)="editBio()"

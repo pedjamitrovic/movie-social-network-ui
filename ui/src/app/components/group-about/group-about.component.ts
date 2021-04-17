@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
 import { ChangeDescriptionCommand } from '@models/change-description-command';
+import { GroupVM } from '@models/group-vm.model';
 import { Group } from '@models/group.model';
 import { AuthService } from '@services/auth.service';
 import { SystemEntityService } from '@services/system-entity.service';
@@ -13,7 +14,7 @@ import { SystemEntityService } from '@services/system-entity.service';
   styleUrls: ['./group-about.component.scss']
 })
 export class GroupAboutComponent implements OnInit, OnChanges {
-  @Input() group: Group;
+  @Input() group: GroupVM;
   @Input() groups: Group[];
 
   showEmojiPicker = false;
@@ -25,8 +26,8 @@ export class GroupAboutComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
 
   constructor(
+    public authService: AuthService,
     private systemEntityService: SystemEntityService,
-    private authService: AuthService,
     private dialog: MatDialog,
   ) { }
 
@@ -34,7 +35,7 @@ export class GroupAboutComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(sc: SimpleChanges) {
-    if (sc.groups.currentValue) {
+    if (sc.groups && sc.groups.currentValue) {
       this.pagedGroups = this.groups.slice(0, this.pageSize);
       this.paginator.firstPage();
     }
@@ -86,6 +87,5 @@ export class GroupAboutComponent implements OnInit, OnChanges {
     this.pagedGroups = this.groups.slice(offset).slice(0, event.pageSize);
     this.pageSize = event.pageSize;
   }
-
 
 }
