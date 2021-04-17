@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CommentVM } from '@models/comment-vm.model';
-import { CreateCommentCommand } from '@models/create-comment-command';
+import { CreateCommentCommand } from '@models/create-comment-command.model';
 import { PagedList } from '@models/paged-list.model';
 import { CommonHttpService } from './common-http.service';
 import { EnvironmentService } from './environment.service';

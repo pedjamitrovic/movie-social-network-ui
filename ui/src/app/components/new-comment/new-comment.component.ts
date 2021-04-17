@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
 import { CommentVM } from '@models/comment-vm.model';
-import { CreateCommentCommand } from '@models/create-comment-command';
+import { CreateCommentCommand } from '@models/create-comment-command.model';
 import { PostVM } from '@models/post-vm.model';
 import { RenderedMedia } from '@models/rendered-media.model';
 import { AuthService } from '@services/auth.service';

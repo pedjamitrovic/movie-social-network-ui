@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CreateGroupCommand } from '@models/create-group-command.model';
 import { GroupVM } from '@models/group-vm.model';
 import { PagedList } from '@models/paged-list.model';
 import { CommonHttpService } from './common-http.service';
@@ -26,4 +27,9 @@ export class GroupService {
   getById(id: number) {
     return this.http.get<GroupVM>(`${this.apiUrl}/${id}`);
   }
+
+  create(command: CreateGroupCommand) {
+    return this.http.post<GroupVM>(`${this.apiUrl}`, command);
+  }
+
 }

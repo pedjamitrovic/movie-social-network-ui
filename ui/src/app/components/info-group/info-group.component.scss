@@ -16,7 +16,7 @@
     }
     .result-info {
       margin-left: 5px;
-      width: calc(100% - 60px);
+      width: calc(100% - 80px);
       height: 80px;
       display: flex;
       flex-direction: column;
@@ -33,6 +33,9 @@
         justify-content: space-between;
         font-size: 14px;
         font-weight: bold;
+        .admin {
+          color: #3f51b5;
+        }
       }
       .subtitle {
         font-size: 14px;

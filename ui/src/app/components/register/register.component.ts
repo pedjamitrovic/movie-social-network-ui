@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register(command).subscribe(
       (user: UserVM) => {
-        this.router.navigate([`/users/${user.id}`]);
+        this.router.navigate(['/users', user.id]);
       },
       (err) => {
         if (err.code) {

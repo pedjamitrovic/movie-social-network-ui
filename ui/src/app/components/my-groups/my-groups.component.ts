@@ -60,22 +60,11 @@ export class MyGroupsComponent implements OnInit {
   }
 
   createNewGroup() {
-    const createGroupDialog = this.dialog.open<CreateGroupDialogComponent, any, NewGroupCommand>(
+    this.dialog.open(
       CreateGroupDialogComponent,
       {
-        autoFocus: false
-      }
-    );
-    createGroupDialog.afterClosed().subscribe(
-      (command) => {
-        if (command) {
-          const group = this.groupService.generateGroup();
-          timer(1000).subscribe(
-            () => {
-              this.router.navigate(['/groups', group.id]);
-            }
-          );
-        }
+        autoFocus: false,
+        minWidth: '300px'
       }
     );
   }

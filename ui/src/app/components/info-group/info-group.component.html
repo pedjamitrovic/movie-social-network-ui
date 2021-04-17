@@ -14,7 +14,12 @@
 		<div class="result-info">
 			<div class="title">
 				<a [routerLink]="['/groups', group?.id]">{{group?.qualifiedName}}</a>
-				<span *ngIf="showAdminText">You are admin</span>
+				<span
+					class="admin"
+					*ngIf="showAdminText"
+				>
+					You are admin
+				</span>
 			</div>
 			<div class="subtitle">{{group?.subtitle}}</div>
 			<div class="description">{{group?.description}}</div>
