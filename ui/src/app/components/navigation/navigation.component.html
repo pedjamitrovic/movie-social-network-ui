@@ -107,7 +107,7 @@
 					<a
 						mat-button
 						class="right-side-avatar"
-						[routerLink]="['/users', authService?.activeSystemEntityValue?.id]"
+						[routerLink]="[authService?.activeSystemEntityValue?.discriminator === 'User' ? '/users' : '/groups', authService?.activeSystemEntityValue?.id]"
 					>
 						<img
 							*ngIf="authService?.activeSystemEntityValue?.profileImagePath; else profilePlaceholder"
