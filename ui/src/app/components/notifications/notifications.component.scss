@@ -1,5 +1,7 @@
 .notifications-container {
   margin: 10px;
+  max-width: 1000px;
+  margin: 0 auto;
   .notifications {
     color: black;
     .notification {

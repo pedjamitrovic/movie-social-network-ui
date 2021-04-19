@@ -97,12 +97,9 @@
 			{{following?.length || 0}} following
 		</button>
 	</div>
-	<div
-		class="follow"
-		*ngIf="group?.id !== authService?.activeSystemEntityValue?.id"
-	>
+	<div class="actions">
 		<button
-			*ngIf="!isFollowing"
+			*ngIf="group?.id !== authService?.activeSystemEntityValue?.id && !isFollowing"
 			mat-flat-button
 			color="primary"
 			(click)="follow()"
@@ -110,12 +107,28 @@
 			Follow
 		</button>
 		<button
-			*ngIf="isFollowing"
+			*ngIf="group?.id !== authService?.activeSystemEntityValue?.id && isFollowing"
 			mat-button
 			color="warn"
 			(click)="unfollow()"
 		>
 			Unfollow
+		</button>
+		<button
+			*ngIf="authService?.activeSystemEntityValue?.id === group?.id"
+			color="primary"
+			mat-button
+			(click)="switchFromGroup()"
+		>
+			Exit admin view
+		</button>
+		<button
+			*ngIf="authService?.activeSystemEntityValue?.id !== group?.id && group?.isAuthUserAdmin"
+			color="primary"
+			mat-button
+			(click)="switchToGroup()"
+		>
+			Switch to admin view
 		</button>
 	</div>
 </div>

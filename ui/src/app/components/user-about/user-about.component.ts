@@ -21,7 +21,7 @@ export class UserAboutComponent implements OnInit, OnChanges {
   editMode = false;
   command: ChangeDescriptionCommand;
   pagedGroups: Group[];
-  pageSize = 8;
+  pageSize = 9;
 
   @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
 

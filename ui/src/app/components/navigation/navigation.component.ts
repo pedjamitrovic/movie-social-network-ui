@@ -56,7 +56,6 @@ export class NavigationComponent implements OnInit {
   }
 
   switchContext() {
-    console.log(this.authService.authUserValue);
     if (this.authService.authUserValue.discriminator === 'Group') {
       this.authService.switchFromGroup();
     } else {

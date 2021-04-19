@@ -33,7 +33,6 @@ export class GroupComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
       (params) => {
-        console.log(params.id);
         if (isNaN(+params.id)) {
           this.router.navigate(['/not-found']);
           return;

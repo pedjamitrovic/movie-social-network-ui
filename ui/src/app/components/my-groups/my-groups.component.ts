@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { CreateGroupDialogComponent } from '@components/dialogs/create-group-dialog/create-group-dialog.component';
 import { NewGroupCommand } from '@models/new-group-command.model';
 import { SearchResult } from '@models/search-result.model';
+import { AuthService } from '@services/auth.service';
 import { GroupService } from '@services/group/group.service';
 import { SearchService } from '@services/search/search.service';
 import * as moment from 'moment';
@@ -25,6 +26,7 @@ export class MyGroupsComponent implements OnInit {
   fromNow: string;
 
   constructor(
+    public authService: AuthService,
     private searchService: SearchService,
     private groupService: GroupService,
     private router: Router,

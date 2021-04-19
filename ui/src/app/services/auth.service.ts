@@ -94,10 +94,7 @@ export class AuthService {
       fetchEntities.push(getGroupObs);
     }
 
-    return concat(...fetchEntities)
-      .pipe(
-        tap(() => console.log(this.authUserValue, this.loggedUserValue, this.activeSystemEntityValue))
-      );
+    return concat(...fetchEntities);
   }
 
   login(command: LoginCommand) {
@@ -158,7 +155,7 @@ export class AuthService {
   switchFromGroup() {
     localStorage.removeItem(Constants.MSN_AUTH_GROUP_KEY);
     this.authGroupSubject.next(null);
-    this.initAuthUser().subscribe();
+    this.initAuthUser().subscribe(() => this.router.navigate(['users', this.loggedUserValue.id]));
   }
 
   logout() {

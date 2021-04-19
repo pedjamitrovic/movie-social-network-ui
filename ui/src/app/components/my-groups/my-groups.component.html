@@ -2,6 +2,7 @@
 	<h3>My groups</h3>
 	<div class="new-group-container">
 		<button
+			*ngIf="authService?.activeSystemEntityValue?.discriminator === 'User'"
 			class="new-group-button"
 			mat-button
 			color="primary"

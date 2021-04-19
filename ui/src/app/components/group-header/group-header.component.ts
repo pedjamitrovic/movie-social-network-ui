@@ -51,6 +51,14 @@ export class GroupHeaderComponent implements OnInit, OnChanges {
     }
   }
 
+  switchToGroup() {
+    this.authService.switchToGroup(this.group.id).subscribe();
+  }
+
+  switchFromGroup() {
+    this.authService.switchFromGroup();
+  }
+
   follow() {
     this.systemEntityService.follow(this.group.id).subscribe(
       () => {
@@ -214,7 +222,7 @@ export class GroupHeaderComponent implements OnInit, OnChanges {
     );
   }
 
-  public addMedia(type: string) {
+  addMedia(type: string) {
     this.newMediaType = type;
     const mediaInput = this.mediaInput.nativeElement as HTMLInputElement;
     mediaInput.click();

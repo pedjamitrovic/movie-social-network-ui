@@ -7,7 +7,7 @@
 		[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
 		[mode]="'over'"
 	>
-		<mat-toolbar>Menu</mat-toolbar>
+		<mat-toolbar>MSN</mat-toolbar>
 		<mat-nav-list>
 			<a
 				mat-list-item
@@ -70,6 +70,8 @@
 					class="right-side"
 				>
 					<button
+						*ngIf="authService?.activeSystemEntityValue?.discriminator === 'Group'"
+						[matTooltip]="'Switch back to ' + authService?.loggedUserValue?.qualifiedName"
 						class="right-side-action"
 						mat-icon-button
 						(click)="switchContext()"
@@ -77,6 +79,7 @@
 						<mat-icon>loop</mat-icon>
 					</button>
 					<button
+						matTooltip="Notifications"
 						class="right-side-action"
 						mat-icon-button
 						(click)="toggleNotificationMenu()"
@@ -92,6 +95,7 @@
 						</mat-icon>
 					</button>
 					<button
+						matTooltip="Chat"
 						class="right-side-action"
 						mat-icon-button
 						[routerLink]="['/chat']"
@@ -105,6 +109,7 @@
 						</mat-icon>
 					</button>
 					<a
+						[matTooltip]="authService?.activeSystemEntityValue?.qualifiedName"
 						mat-button
 						class="right-side-avatar"
 						[routerLink]="[authService?.activeSystemEntityValue?.discriminator === 'User' ? '/users' : '/groups', authService?.activeSystemEntityValue?.id]"
