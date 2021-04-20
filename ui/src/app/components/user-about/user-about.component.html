@@ -75,17 +75,17 @@
 		</mat-card-content>
 	</mat-card>
 	<mat-card>
-		<h3>Groups</h3>
+		<h3>Group membership</h3>
 		<div class="groups-container">
 			<mat-card
 				class="group-card"
-				*ngFor="let group of pagedGroups"
+				*ngFor="let group of pagedList?.items"
 			>
 				<mat-card-header>
 					<mat-card-title>
 						<a
 							class="group-title"
-							[routerLink]="['/groups/', group?.id]"
+							[routerLink]="['/groups', group?.id]"
 						>
 							{{group?.title}}
 						</a>
@@ -93,21 +93,35 @@
 					<mat-card-subtitle>{{group?.subtitle}}</mat-card-subtitle>
 				</mat-card-header>
 				<img
+					*ngIf="group?.profileImagePath; else profilePlaceholder"
+					[src]="environment.apiUrl + '\\' + group?.profileImagePath"
 					mat-card-image
-					src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-					alt="Photo of a Shiba Inu"
 				>
+				<ng-template #profilePlaceholder>
+					<img
+						[src]="'assets/images/avatar.png'"
+						mat-card-image
+					>
+				</ng-template>
 				<mat-card-content>
 					<p class="group-description">{{group?.description}}</p>
 				</mat-card-content>
 			</mat-card>
 		</div>
-		<mat-paginator
-			[pageSizeOptions]="[1,2,3,6,9,18]"
-			[pageSize]="pageSize"
-			[length]="groups?.length"
-			[showFirstLastButtons]="true"
-			(page)="pageChangeEvent($event)"
-		></mat-paginator>
+		<div [hidden]="!pagedList?.totalCount">
+			<mat-paginator
+				[pageSizeOptions]="[1,2,4,8,10,20]"
+				[pageSize]="paging?.pageSize"
+				[length]="pagedList?.totalCount"
+				[showFirstLastButtons]="true"
+				(page)="pageChangeEvent($event)"
+			></mat-paginator>
+		</div>
+		<div
+			class="no-results"
+			[hidden]="loading || pagedList?.totalCount"
+		>
+			No group memberships.
+		</div>
 	</mat-card>
 </div>

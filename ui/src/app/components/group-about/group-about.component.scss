@@ -48,16 +48,13 @@
   }
   .groups-container {
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(auto-fill, minmax(282px, 1fr));
     grid-gap: 10px;
-    @media only screen and (max-width: 900px) {
-      grid-template-columns: repeat(2, auto);
-    }
-    @media only screen and (max-width: 767px) {
-      grid-template-columns: auto;
-    }
     .group-card {
-      margin: 0;
+      img {
+        height: 282px;
+        object-fit: cover;
+      }
       .group-title {
         width: 200px;
         white-space: nowrap;
@@ -72,5 +69,8 @@
         -webkit-box-orient: vertical;
       }
     }
+  }
+  .no-results {
+    text-align: center;
   }
 }

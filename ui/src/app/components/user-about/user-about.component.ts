@@ -1,11 +1,15 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
 import { ChangeDescriptionCommand } from '@models/change-description-command';
-import { Group } from '@models/group.model';
+import { GroupVM } from '@models/group-vm.model';
+import { PagedList } from '@models/paged-list.model';
+import { Paging } from '@models/paging.model';
 import { UserVM } from '@models/user-vm.model';
 import { AuthService } from '@services/auth.service';
+import { EnvironmentService } from '@services/environment.service';
+import { GroupService } from '@services/group.service';
 import { SystemEntityService } from '@services/system-entity.service';
 
 @Component({
@@ -13,32 +17,42 @@ import { SystemEntityService } from '@services/system-entity.service';
   templateUrl: './user-about.component.html',
   styleUrls: ['./user-about.component.scss']
 })
-export class UserAboutComponent implements OnInit, OnChanges {
-  @Input() user: UserVM;
-  @Input() groups: Group[];
+export class UserAboutComponent implements OnInit {
+  @Input() set user(v: UserVM) {
+    this._user = v;
+    if (this._user) {
+      this.search();
+    }
+  }
+  get user(): UserVM {
+    return this._user;
+  }
 
   showEmojiPicker = false;
   editMode = false;
   command: ChangeDescriptionCommand;
-  pagedGroups: Group[];
-  pageSize = 9;
+  paging: Paging;
+  pagedList: PagedList<GroupVM>;
+  loading = false;
+
+  private _user: UserVM;
 
   @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
 
   constructor(
     public authService: AuthService,
+    public environment: EnvironmentService,
     private systemEntityService: SystemEntityService,
     private dialog: MatDialog,
+    private groupService: GroupService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
-  ngOnChanges(sc: SimpleChanges) {
-    if (sc.groups && sc.groups.currentValue) {
-      this.pagedGroups = this.groups.slice(0, this.pageSize);
-      this.paginator.firstPage();
-    }
+  init() {
+    this.paging = new Paging();
+    this.pagedList = null;
   }
 
   editBio() {
@@ -83,9 +97,45 @@ export class UserAboutComponent implements OnInit, OnChanges {
   }
 
   pageChangeEvent(event: PageEvent) {
-    const offset = ((event.pageIndex + 1) - 1) * event.pageSize;
-    this.pagedGroups = this.groups.slice(offset).slice(0, event.pageSize);
-    this.pageSize = event.pageSize;
+    this.paging.pageNumber = event.pageIndex + 1;
+    this.paging.pageSize = event.pageSize;
+    if (event.previousPageIndex === event.pageIndex) {
+      this.paginator.firstPage();
+    }
+    this.pageChange();
+  }
+
+  pageChange() {
+    this.loading = true;
+
+    this.getGroups();
+  }
+
+  search() {
+    if (this.loading) { return; }
+
+    this.loading = true;
+
+    this.init();
+
+    this.getGroups();
+
+    if (this.paginator) this.paginator.firstPage();
+  }
+
+  getGroups() {
+    const queryParams: any = {
+      ...this.paging,
+      followerId: this.user.id
+    };
+
+    this.groupService.getList(queryParams).subscribe(
+      (pagedList) => {
+        this.pagedList = pagedList;
+        this.loading = false;
+      },
+      () => this.loading = false
+    );
   }
 
 }

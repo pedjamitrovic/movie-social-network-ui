@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Group } from '@models/group.model';
+import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
+import { FeedCompConfig } from '@models/feed-comp-config';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { UserVM } from '@models/user-vm.model';
-import { GroupService } from '@services/group/group.service';
+import { SystemEntityService } from '@services/system-entity.service';
 import { UserService } from '@services/user/user.service';
 import { forkJoin } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
-import { SystemEntityService } from '@services/system-entity.service';
-import { FeedCompConfig } from '@models/feed-comp-config';
 
 @Component({
   selector: 'app-user',
@@ -20,12 +18,10 @@ export class UserComponent implements OnInit {
   user: UserVM;
   followers: SystemEntityVM[];
   following: SystemEntityVM[];
-  groups: Group[];
   feedCompConfig: FeedCompConfig;
 
   constructor(
     private userService: UserService,
-    private groupService: GroupService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private systemEntityService: SystemEntityService,
@@ -63,7 +59,6 @@ export class UserComponent implements OnInit {
             );
           }
         );
-        this.groupService.getGroups().subscribe(groups => this.groups = groups);
       }
     )
   }
