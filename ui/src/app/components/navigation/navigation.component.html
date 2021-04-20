@@ -34,6 +34,7 @@
 				Search
 			</a>
 			<a
+				*ngIf="authService?.activeSystemEntityValue.discriminator === 'User'"
 				mat-list-item
 				routerLink="/groups"
 				(click)="drawer.toggle()"

@@ -39,6 +39,7 @@ export class SearchComponent implements OnInit {
         searchKind: new FormControl(SearchResult.KindEnum.User),
       }
     );
+    this.search();
   }
 
   init() {
@@ -95,7 +96,7 @@ export class SearchComponent implements OnInit {
         this.getComments();
         break;
     }
-    this.paginator.firstPage();
+    if (this.paginator) this.paginator.firstPage();
   }
 
   getUsers() {

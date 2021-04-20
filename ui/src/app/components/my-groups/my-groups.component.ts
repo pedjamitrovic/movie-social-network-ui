@@ -1,17 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Router } from '@angular/router';
 import { CreateGroupDialogComponent } from '@components/dialogs/create-group-dialog/create-group-dialog.component';
-import { NewGroupCommand } from '@models/new-group-command.model';
+import { PagedList } from '@models/paged-list.model';
+import { Paging } from '@models/paging.model';
 import { SearchResult } from '@models/search-result.model';
 import { AuthService } from '@services/auth.service';
-import { GroupService } from '@services/group/group.service';
-import { SearchService } from '@services/search/search.service';
-import * as moment from 'moment';
-import { timer } from 'rxjs';
-
+import { GroupService } from '@services/group.service';
 @Component({
   selector: 'app-my-groups',
   templateUrl: './my-groups.component.html',
@@ -19,45 +15,76 @@ import { timer } from 'rxjs';
 })
 export class MyGroupsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
   searchForm: FormGroup;
-  searchResults: SearchResult[] = [];
-  pagedSearchResults: SearchResult[];
-  pageSize = 10;
-  fromNow: string;
+
+  paging: Paging;
+  pagedList: PagedList<SearchResult>;
+  loading = false;
 
   constructor(
     public authService: AuthService,
-    private searchService: SearchService,
     private groupService: GroupService,
-    private router: Router,
-    private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
-    this.searchForm = new FormGroup({
-      searchText: new FormControl(''),
-    });
-    this.fromNow = moment(new Date()).fromNow();
+    this.init();
+    this.searchForm = new FormGroup(
+      {
+        searchText: new FormControl(''),
+      }
+    );
     this.search();
   }
 
+  init() {
+    this.paging = new Paging();
+    this.pagedList = null;
+  }
+
   pageChangeEvent(event: PageEvent) {
-    const offset = ((event.pageIndex + 1) - 1) * event.pageSize;
-    this.pagedSearchResults = this.searchResults.slice(offset).slice(0, event.pageSize);
-    this.pageSize = event.pageSize;
+    this.paging.pageNumber = event.pageIndex + 1;
+    this.paging.pageSize = event.pageSize;
+    if (event.previousPageIndex === event.pageIndex) {
+      this.paginator.firstPage();
+    }
+    this.pageChange();
+  }
+
+  pageChange() {
+    this.loading = true;
+
+    this.getGroups();
   }
 
   search() {
-    const kinds = [];
-    kinds.push(SearchResult.KindEnum.Group);
-    this.searchService.search(this.searchForm.controls.searchText.value, kinds).subscribe(
-      (results) => {
-        this.searchResults = results;
-        this.pagedSearchResults = this.searchResults.slice(0, this.pageSize);
-        this.cdr.detectChanges();
-        this.paginator.firstPage();
-      }
+    if (this.loading) { return; }
+
+    this.loading = true;
+
+    this.init();
+
+    this.getGroups();
+
+    if (this.paginator) this.paginator.firstPage();
+  }
+
+  getGroups() {
+    const queryParams: any = {
+      ...this.paging,
+      adminId: this.authService.activeSystemEntityValue.id
+    };
+
+    if (this.searchForm.controls.searchText.value) { queryParams.q = this.searchForm.controls.searchText.value; }
+
+    this.groupService.getList(queryParams).subscribe(
+      (pagedList) => {
+        const searchResults: SearchResult[] = pagedList.items.map(e => ({ kind: SearchResult.KindEnum.Group, result: e }));
+        this.pagedList = Object.assign({}, pagedList, { items: searchResults });
+        this.loading = false;
+      },
+      () => this.loading = false
     );
   }
 

@@ -1,7 +1,7 @@
 .search-container {
   margin: 10px;
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 10px auto;
   .search-form {
     display: flex;
     justify-content: center;
@@ -27,6 +27,13 @@
         margin-right: 5px;
       }
     }
+  }
+  .no-results {
+    text-align: center;
+  }
+  .spinner-container {
+    display: flex;
+    justify-content: center;
   }
   .search-results {
     color: black;

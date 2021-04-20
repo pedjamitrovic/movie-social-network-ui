@@ -35,24 +35,36 @@
 		</button>
 	</form>
 	<div class="search-results">
-		<ng-container *ngFor="let searchResult of pagedSearchResults">
+		<ng-container *ngFor="let searchResult of pagedList?.items">
 			<ng-container [ngSwitch]="searchResult.kind">
 				<ng-container *ngSwitchCase="'group'">
 					<app-info-group
 						[group]="searchResult.result"
-						[showAdminText]="true"
+						[showAdminText]="searchResult.result.isAuthUserAdmin"
 					></app-info-group>
 				</ng-container>
 			</ng-container>
 		</ng-container>
 	</div>
-	<div [hidden]="!searchResults?.length">
+	<div [hidden]="!pagedList?.totalCount">
 		<mat-paginator
 			[pageSizeOptions]="[1,2,4,8,10,20]"
-			[pageSize]="pageSize"
-			[length]="searchResults?.length"
+			[pageSize]="paging?.pageSize"
+			[length]="pagedList?.totalCount"
 			[showFirstLastButtons]="true"
 			(page)="pageChangeEvent($event)"
 		></mat-paginator>
+	</div>
+	<div
+		class="no-results"
+		[hidden]="loading || pagedList?.totalCount"
+	>
+		No results found.
+	</div>
+	<div
+		class="spinner-container"
+		*ngIf="loading"
+	>
+		<mat-spinner></mat-spinner>
 	</div>
 </mat-card>

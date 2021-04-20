@@ -40,7 +40,10 @@
 					<app-info-user [user]="searchResult.result"></app-info-user>
 				</ng-container>
 				<ng-container *ngSwitchCase="'group'">
-					<app-info-group [group]="searchResult.result"></app-info-group>
+					<app-info-group
+						[group]="searchResult.result"
+						[showAdminText]="searchResult.result.isAuthUserAdmin"
+					></app-info-group>
 				</ng-container>
 				<ng-container *ngSwitchCase="'post'">
 					<app-info-post [post]="searchResult.result"></app-info-post>
@@ -59,5 +62,17 @@
 			[showFirstLastButtons]="true"
 			(page)="pageChangeEvent($event)"
 		></mat-paginator>
+	</div>
+	<div
+		class="no-results"
+		[hidden]="loading || pagedList?.totalCount"
+	>
+		No results found.
+	</div>
+	<div
+		class="spinner-container"
+		*ngIf="loading"
+	>
+		<mat-spinner></mat-spinner>
 	</div>
 </mat-card>
