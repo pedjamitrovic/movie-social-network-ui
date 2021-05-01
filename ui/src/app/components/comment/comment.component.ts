@@ -41,12 +41,10 @@ export class CommentComponent implements OnInit {
   }
 
   calcScore() {
-    const likes = this._comment.reactionStats.find((e) => e.value === ReactionType.Like)?.count || 0;
-    const dislikes = this._comment.reactionStats.find((e) => e.value === ReactionType.Dislike)?.count || 0;
+    const likes = this._comment.reactionStats?.find((e) => e.value === ReactionType.Like)?.count || 0;
+    const dislikes = this._comment.reactionStats?.find((e) => e.value === ReactionType.Dislike)?.count || 0;
     this.score = likes - dislikes;
   }
-
-
 
   like() {
     const reactionValue = this._comment.existingReaction?.value === ReactionType.Like ? ReactionType.None : ReactionType.Like;

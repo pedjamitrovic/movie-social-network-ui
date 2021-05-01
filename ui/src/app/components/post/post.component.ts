@@ -80,8 +80,8 @@ export class PostComponent implements OnInit {
   }
 
   calcScore() {
-    const likes = this._post.reactionStats.find((e) => e.value === ReactionType.Like)?.count || 0;
-    const dislikes = this._post.reactionStats.find((e) => e.value === ReactionType.Dislike)?.count || 0;
+    const likes = this._post.reactionStats?.find((e) => e.value === ReactionType.Like)?.count || 0;
+    const dislikes = this._post.reactionStats?.find((e) => e.value === ReactionType.Dislike)?.count || 0;
     this.score = likes - dislikes;
   }
 
