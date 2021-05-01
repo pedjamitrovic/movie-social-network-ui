@@ -63,14 +63,30 @@
 	<div class="comment-text">{{ comment?.text }}</div>
 	<div class="comment-activity">
 		<div class="comment-reactions">
-			{{ (score | shortNumber) || '0' }} people like this
+			<span
+				class="score-text"
+				[matTooltip]="'Score'"
+			>
+				{{ (score | shortNumber) || '0' }}
+			</span>
+			<div class="actions">
+				<button
+					mat-icon-button
+					[color]="liked? 'accent': 'primary'"
+					[matTooltip]="'Like'"
+					(click)="like()"
+				>
+					<mat-icon>thumb_up</mat-icon>
+				</button>
+				<button
+					mat-icon-button
+					[color]="disliked? 'accent': 'primary'"
+					[matTooltip]="'Dislike'"
+					(click)="dislike()"
+				>
+					<mat-icon>thumb_down</mat-icon>
+				</button>
+			</div>
 		</div>
-	</div>
-	<div class="component-actions">
-		<app-comment-actions
-			(actionActivated)="actionActivated($event)"
-			[liked]="liked"
-			[disliked]="disliked"
-		></app-comment-actions>
 	</div>
 </div>

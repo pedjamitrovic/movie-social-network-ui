@@ -1,11 +1,13 @@
 <div class="comment-preview-container">
-	<mat-card class="comment-wrapper">
+	<mat-card>
 		<div class="navigate-to-post-container">
 			<a [routerLink]="['/posts', comment?.postId]">Navigate to linked post</a>
 		</div>
-		<app-comment
-			*ngIf="comment"
-			[comment]="comment"
-		></app-comment>
+		<div class="comment-wrapper">
+			<app-comment
+				*ngIf="comment"
+				[comment]="comment"
+			></app-comment>
+		</div>
 	</mat-card>
 </div>

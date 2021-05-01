@@ -10,21 +10,22 @@ import * as moment from 'moment';
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
-  @Input() public set comment(v: CommentVM) {
+  @Input() set comment(v: CommentVM) {
     this._comment = v;
     if (this._comment) {
       this.fromNow = moment(this._comment.createdOn).fromNow();
     }
   }
-  public get comment(): CommentVM {
+  get comment(): CommentVM {
     return this._comment;
   }
+  @Input() padded = false;
 
   date = new Date();
   fromNow: string;
-  public liked = false;
-  public disliked = false;
-  public score = 0;
+  liked = false;
+  disliked = false;
+  score = 0;
 
   private _comment: CommentVM;
 
@@ -36,7 +37,7 @@ export class CommentComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public like() {
+  like() {
     this.liked = !this.liked;
     if (this.liked) {
       this.disliked = false;
@@ -46,26 +47,13 @@ export class CommentComponent implements OnInit {
     }
   }
 
-  public dislike() {
+  dislike() {
     this.disliked = !this.disliked;
     if (this.disliked) {
       this.liked = false;
       //this.comment.reactions.pop();
     } else {
       //this.comment.reactions.push({});
-    }
-  }
-
-  public actionActivated(action: string) {
-    switch (action) {
-      case 'like':
-        this.like();
-        break;
-      case 'dislike':
-        this.dislike();
-        break;
-      default:
-        break;
     }
   }
 

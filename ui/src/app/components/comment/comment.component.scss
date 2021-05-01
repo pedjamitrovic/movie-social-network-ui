@@ -1,7 +1,5 @@
 .comment {
   min-height: 100px;
-  margin: 10px;
-  padding: 16px;
   .comment-header {
     display: flex;
     .comment-avatar {
@@ -31,11 +29,22 @@
   }
   .comment-activity {
     display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    .comment-reactions:hover {
-      cursor: pointer;
-      opacity: 0.9;
+    justify-content: flex-start;
+    padding: 5px;
+    .comment-reactions {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .actions {
+        button {
+          margin: 0 5px;
+        }
+      }
+      .score-text {
+        font-size: 16px;
+        font-weight: bold;
+      }
     }
   }
   .comment-text {

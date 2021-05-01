@@ -4,11 +4,12 @@
   align-items: stretch;
   max-width: 1000px;
   margin: 0 auto;
-  .comment-wrapper {
-    margin: 10px;
-  }
+  padding: 10px;
   .navigate-to-post-container {
     display: flex;
     justify-content: flex-start;
+  }
+  .comment-wrapper {
+    padding: 10px;
   }
 }

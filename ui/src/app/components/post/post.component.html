@@ -132,10 +132,13 @@
 			(commentCreated)="commentCreated($event)"
 		></app-new-comment>
 		<mat-divider></mat-divider>
-		<app-comment
+		<div
+			class="comment-wrapper"
 			*ngFor="let comment of comments"
-			[comment]="comment"
-		></app-comment>
+		>
+			<app-comment [comment]="comment"></app-comment>
+			<mat-divider></mat-divider>
+		</div>
 		<div class="load-more-container">
 			<button
 				*ngIf="pagedList && this.paging.pageNumber <= this.pagedList.totalPages"
