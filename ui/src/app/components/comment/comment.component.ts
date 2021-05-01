@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommentVM } from '@models/comment-vm.model';
+import { ReactionType } from '@models/reaction-type.model';
+import { ReactionVM } from '@models/reaction-vm-model';
 import { AuthService } from '@services/auth.service';
+import { ContentService } from '@services/content.service';
 import { EnvironmentService } from '@services/environment.service';
 import * as moment from 'moment';
 
@@ -23,8 +26,6 @@ export class CommentComponent implements OnInit {
 
   date = new Date();
   fromNow: string;
-  liked = false;
-  disliked = false;
   score = 0;
 
   private _comment: CommentVM;
@@ -32,29 +33,71 @@ export class CommentComponent implements OnInit {
   constructor(
     public environment: EnvironmentService,
     public authService: AuthService,
+    private contentService: ContentService,
   ) { }
 
   ngOnInit(): void {
+    this.calcScore();
   }
 
+  calcScore() {
+    const likes = this._comment.reactionStats.find((e) => e.value === ReactionType.Like)?.count || 0;
+    const dislikes = this._comment.reactionStats.find((e) => e.value === ReactionType.Dislike)?.count || 0;
+    this.score = likes - dislikes;
+  }
+
+
+
   like() {
-    this.liked = !this.liked;
-    if (this.liked) {
-      this.disliked = false;
-      //this.comment.reactions.push({});
-    } else {
-      //this.comment.reactions.pop();
-    }
+    const reactionValue = this._comment.existingReaction?.value === ReactionType.Like ? ReactionType.None : ReactionType.Like;
+
+    this.contentService.react(this._comment.id, { value: reactionValue })
+      .subscribe(
+        (reactionVM: ReactionVM) => {
+          if (this._comment.existingReaction) {
+            this._comment.reactionStats.find(e => e.value === this._comment.existingReaction.value).count--;
+          }
+
+          this._comment.existingReaction = reactionVM;
+
+          let reactionStat = this._comment.reactionStats.find(e => e.value === reactionVM.value);
+
+          if (reactionStat) {
+            reactionStat.count++;
+          } else {
+            reactionStat = { value: reactionVM.value, count: 1 };
+            this._comment.reactionStats.push(reactionStat);
+          }
+
+          this.calcScore();
+        }
+      );
   }
 
   dislike() {
-    this.disliked = !this.disliked;
-    if (this.disliked) {
-      this.liked = false;
-      //this.comment.reactions.pop();
-    } else {
-      //this.comment.reactions.push({});
-    }
+    const reactionValue = this._comment.existingReaction?.value === ReactionType.Dislike ? ReactionType.None : ReactionType.Dislike;
+
+    this.contentService.react(this._comment.id, { value: reactionValue })
+      .subscribe(
+        (reactionVM: ReactionVM) => {
+          if (this._comment.existingReaction) {
+            this._comment.reactionStats.find(e => e.value === this._comment.existingReaction.value).count--;
+          }
+
+          this._comment.existingReaction = reactionVM;
+
+          let reactionStat = this._comment.reactionStats.find(e => e.value === reactionVM.value);
+
+          if (reactionStat) {
+            reactionStat.count++;
+          } else {
+            reactionStat = { value: reactionVM.value, count: 1 };
+            this._comment.reactionStats.push(reactionStat);
+          }
+
+          this.calcScore();
+        }
+      );
   }
 
   urlToClipboard() {

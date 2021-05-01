@@ -72,7 +72,7 @@
 			<div class="actions">
 				<button
 					mat-icon-button
-					[color]="liked? 'accent': 'primary'"
+					[color]="comment?.existingReaction?.value === 1 ? 'accent': 'primary'"
 					[matTooltip]="'Like'"
 					(click)="like()"
 				>
@@ -80,7 +80,7 @@
 				</button>
 				<button
 					mat-icon-button
-					[color]="disliked? 'accent': 'primary'"
+					[color]="comment?.existingReaction?.value === 2 ? 'accent': 'primary'"
 					[matTooltip]="'Dislike'"
 					(click)="dislike()"
 				>

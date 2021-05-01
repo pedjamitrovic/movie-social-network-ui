@@ -3,9 +3,12 @@ import { CommentVM } from '@models/comment-vm.model';
 import { PagedList } from '@models/paged-list.model';
 import { Paging } from '@models/paging.model';
 import { PostVM } from '@models/post-vm.model';
+import { ReactionType } from '@models/reaction-type.model';
+import { ReactionVM } from '@models/reaction-vm-model';
 import { RenderedMedia } from '@models/rendered-media.model';
 import { AuthService } from '@services/auth.service';
 import { CommentService } from '@services/comment.service';
+import { ContentService } from '@services/content.service';
 import { EnvironmentService } from '@services/environment.service';
 import { MediaService } from '@services/media/media.service';
 import { Constants } from '@util/constants';
@@ -27,8 +30,6 @@ export class PostComponent implements OnInit {
 
   fromNow: string;
   commentsExpanded = false;
-  liked = false;
-  disliked = false;
   renderedMedia: RenderedMedia;
   youtubeUrl: string;
   score = 0;
@@ -44,6 +45,7 @@ export class PostComponent implements OnInit {
     public authService: AuthService,
     private mediaService: MediaService,
     private commentService: CommentService,
+    private contentService: ContentService,
   ) { }
 
   ngOnInit() {
@@ -51,6 +53,8 @@ export class PostComponent implements OnInit {
 
   async initData() {
     if (!this._post) { return; }
+
+    this.calcScore();
 
     this.getComments();
 
@@ -75,24 +79,62 @@ export class PostComponent implements OnInit {
     }
   }
 
+  calcScore() {
+    const likes = this._post.reactionStats.find((e) => e.value === ReactionType.Like)?.count || 0;
+    const dislikes = this._post.reactionStats.find((e) => e.value === ReactionType.Dislike)?.count || 0;
+    this.score = likes - dislikes;
+  }
+
   like() {
-    this.liked = !this.liked;
-    if (this.liked) {
-      this.disliked = false;
-      // this.post.reactions.push({});
-    } else {
-      // this.post.reactions.pop();
-    }
+    const reactionValue = this._post.existingReaction?.value === ReactionType.Like ? ReactionType.None : ReactionType.Like;
+
+    this.contentService.react(this._post.id, { value: reactionValue })
+      .subscribe(
+        (reactionVM: ReactionVM) => {
+          if (this._post.existingReaction) {
+            this._post.reactionStats.find(e => e.value === this._post.existingReaction.value).count--;
+          }
+
+          this._post.existingReaction = reactionVM;
+
+          let reactionStat = this._post.reactionStats.find(e => e.value === reactionVM.value);
+
+          if (reactionStat) {
+            reactionStat.count++;
+          } else {
+            reactionStat = { value: reactionVM.value, count: 1 };
+            this._post.reactionStats.push(reactionStat);
+          }
+
+          this.calcScore();
+        }
+      );
   }
 
   dislike() {
-    this.disliked = !this.disliked;
-    if (this.disliked) {
-      this.liked = false;
-      // this.post.reactions.push({});
-    } else {
-      // this.post.reactions.pop();
-    }
+    const reactionValue = this._post.existingReaction?.value === ReactionType.Dislike ? ReactionType.None : ReactionType.Dislike;
+
+    this.contentService.react(this._post.id, { value: reactionValue })
+      .subscribe(
+        (reactionVM: ReactionVM) => {
+          if (this._post.existingReaction) {
+            this._post.reactionStats.find(e => e.value === this._post.existingReaction.value).count--;
+          }
+
+          this._post.existingReaction = reactionVM;
+
+          let reactionStat = this._post.reactionStats.find(e => e.value === reactionVM.value);
+
+          if (reactionStat) {
+            reactionStat.count++;
+          } else {
+            reactionStat = { value: reactionVM.value, count: 1 };
+            this._post.reactionStats.push(reactionStat);
+          }
+
+          this.calcScore();
+        }
+      );
   }
 
   toggleComments() {
