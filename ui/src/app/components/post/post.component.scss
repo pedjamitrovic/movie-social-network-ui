@@ -30,15 +30,23 @@
   .post-activity {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
-    .post-comments:hover,
-    .post-reactions:hover {
-      cursor: pointer;
-      opacity: 0.9;
+    padding: 5px;
+    .post-comments,
+    .post-reactions {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .actions {
+        button {
+          margin: 0 5px;
+        }
+      }
+      .score-text {
+        font-size: 16px;
+        font-weight: bold;
+      }
     }
-  }
-  .post-actions {
-    margin-bottom: 5px;
   }
   .post-text {
     padding: 10px;

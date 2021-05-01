@@ -60,8 +60,16 @@
 			</button>
 		</mat-menu>
 	</div>
-	<div class="post-text">{{ post?.text }}</div>
-	<div class="post-media">
+	<div
+		*ngIf="post?.text"
+		class="post-text"
+	>
+		{{ post?.text }}
+	</div>
+	<div
+		*ngIf="renderedMedia || youtubeUrl"
+		class="post-media"
+	>
 		<app-media-preview
 			*ngIf="renderedMedia"
 			[renderedMedia]="renderedMedia"
@@ -73,21 +81,46 @@
 	</div>
 	<div class="post-activity">
 		<div class="post-reactions">
-			{{ (score | shortNumber) || '0' }} people like this
+			<span
+				class="score-text"
+				[matTooltip]="'Score'"
+			>
+				{{ (score | shortNumber) || '0' }}
+			</span>
+			<div class="actions">
+				<button
+					mat-icon-button
+					[color]="liked? 'accent': 'primary'"
+					[matTooltip]="'Like'"
+					(click)="like()"
+				>
+					<mat-icon>thumb_up</mat-icon>
+				</button>
+				<button
+					mat-icon-button
+					[color]="disliked? 'accent': 'primary'"
+					[matTooltip]="'Dislike'"
+					(click)="dislike()"
+				>
+					<mat-icon>thumb_down</mat-icon>
+				</button>
+			</div>
 		</div>
-		<div
-			class="post-comments"
-			(click)="toggleComments()"
-		>
-			{{ (pagedList?.totalCount | shortNumber) || '0' }} comments
+		<div class="post-comments">
+			<span class="score-text">
+				{{ (pagedList?.totalCount | shortNumber) || '0' }}
+			</span>
+			<div class="actions">
+				<button
+					mat-icon-button
+					[color]="'primary'"
+					[matTooltip]="'Comments'"
+					(click)="toggleComments()"
+				>
+					<mat-icon>comment</mat-icon>
+				</button>
+			</div>
 		</div>
-	</div>
-	<div class="post-actions">
-		<app-post-actions
-			(actionActivated)="actionActivated($event)"
-			[liked]="liked"
-			[disliked]="disliked"
-		></app-post-actions>
 	</div>
 	<div
 		[hidden]="!commentsExpanded"

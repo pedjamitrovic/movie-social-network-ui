@@ -46,7 +46,7 @@ export class PostComponent implements OnInit {
     private commentService: CommentService,
   ) { }
 
-  public ngOnInit() {
+  ngOnInit() {
   }
 
   async initData() {
@@ -75,7 +75,7 @@ export class PostComponent implements OnInit {
     }
   }
 
-  public like() {
+  like() {
     this.liked = !this.liked;
     if (this.liked) {
       this.disliked = false;
@@ -85,34 +85,18 @@ export class PostComponent implements OnInit {
     }
   }
 
-  public dislike() {
+  dislike() {
     this.disliked = !this.disliked;
     if (this.disliked) {
       this.liked = false;
-      // this.post.reactions.pop();
-    } else {
       // this.post.reactions.push({});
+    } else {
+      // this.post.reactions.pop();
     }
   }
 
-  public toggleComments() {
+  toggleComments() {
     this.commentsExpanded = !this.commentsExpanded;
-  }
-
-  public actionActivated(action: string) {
-    switch (action) {
-      case 'like':
-        this.like();
-        break;
-      case 'dislike':
-        this.dislike();
-        break;
-      case 'comment':
-        this.toggleComments();
-        break;
-      default:
-        break;
-    }
   }
 
   urlToClipboard() {
