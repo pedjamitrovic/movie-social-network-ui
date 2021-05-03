@@ -13,6 +13,7 @@ import { UserService } from './user/user.service';
 import { Constants } from '@util/constants';
 import { GroupVM } from '@models/group-vm.model';
 import { GroupService } from './group.service';
+import { SignalrService } from './signalr.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -34,6 +35,7 @@ export class AuthService {
     private http: HttpClient,
     private userService: UserService,
     private groupService: GroupService,
+    private signalrService: SignalrService,
   ) {
     this.usersApiUrl = `${this.environment.apiUrl}/users`;
     this.groupsApiUrl = `${this.environment.apiUrl}/groups`;
@@ -46,6 +48,8 @@ export class AuthService {
     this.authUser = this.authUserSubject.asObservable();
     this.loggedUser = this.loggedUserSubject.asObservable();
     this.activeSystemEntity = this.activeSystemEntitySubject.asObservable();
+
+    this.subscribeSignalR();
   }
 
   get authUserValue(): AuthenticationInfo {
@@ -58,6 +62,16 @@ export class AuthService {
 
   get activeSystemEntityValue(): SystemEntityVM {
     return this.activeSystemEntitySubject.value;
+  }
+
+  subscribeSignalR() {
+    this.activeSystemEntitySubject.subscribe(
+      (sysEntity) => {
+        if (sysEntity) {
+          this.signalrService.initiateSignalrConnection(this.authUserValue.token);
+        }
+      }
+    );
   }
 
   initAuthUser() {

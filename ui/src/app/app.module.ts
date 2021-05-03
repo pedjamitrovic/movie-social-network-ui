@@ -54,6 +54,7 @@ import { AuthService } from '@services/auth.service';
 import { appInitializer } from '@util/app-initializer';
 import { ErrorDialogComponent } from '@components/dialogs/error-dialog/error-dialog.component';
 import { CommonModule } from '@angular/common';
+import { SignalrService } from '@services/signalr.service';
 
 @NgModule({
   declarations: [
