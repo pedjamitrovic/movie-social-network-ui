@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CreateReactionCommand } from '@models/create-reaction-command.model';
-import { ReactionVM } from '@models/reaction-vm-model';
+import { ReactionVM } from '@models/reaction-vm.model';
 import { CommonHttpService } from './common-http.service';
 import { EnvironmentService } from './environment.service';
 

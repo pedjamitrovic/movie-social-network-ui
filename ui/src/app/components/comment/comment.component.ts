@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommentVM } from '@models/comment-vm.model';
 import { ReactionType } from '@models/reaction-type.model';
-import { ReactionVM } from '@models/reaction-vm-model';
+import { ReactionVM } from '@models/reaction-vm.model';
 import { AuthService } from '@services/auth.service';
 import { ContentService } from '@services/content.service';
 import { EnvironmentService } from '@services/environment.service';

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
+import { CreateMessageCommand } from '@models/create-message-command.model';
 import { BehaviorSubject } from 'rxjs';
 import { EnvironmentService } from './environment.service';
+import { MessageVM } from '@models/message-vm.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,7 @@ import { EnvironmentService } from './environment.service';
 export class SignalrService {
   apiUrl: string;
   connection: signalR.HubConnection;
-  hubHelloMessage: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  hubHelloMessage: BehaviorSubject<MessageVM> = new BehaviorSubject<MessageVM>(null);
 
   constructor(
     private environment: EnvironmentService,
@@ -36,7 +38,11 @@ export class SignalrService {
           .then(
             () => {
               console.log(`SignalR connection success! connectionId: ${this.connection.connectionId}`);
-              this.connection.invoke('SendMessage', 3, 'Ej sta ima');
+              const command: CreateMessageCommand = {
+                chatRoomId: 3,
+                text: 'Zdravo'
+              }
+              this.connection.invoke('SendMessage', command);
               resolve();
             }
           )
@@ -53,8 +59,9 @@ export class SignalrService {
   private setSignalrClientMethods(): void {
     this.connection.on(
       'ReceiveMessage',
-      (message: string) => {
-        this.hubHelloMessage.next(message);
+      (messageVM: MessageVM) => {
+        this.hubHelloMessage.next(messageVM);
+        console.log(messageVM);
       }
     );
   }

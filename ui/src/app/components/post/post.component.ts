@@ -4,7 +4,7 @@ import { PagedList } from '@models/paged-list.model';
 import { Paging } from '@models/paging.model';
 import { PostVM } from '@models/post-vm.model';
 import { ReactionType } from '@models/reaction-type.model';
-import { ReactionVM } from '@models/reaction-vm-model';
+import { ReactionVM } from '@models/reaction-vm.model';
 import { RenderedMedia } from '@models/rendered-media.model';
 import { AuthService } from '@services/auth.service';
 import { CommentService } from '@services/comment.service';
