@@ -176,7 +176,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   userOptionSelected() {
     this.newChatRoom.members[0] = this.newChatForm.controls.user.value;
 
-    const existingChatRoom = this.chatRooms.find((cr) => cr.members[0]?.id === this.newChatRoom.members[0]);
+    const existingChatRoom = this.chatRooms.find((cr) => cr.members[0]?.id === this.newChatRoom.members[0].id);
 
     if (existingChatRoom) {
       this.activeChatRoom = existingChatRoom;
