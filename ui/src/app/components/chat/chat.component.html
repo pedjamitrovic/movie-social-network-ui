@@ -16,8 +16,8 @@
 		<div
 			*ngIf="state === 'new-chat'"
 			class="chat-user-container"
-			[ngClass]="{'chat-user-container-active': newChat?.user === activeUser}"
-			(click)="setActiveUser(newChat?.user)"
+			[ngClass]="{'chat-user-container-active': newChatRoom === activeChatRoom}"
+			(click)="setActiveChatRoom(newChatRoom)"
 		>
 			<div class="chat-user">
 				<img
@@ -34,25 +34,34 @@
 		</div>
 		<div
 			matRipple
-			*ngFor="let user of historyUsers"
+			*ngFor="let cr of chatRooms"
 			class="chat-user-container"
-			[ngClass]="{'chat-user-container-active': user === activeUser}"
-			(click)="setActiveUser(user)"
+			[ngClass]="{'chat-user-container-active': cr?.id === activeChatRoom?.id}"
+			(click)="setActiveChatRoom(cr)"
 		>
 			<div class="chat-user">
 				<img
+					*ngIf="cr?.members[0]?.profileImagePath; else profilePlaceholder"
+					[src]="environment.apiUrl + '\\' + cr?.members[0]?.profileImagePath"
+					[matTooltip]="cr?.members[0]?.qualifiedName"
 					class="user-avatar"
-					src="assets/images/avatar.png"
 				>
+				<ng-template #profilePlaceholder>
+					<img
+						[src]="'assets/images/avatar.png'"
+						[matTooltip]="cr?.members[0]?.qualifiedName"
+						class="user-avatar"
+					>
+				</ng-template>
 				<div
 					*ngIf="!(isHandset$ | async)"
 					class="chat-info"
 				>
-					<div class="username">{{user?.username}}</div>
-					<div class="last-message">
-						sabkdasjdbhbdasbdhasbdhjbahdbashdbsabhsbdbsdhasbdabsda
+					<div class="username">{{cr?.members[0]?.qualifiedName}}</div>
+					<div class="last-message">{{cr?.newestMessage?.text}}</div>
+					<div class="last-message-date">
+						{{cr?.newestMessage?.createdOn | date:'dd.MM.yyyy, HH:mm'}}
 					</div>
-					<div class="last-message-date">{{fromNow}}</div>
 				</div>
 			</div>
 		</div>
@@ -80,10 +89,10 @@
 					(optionSelected)="userOptionSelected()"
 				>
 					<mat-option
-						*ngFor="let user of userService.searchUsers(newChatForm?.controls?.user.value) | async"
-						[value]="user"
+						*ngFor="let sysEntity of searchedSystemEntities"
+						[value]="sysEntity"
 					>
-						{{user.username}}
+						{{sysEntity?.qualifiedName}}
 					</mat-option>
 				</mat-autocomplete>
 			</mat-form-field>
@@ -96,13 +105,6 @@
 				class="new-message"
 				[formGroup]="newMessageForm"
 			>
-				<!-- <mat-form-field appearance="outline">
-					<mat-label>User</mat-label>
-					<mat-select formControlName="user">
-						<mat-option value="0">Me</mat-option>
-						<mat-option value="1">{{activeUser?.username}}</mat-option>
-					</mat-select>
-				</mat-form-field> -->
 				<mat-form-field
 					class="full-width"
 					appearance="outline"
@@ -116,7 +118,7 @@
 						(keydown)="newMessageKeydown($event)"
 					></textarea>
 				</mat-form-field>
-				<div>
+				<div class="actions">
 					<button
 						class="emoji-toggle-button"
 						color="primary"
@@ -137,6 +139,14 @@
 							[perLine]="8"
 						></emoji-mart>
 					</div>
+					<button
+						class="send-button"
+						color="primary"
+						(click)="sendMessage()"
+						mat-icon-button
+					>
+						<mat-icon>send</mat-icon>
+					</button>
 				</div>
 			</form>
 			<div
@@ -150,13 +160,22 @@
 			>
 				<div
 					*ngFor="let message of messages"
-					[ngClass]="{'logged-user-message': message.from === '0', 'active-user-message': message.from === '1'}"
+					[ngClass]="{ 'logged-user-message': message.senderId === authService?.activeSystemEntityValue?.id,
+          'active-user-message': message.senderId !== authService?.activeSystemEntityValue?.id }"
 				>
 					<div class="message mat-elevation-z1">
 						<div class="message-from">
-							<a [routerLink]="['/users', activeUser?.id]">
-								{{message.from === '1' ? activeUser?.username : 'Vladimir Sivčev'}}
+							<a
+								*ngIf="message.senderId === authService?.activeSystemEntityValue?.id; else activeUserLink"
+								[routerLink]="[authService?.activeSystemEntityValue?.discriminator === 'User' ? '/users' : '/groups', authService?.activeSystemEntityValue?.id]"
+							>
+								{{authService?.activeSystemEntityValue?.qualifiedName}}
 							</a>
+							<ng-template #activeUserLink>
+								<a [routerLink]="[activeChatRoom?.members[0]?.discriminator === 'User' ? '/users' : '/groups', activeChatRoom?.members[0]?.id]">
+									{{activeChatRoom?.members[0]?.qualifiedName}}
+								</a>
+							</ng-template>
 						</div>
 						<div class="message-text">{{message.text}}</div>
 						<div class="message-timestamp">
@@ -169,7 +188,9 @@
 				<div class="no-message-history">
 					<div>
 						<span>No previous messages with&nbsp;</span>
-						<a [routerLink]="['/users', activeUser?.id]">{{activeUser?.username}}</a>
+						<a [routerLink]="[activeChatRoom?.members[0]?.discriminator === 'User' ? '/users' : '/groups', activeChatRoom?.members[0]?.id]">
+							{{activeChatRoom?.members[0]?.qualifiedName}}
+						</a>
 					</div>
 				</div>
 			</ng-template>

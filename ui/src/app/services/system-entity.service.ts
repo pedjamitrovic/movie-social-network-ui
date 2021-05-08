@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ChangeDescriptionCommand } from '@models/change-description-command';
 import { PagedList } from '@models/paged-list.model';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
+import { CommonHttpService } from './common-http.service';
 import { EnvironmentService } from './environment.service';
 
 @Injectable({ providedIn: 'root' })
@@ -12,8 +13,15 @@ export class SystemEntityService {
   constructor(
     private environment: EnvironmentService,
     private http: HttpClient,
+    private commonHttpService: CommonHttpService,
   ) {
     this.apiUrl = `${this.environment.apiUrl}/systementities`;
+  }
+
+  getList(queryParams: any) {
+    let params = new HttpParams();
+    params = this.commonHttpService.parseParams(queryParams);
+    return this.http.get<PagedList<SystemEntityVM>>(`${this.apiUrl}`, { params });
   }
 
   getById(id: number) {

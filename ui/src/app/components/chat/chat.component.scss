@@ -158,15 +158,21 @@
         .full-width {
           width: 100%;
         }
-        .emoji-toggle-button {
-          margin-bottom: 12.5px;
-          margin-left: 10px;
-        }
-        .emoji-wrapper {
-          position: absolute;
-          right: 0;
-          bottom: 85px;
-          z-index: 5;
+        .actions {
+          display: flex;
+          .emoji-toggle-button {
+            margin-bottom: 12.5px;
+            margin-left: 10px;
+          }
+          .emoji-wrapper {
+            position: absolute;
+            right: 0;
+            bottom: 85px;
+            z-index: 5;
+          }
+          .send-button {
+            margin-bottom: 12.5px;
+          }
         }
       }
     }

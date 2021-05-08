@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { CreateMessageCommand } from '@models/create-message-command.model';
+import { SendMessageCommand } from '@models/send-message-command.model';
 import { BehaviorSubject } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 import { MessageVM } from '@models/message-vm.model';
@@ -11,7 +11,7 @@ import { MessageVM } from '@models/message-vm.model';
 export class SignalrService {
   apiUrl: string;
   connection: signalR.HubConnection;
-  hubHelloMessage: BehaviorSubject<MessageVM> = new BehaviorSubject<MessageVM>(null);
+  receiveMessage: BehaviorSubject<MessageVM> = new BehaviorSubject<MessageVM>(null);
 
   constructor(
     private environment: EnvironmentService,
@@ -27,7 +27,7 @@ export class SignalrService {
     return new Promise<void>(
       (resolve, reject) => {
         this.connection = new signalR.HubConnectionBuilder()
-          .configureLogging(signalR.LogLevel.Trace)
+          .configureLogging(signalR.LogLevel.Information)
           .withUrl(this.apiUrl, { accessTokenFactory: () => bearerToken })
           .build();
 
@@ -38,11 +38,6 @@ export class SignalrService {
           .then(
             () => {
               console.log(`SignalR connection success! connectionId: ${this.connection.connectionId}`);
-              const command: CreateMessageCommand = {
-                chatRoomId: 3,
-                text: 'Zdravo'
-              }
-              this.connection.invoke('SendMessage', command);
               resolve();
             }
           )
@@ -56,11 +51,15 @@ export class SignalrService {
     );
   }
 
+  sendMessage(command: SendMessageCommand) {
+    this.connection.send('SendMessage', command);
+  }
+
   private setSignalrClientMethods(): void {
     this.connection.on(
       'ReceiveMessage',
       (messageVM: MessageVM) => {
-        this.hubHelloMessage.next(messageVM);
+        this.receiveMessage.next(messageVM);
         console.log(messageVM);
       }
     );

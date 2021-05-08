@@ -40,10 +40,17 @@ export class FeedComponent implements OnInit {
       (e) => {
         switch (e[0].path) {
           case 'feed':
-            this.config = { mode: 'feed', followerId: this.authService.activeSystemEntityValue.id };
+            this.config = {
+              mode: 'feed',
+              followerId: this.authService.activeSystemEntityValue.id,
+              creatorId: this.authService.activeSystemEntityValue?.id
+            };
             break;
           case 'explore':
-            this.config = { mode: 'explore' };
+            this.config = {
+              mode: 'explore',
+              creatorId: this.authService.activeSystemEntityValue?.id
+            };
             break;
         }
       }

@@ -1,5 +1,5 @@
 
-export interface CreateMessageCommand {
+export interface SendMessageCommand {
   chatRoomId?: number;
   text?: string;
 }
