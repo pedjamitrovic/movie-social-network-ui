@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { debounceTime, filter, map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, filter, map, shareReplay, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { MessageVM } from '../../models/message-vm.model';
 import { AuthService } from '../../services/auth.service';
 import { SystemEntityVM } from '../../models/system-entity-vm.model';
@@ -16,6 +16,7 @@ import { UserService } from '../../services/user.service';
 import { GroupService } from '../../services/group.service';
 import { SendMessageCommand } from '../../models/send-message-command.model';
 import { SignalrService } from '../../services/signalr.service';
+import { timeStamp } from 'console';
 
 export enum ChatState {
   Initial = 'initial',
@@ -29,7 +30,7 @@ export enum ChatState {
   styleUrls: ['./chat.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   @ViewChild('newChatInput') newChatInput: ElementRef;
   @ViewChild('messageHistoryDiv') messageHistoryDiv: ElementRef;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -54,6 +55,8 @@ export class ChatComponent implements OnInit {
   paging: Paging;
   pagedMessages: PagedList<MessageVM>;
 
+  unsubscribe: Subject<void> = new Subject();
+
   constructor(
     public authService: AuthService,
     public systemEntityService: SystemEntityService,
@@ -71,6 +74,11 @@ export class ChatComponent implements OnInit {
   ngOnInit() {
     this.init();
     this.initListeners();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   init() {
@@ -94,18 +102,36 @@ export class ChatComponent implements OnInit {
 
   initListeners() {
     this.signalrService.receiveMessage
-      .pipe(filter((m => !!m)))
+      .pipe(
+        takeUntil(this.unsubscribe),
+        filter((m => !!m))
+      )
       .subscribe(
         (m: MessageVM) => {
+          console.log(m);
           const chatRoom = this.chatRooms.find((cr) => cr.id === m.chatRoomId);
           if (chatRoom) {
             chatRoom.newestMessage = m;
-          } else {
-            // Handle non existing chat room
+            this.moveChatRoomToTop(chatRoom.id);
           }
           if (this.activeChatRoom === chatRoom) {
             this.messages.push(m);
             this.scrollChatToBottom();
+          }
+        }
+      );
+    this.signalrService.chatRoomCreated
+      .pipe(
+        takeUntil(this.unsubscribe),
+        filter((cr => !!cr))
+      )
+      .subscribe(
+        (chatRoomVM: ChatRoomVM) => {
+          this.removeSelf(chatRoomVM);
+          console.log('SIGNALR', chatRoomVM);
+          const chatRoom = this.chatRooms.find((c) => c.id === chatRoomVM.id);
+          if (!chatRoom) {
+            this.chatRooms.unshift(chatRoomVM);
           }
         }
       );
@@ -116,6 +142,7 @@ export class ChatComponent implements OnInit {
       .subscribe(
         (e) => {
           this.chatRooms = e.items;
+          this.chatRooms.forEach((cr) => this.removeSelf(cr));
           this.setActiveChatRoom(this.chatRooms[0]);
         }
       );
@@ -185,18 +212,21 @@ export class ChatComponent implements OnInit {
     }
 
     if (!this.activeChatRoom.id) {
-      console.log('chat not exists');
-      this.chatRoomService.create([this.authService.activeSystemEntityValue.id, this.activeChatRoom.members[0].id]).subscribe(
+      this.chatRoomService.create([this.activeChatRoom.members[0].id]).subscribe(
         (chatRoomVM: ChatRoomVM) => {
-          this.activeChatRoom = chatRoomVM;
+          this.removeSelf(chatRoomVM);
+          const activeIndex = this.chatRooms.findIndex(e => e === this.activeChatRoom);
+          if (activeIndex !== -1) {
+            this.chatRooms[activeIndex] = this.activeChatRoom = chatRoomVM;
+          }
           this.initChatRoom();
+          command.chatRoomId = chatRoomVM.id;
           this.chatRoomService.sendMessage(command);
           this.newMessageForm.controls.message.setValue('');
           this.scrollChatToBottom();
         }
       );
     } else {
-      console.log('chat exists');
       command.chatRoomId = this.activeChatRoom.id;
       this.chatRoomService.sendMessage(command);
       this.newMessageForm.controls.message.setValue('');
@@ -249,9 +279,23 @@ export class ChatComponent implements OnInit {
   scrollChatToBottom() {
     this.cdr.detectChanges();
     const div = this.messageHistoryDiv?.nativeElement as HTMLDivElement;
-    console.log(this.messageHistoryDiv);
     if (div) {
       div.scrollBy({ top: div.scrollHeight, behavior: 'smooth' });
+    }
+  }
+
+  removeSelf(chatRoomVM: ChatRoomVM) {
+    const selfIndex = chatRoomVM.members.findIndex((e) => e.id === this.authService.activeSystemEntityValue.id);
+    if (selfIndex !== -1) {
+      chatRoomVM.members.splice(selfIndex, 1);
+    }
+  }
+
+  moveChatRoomToTop(chatRoomId: number) {
+    const roomIndex = this.chatRooms.findIndex((e) => e.id === chatRoomId);
+    if (roomIndex !== -1) {
+      const items = this.chatRooms.splice(roomIndex, 1);
+      this.chatRooms.unshift(...items);
     }
   }
 }

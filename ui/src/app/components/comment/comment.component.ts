@@ -22,7 +22,6 @@ export class CommentComponent implements OnInit {
   get comment(): CommentVM {
     return this._comment;
   }
-  @Input() padded = false;
 
   date = new Date();
   fromNow: string;

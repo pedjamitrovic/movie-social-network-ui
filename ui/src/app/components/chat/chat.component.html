@@ -58,7 +58,10 @@
 					class="chat-info"
 				>
 					<div class="username">{{cr?.members[0]?.qualifiedName}}</div>
-					<div class="last-message">{{cr?.newestMessage?.text}}</div>
+					<div class="last-message">
+						<span *ngIf="cr?.newestMessage?.senderId === authService?.activeSystemEntityValue?.id">You:</span>
+						{{cr?.newestMessage?.text}}
+					</div>
 					<div class="last-message-date">
 						{{cr?.newestMessage?.createdOn | date:'dd.MM.yyyy, HH:mm'}}
 					</div>
