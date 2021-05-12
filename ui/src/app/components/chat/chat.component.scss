@@ -31,15 +31,23 @@
         }
         align-items: center;
         min-height: 80px;
-        .user-avatar {
-          width: 50px;
-          height: 50px;
-          @media only screen and (max-width: 600px) {
-            width: 40px;
-            height: 40px;
+        .image-badge {
+          position: relative;
+          .badge {
+            position: absolute;
+            right: 10px;
           }
-          border-radius: 50%;
-          object-fit: cover;
+          .user-avatar {
+            width: 50px;
+            height: 50px;
+            @media only screen and (max-width: 600px) {
+              width: 40px;
+              height: 40px;
+            }
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
         }
         .chat-info {
           margin-left: 5px;

@@ -40,19 +40,28 @@
 			(click)="setActiveChatRoom(cr)"
 		>
 			<div class="chat-user">
-				<img
-					*ngIf="cr?.members[0]?.profileImagePath; else profilePlaceholder"
-					[src]="environment.apiUrl + '\\' + cr?.members[0]?.profileImagePath"
-					[matTooltip]="cr?.members[0]?.qualifiedName"
-					class="user-avatar"
-				>
-				<ng-template #profilePlaceholder>
+				<div class="image-badge">
+					<span
+						*ngIf="cr.newestMessage && !cr.newestMessage.seen && cr.newestMessage.senderId !== authService.activeSystemEntityValue.id"
+						class="badge"
+						matBadge="!"
+						matBadgePosition="after"
+						matBadgeColor="accent"
+					></span>
 					<img
-						[src]="'assets/images/avatar.png'"
+						*ngIf="cr?.members[0]?.profileImagePath; else profilePlaceholder"
+						[src]="environment.apiUrl + '\\' + cr?.members[0]?.profileImagePath"
 						[matTooltip]="cr?.members[0]?.qualifiedName"
 						class="user-avatar"
 					>
-				</ng-template>
+					<ng-template #profilePlaceholder>
+						<img
+							[src]="'assets/images/avatar.png'"
+							[matTooltip]="cr?.members[0]?.qualifiedName"
+							class="user-avatar"
+						>
+					</ng-template>
+				</div>
 				<div
 					*ngIf="!(isHandset$ | async)"
 					class="chat-info"
@@ -75,7 +84,7 @@
 			class="initial-container"
 		>
 			<mat-icon>forum</mat-icon>
-      <div>Select chat to start chatting</div>
+			<div>Select chat to start chatting</div>
 		</div>
 		<form
 			*ngIf="state === 'new-chat'"
@@ -212,7 +221,10 @@
 				</div>
 			</div>
 			<ng-template #noMessageHistory>
-				<div class="no-message-history">
+				<div
+					*ngIf="!loadingInitialMessages"
+					class="no-message-history"
+				>
 					<div>
 						<span>No previous messages with&nbsp;</span>
 						<a [routerLink]="[activeChatRoom?.members[0]?.discriminator === 'User' ? '/users' : '/groups', activeChatRoom?.members[0]?.id]">

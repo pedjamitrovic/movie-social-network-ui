@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild,
 import { FormGroup, FormControl } from '@angular/forms';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { debounceTime, filter, map, shareReplay, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, filter, finalize, map, shareReplay, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { MessageVM } from '../../models/message-vm.model';
 import { AuthService } from '../../services/auth.service';
 import { SystemEntityVM } from '../../models/system-entity-vm.model';
@@ -53,6 +53,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   messages: MessageVM[];
   paging: Paging;
   pagedMessages: PagedList<MessageVM>;
+  loadingInitialMessages = false;
 
   unsubscribe: Subject<void> = new Subject();
 
@@ -268,14 +269,18 @@ export class ChatComponent implements OnInit, OnDestroy {
       ...this.paging
     };
 
-    this.chatRoomService.getMessages(this.activeChatRoom.id, queryParams).subscribe(
-      (pagedList) => {
-        this.messages.unshift(...pagedList.items.reverse());
-        if (!this.pagedMessages) this.scrollChatToBottom();
-        this.pagedMessages = pagedList;
-        this.paging.pageNumber = this.pagedMessages.page + 1;
-      }
-    );
+    if (!this.pagedMessages) { this.loadingInitialMessages = true; }
+
+    this.chatRoomService.getMessages(this.activeChatRoom.id, queryParams)
+      .pipe(finalize(() => this.loadingInitialMessages = false))
+      .subscribe(
+        (pagedList) => {
+          this.messages.unshift(...pagedList.items.reverse());
+          if (!this.pagedMessages) this.scrollChatToBottom();
+          this.pagedMessages = pagedList;
+          this.paging.pageNumber = this.pagedMessages.page + 1;
+        }
+      );
   }
 
   searchSysEntities(q: string) {
