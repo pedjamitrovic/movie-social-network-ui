@@ -12,8 +12,9 @@ import { ChatRoomVM } from '../models/chat-room-vm.model';
 export class SignalrService {
   apiUrl: string;
   connection: signalR.HubConnection;
-  receiveMessage: BehaviorSubject<MessageVM> = new BehaviorSubject<MessageVM>(null);
+  messageCreated: BehaviorSubject<MessageVM> = new BehaviorSubject<MessageVM>(null);
   chatRoomCreated: BehaviorSubject<ChatRoomVM> = new BehaviorSubject<ChatRoomVM>(null);
+  messageSeen: BehaviorSubject<MessageVM> = new BehaviorSubject<MessageVM>(null);
 
   constructor(
     private environment: EnvironmentService,
@@ -23,9 +24,7 @@ export class SignalrService {
 
   initiateSignalrConnection(bearerToken: string): Promise<any> {
     if (this.connection) {
-      this.receiveMessage.next(null);
-      this.receiveMessage.next(null);
-      this.connection.stop();
+      this.stopConnection();
     }
 
     return new Promise<void>(
@@ -55,23 +54,44 @@ export class SignalrService {
     );
   }
 
+  stopConnection() {
+    this.messageCreated.next(null);
+    this.chatRoomCreated.next(null);
+    this.messageSeen.next(null);
+    this.connection.stop();
+  }
+
   sendMessage(command: SendMessageCommand) {
     this.connection.send('SendMessage', command);
   }
 
+  setMessageSeen(messageId: number) {
+    this.connection.send('SetMessageSeen', messageId);
+  }
+
   private setSignalrClientMethods(): void {
     this.connection.on(
-      'ReceiveMessage',
+      'NotifyMessageCreated',
       (messageVM: MessageVM) => {
-        this.receiveMessage.next(messageVM);
+        this.messageCreated.next(messageVM);
+        console.log('NotifyMessageCreated');
         console.log(messageVM);
       }
     );
     this.connection.on(
-      'ChatRoomCreated',
+      'NotifyChatRoomCreated',
       (chatRoomVM: ChatRoomVM) => {
         this.chatRoomCreated.next(chatRoomVM);
+        console.log('NotifyChatRoomCreated');
         console.log(chatRoomVM);
+      }
+    );
+    this.connection.on(
+      'NotifyMessageSeen',
+      (messageVM: MessageVM) => {
+        this.messageSeen.next(messageVM);
+        console.log('NotifyMessageSeen');
+        console.log(messageVM);
       }
     );
   }

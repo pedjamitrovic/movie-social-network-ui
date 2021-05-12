@@ -70,6 +70,13 @@
 		</div>
 	</div>
 	<div class="chat">
+		<div
+			*ngIf="state === 'initial'"
+			class="initial-container"
+		>
+			<mat-icon>forum</mat-icon>
+      <div>Select chat to start chatting</div>
+		</div>
 		<form
 			*ngIf="state === 'new-chat'"
 			class="new-chat-form"
@@ -183,6 +190,23 @@
 						<div class="message-text">{{message.text}}</div>
 						<div class="message-timestamp">
 							{{message?.createdOn | date:'dd.MM.yyyy, HH:mm'}}
+							<ng-container *ngIf="message.senderId === authService?.activeSystemEntityValue?.id">
+								<mat-icon
+									*ngIf="!message?.seen; else seen"
+									[matTooltip]="'Sent'"
+								>
+									done
+								</mat-icon>
+								<ng-template #seen>
+									<mat-icon
+										color="primary"
+										[inline]="true"
+										[matTooltip]="'Seen'"
+									>
+										done_all
+									</mat-icon>
+								</ng-template>
+							</ng-container>
 						</div>
 					</div>
 				</div>

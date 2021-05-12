@@ -16,7 +16,6 @@ import { UserService } from '../../services/user.service';
 import { GroupService } from '../../services/group.service';
 import { SendMessageCommand } from '../../models/send-message-command.model';
 import { SignalrService } from '../../services/signalr.service';
-import { timeStamp } from 'console';
 
 export enum ChatState {
   Initial = 'initial',
@@ -101,14 +100,13 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   initListeners() {
-    this.signalrService.receiveMessage
+    this.signalrService.messageCreated
       .pipe(
         takeUntil(this.unsubscribe),
         filter((m => !!m))
       )
       .subscribe(
         (m: MessageVM) => {
-          console.log(m);
           const chatRoom = this.chatRooms.find((cr) => cr.id === m.chatRoomId);
           if (chatRoom) {
             chatRoom.newestMessage = m;
@@ -117,6 +115,7 @@ export class ChatComponent implements OnInit, OnDestroy {
           if (this.activeChatRoom === chatRoom) {
             this.messages.push(m);
             this.scrollChatToBottom();
+            this.setMessageSeen(chatRoom.newestMessage);
           }
         }
       );
@@ -128,10 +127,26 @@ export class ChatComponent implements OnInit, OnDestroy {
       .subscribe(
         (chatRoomVM: ChatRoomVM) => {
           this.removeSelf(chatRoomVM);
-          console.log('SIGNALR', chatRoomVM);
           const chatRoom = this.chatRooms.find((c) => c.id === chatRoomVM.id);
           if (!chatRoom) {
             this.chatRooms.unshift(chatRoomVM);
+          }
+        }
+      );
+    this.signalrService.messageSeen
+      .pipe(
+        takeUntil(this.unsubscribe),
+        filter((m => !!m))
+      )
+      .subscribe(
+        (m: MessageVM) => {
+          const chatRoom = this.chatRooms.find((cr) => cr.id === m.chatRoomId);
+          if (chatRoom) {
+            chatRoom.newestMessage.seen = true;
+
+            if (this.activeChatRoom === chatRoom) {
+              this.messages.forEach((e) => e.seen = true);
+            }
           }
         }
       );
@@ -143,7 +158,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         (e) => {
           this.chatRooms = e.items;
           this.chatRooms.forEach((cr) => this.removeSelf(cr));
-          this.setActiveChatRoom(this.chatRooms[0]);
         }
       );
   }
@@ -243,6 +257,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.paging = new Paging();
     this.pagedMessages = null;
     this.getMessages();
+    this.setMessageSeen(this.activeChatRoom?.newestMessage);
   }
 
   getMessages() {
@@ -296,6 +311,16 @@ export class ChatComponent implements OnInit, OnDestroy {
     if (roomIndex !== -1) {
       const items = this.chatRooms.splice(roomIndex, 1);
       this.chatRooms.unshift(...items);
+    }
+  }
+
+  setMessageSeen(message: MessageVM) {
+    if (
+      message &&
+      message.senderId !== this.authService.activeSystemEntityValue.id &&
+      !message.seen
+    ) {
+      this.signalrService.setMessageSeen(message.id);
     }
   }
 }
