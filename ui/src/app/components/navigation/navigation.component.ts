@@ -47,6 +47,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.fromNow = moment(new Date()).fromNow();
     this.newNotificationCount = 3;
+    this.authService.activeSystemEntity.subscribe(() => this.initData());
     this.initData();
     this.initListeners();
   }
