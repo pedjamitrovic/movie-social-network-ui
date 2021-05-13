@@ -9,6 +9,9 @@
 
 .sidenav {
   width: 200px;
+  .logo {
+    max-width: 100%;
+  }
 }
 
 .sidenav .mat-toolbar {

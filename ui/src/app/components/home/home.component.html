@@ -1,12 +1,42 @@
 <div class="home-container">
-	<div class="login-register-container">
-		<div class="login-container">
-			<h1>Login</h1>
-			<app-login></app-login>
+	<div class="header-container">
+		<h2>Movie Social Network</h2>
+		<p>
+			Welcome to MSN, social network focused on creating content and discussing cinematography related news.
+		</p>
+	</div>
+	<div class="main-container">
+		<div class="logo-container">
+			<img
+				class="logo"
+				src="assets/images/msn-square-logo.jpg"
+			>
 		</div>
-		<div class="register-container">
-			<h1>Register</h1>
-			<app-register></app-register>
+		<div class="login-register-container">
+			<ng-container *ngIf="state === 'login'">
+				<h2>Login</h2>
+				<app-login></app-login>
+				<button
+					class="state-button"
+					mat-button
+					color="primary"
+					(click)="toggleState()"
+				>
+					Don't have an account? Register here
+				</button>
+			</ng-container>
+			<ng-container *ngIf="state === 'register'">
+				<h2>Register</h2>
+				<app-register></app-register>
+				<button
+        class="state-button"
+					mat-button
+					color="primary"
+					(click)="toggleState()"
+				>
+					Already have an account? Login here
+				</button>
+			</ng-container>
 		</div>
 	</div>
 </div>
