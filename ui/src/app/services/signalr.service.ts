@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { SendMessageCommand } from '@models/send-message-command.model';
-import { BehaviorSubject } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 import { MessageVM } from '@models/message-vm.model';
 import { ChatRoomVM } from '../models/chat-room-vm.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +12,9 @@ import { ChatRoomVM } from '../models/chat-room-vm.model';
 export class SignalrService {
   apiUrl: string;
   connection: signalR.HubConnection;
-  messageCreated: BehaviorSubject<MessageVM> = new BehaviorSubject<MessageVM>(null);
-  chatRoomCreated: BehaviorSubject<ChatRoomVM> = new BehaviorSubject<ChatRoomVM>(null);
-  messageSeen: BehaviorSubject<MessageVM> = new BehaviorSubject<MessageVM>(null);
+  messageCreated: Subject<MessageVM> = new Subject<MessageVM>();
+  chatRoomCreated: Subject<ChatRoomVM> = new Subject<ChatRoomVM>();
+  messageSeen: Subject<MessageVM> = new Subject<MessageVM>();
 
   constructor(
     private environment: EnvironmentService,
@@ -24,7 +24,7 @@ export class SignalrService {
 
   initiateSignalrConnection(bearerToken: string): Promise<any> {
     if (this.connection) {
-      this.stopConnection();
+      this.connection.stop();
     }
 
     return new Promise<void>(
@@ -52,13 +52,6 @@ export class SignalrService {
           );
       }
     );
-  }
-
-  stopConnection() {
-    this.messageCreated.next(null);
-    this.chatRoomCreated.next(null);
-    this.messageSeen.next(null);
-    this.connection.stop();
   }
 
   sendMessage(command: SendMessageCommand) {

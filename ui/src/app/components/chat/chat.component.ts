@@ -108,6 +108,8 @@ export class ChatComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (m: MessageVM) => {
+          console.log('CHAT');
+          console.log(m);
           const chatRoom = this.chatRooms.find((cr) => cr.id === m.chatRoomId);
           if (chatRoom) {
             chatRoom.newestMessage = m;
@@ -127,6 +129,8 @@ export class ChatComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (chatRoomVM: ChatRoomVM) => {
+          console.log('CHAT');
+          console.log(chatRoomVM);
           this.removeSelf(chatRoomVM);
           const chatRoom = this.chatRooms.find((c) => c.id === chatRoomVM.id);
           if (!chatRoom) {
@@ -141,6 +145,8 @@ export class ChatComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (m: MessageVM) => {
+          console.log('CHAT');
+          console.log(m);
           const chatRoom = this.chatRooms.find((cr) => cr.id === m.chatRoomId);
           if (chatRoom) {
             chatRoom.newestMessage.seen = true;

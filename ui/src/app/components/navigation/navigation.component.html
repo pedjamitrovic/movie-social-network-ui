@@ -102,7 +102,8 @@
 						[routerLink]="['/chat']"
 					>
 						<mat-icon
-							matBadge="5"
+							[matBadge]="unseenChatRoomCount"
+              [matBadgeHidden]="unseenChatRoomCount <= 0"
 							matBadgePosition="after"
 							matBadgeColor="accent"
 						>
