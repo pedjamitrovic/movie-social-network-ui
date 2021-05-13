@@ -83,6 +83,7 @@
       min-height: calc(100vh - 56px - 20px);
     }
     .new-chat-form {
+      padding: 10px;
       .user-search {
         width: 250px;
         @media only screen and (max-width: 600px) {
