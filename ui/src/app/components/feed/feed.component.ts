@@ -42,14 +42,12 @@ export class FeedComponent implements OnInit {
           case 'feed':
             this.config = {
               mode: 'feed',
-              followerId: this.authService.activeSystemEntityValue.id,
-              creatorId: this.authService.activeSystemEntityValue?.id
+              followerId: this.authService.activeSystemEntityValue.id
             };
             break;
           case 'explore':
             this.config = {
-              mode: 'explore',
-              creatorId: this.authService.activeSystemEntityValue?.id
+              mode: 'explore'
             };
             break;
         }

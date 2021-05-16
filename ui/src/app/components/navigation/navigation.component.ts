@@ -58,6 +58,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   initData() {
+    if (!this.authService.activeSystemEntityValue) { return; }
     this.chatRoomService.getMyChatRooms({ pageSize: 10000 })
       .subscribe(
         (e) => {
@@ -116,7 +117,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
     const unseenChatRooms = this.chatRooms.filter(
       (cr) => cr.newestMessage.senderId !== this.authService.activeSystemEntityValue.id && !cr.newestMessage.seen
     );
-    console.log(unseenChatRooms);
     this.unseenChatRoomCount = unseenChatRooms?.length || 0;
   }
 
