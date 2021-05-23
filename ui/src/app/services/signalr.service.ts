@@ -5,6 +5,7 @@ import { EnvironmentService } from './environment.service';
 import { MessageVM } from '@models/message-vm.model';
 import { ChatRoomVM } from '../models/chat-room-vm.model';
 import { Subject } from 'rxjs';
+import { NotificationVM } from '../models/notification-vm.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class SignalrService {
   messageCreated: Subject<MessageVM> = new Subject<MessageVM>();
   chatRoomCreated: Subject<ChatRoomVM> = new Subject<ChatRoomVM>();
   messageSeen: Subject<MessageVM> = new Subject<MessageVM>();
+  newNotification: Subject<NotificationVM> = new Subject<NotificationVM>();
 
   constructor(
     private environment: EnvironmentService,
@@ -62,6 +64,10 @@ export class SignalrService {
     this.connection.send('SetMessageSeen', messageId);
   }
 
+  setNotificationSeen(notificationId: number) {
+    this.connection.send('SetNotificationSeen', notificationId);
+  }
+
   private setSignalrClientMethods(): void {
     this.connection.on(
       'NotifyMessageCreated',
@@ -85,6 +91,14 @@ export class SignalrService {
         this.messageSeen.next(messageVM);
         console.log('NotifyMessageSeen');
         console.log(messageVM);
+      }
+    );
+    this.connection.on(
+      'NotifyNewNotification',
+      (notificationVM: NotificationVM) => {
+        this.messageSeen.next(notificationVM);
+        console.log('NotifyNewNotification');
+        console.log(notificationVM);
       }
     );
   }

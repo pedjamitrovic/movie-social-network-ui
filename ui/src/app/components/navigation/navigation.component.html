@@ -89,8 +89,8 @@
 						(click)="toggleNotificationMenu()"
 					>
 						<mat-icon
-							[matBadge]="newNotificationCount"
-							[matBadgeHidden]="newNotificationCount === 0"
+							[matBadge]="unseenNotificationCount"
+							[matBadgeHidden]="unseenNotificationCount === 0"
 							matBad
 							matBadgePosition="after"
 							matBadgeColor="accent"
@@ -143,18 +143,31 @@
 									*ngFor="let notification of notifications"
 									class="notification"
 									[ngClass]="{'new-notification': !notification?.seen}"
-									[routerLink]="notification?.link"
+									[routerLink]="notification.routerLink"
 									(click)="notificationClicked(notification)"
 								>
 									<div class="notification-content">
 										<img
+											*ngIf="notification?.sender?.profileImagePath; else profilePlaceholder"
+											[src]="environment.apiUrl + '\\' + notification?.sender?.profileImagePath"
 											class="avatar"
-											src="assets/images/avatar.png"
 										>
+										<ng-template #profilePlaceholder>
+											<img
+												[src]="'assets/images/avatar.png'"
+												class="avatar"
+											>
+										</ng-template>
 										<div class="notification-info">
-											<div class="notification-notifier">{{notification?.notifier}}</div>
-											<div class="notification-body">{{notification?.body}}</div>
-											<div class="notification-date">{{fromNow}}</div>
+											<div class="notification-notifier">{{notification?.sender?.qualifiedName}}</div>
+											<div
+												class="notification-body"
+												[ngSwitch]="notification?.type"
+											>
+												<ng-container *ngSwitchCase="'follow'">Followed you.</ng-container>
+												<ng-container *ngSwitchCase="'comment'">Commented on your post.</ng-container>
+											</div>
+											<div class="notification-date">{{notification?.fromNow}}</div>
 										</div>
 									</div>
 								</div>

@@ -4,6 +4,5 @@ export interface MessageVM {
   chatRoomId?: number;
   text?: string;
   createdOn?: string;
-  delivered?: boolean;
   seen?: boolean;
 }

@@ -107,6 +107,8 @@
               border-radius: 50%;
               user-select: none;
               pointer-events: none;
+              object-fit: cover;
+              margin: 0 5px;
             }
             .notification-info {
               margin-left: 5px;
@@ -121,7 +123,7 @@
               .notification-notifier,
               .notification-body,
               .notification-date {
-                line-height: 14px;
+                line-height: 18px;
                 font-size: 14px;
                 white-space: nowrap;
                 overflow: hidden;

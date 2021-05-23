@@ -2,14 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, shareReplay, takeUntil } from 'rxjs/operators';
-import * as moment from 'moment';
 import { AuthService } from '@services/auth.service';
-import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { EnvironmentService } from '@services/environment.service';
 import { ChatRoomService } from '../../services/chat-room.service';
 import { ChatRoomVM } from '../../models/chat-room-vm.model';
 import { SignalrService } from '../../services/signalr.service';
 import { MessageVM } from '../../models/message-vm.model';
+import { NotificationVM } from '../../models/notification-vm.model';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-navigation',
@@ -17,21 +17,10 @@ import { MessageVM } from '../../models/message-vm.model';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit, OnDestroy {
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
-  sysEntity: SystemEntityVM;
+  isHandset$: Observable<boolean>;
   showNotificationMenu = false;
-  notifications: any[] = [
-    { notifier: 'Miki', body: 'Liked your post aaaaaaaaaaaaaaaaaaaaaaa', seen: false, link: '/posts/123' },
-    { notifier: 'Miki', body: 'Liked your post', seen: false, link: '/posts/123' },
-    { notifier: 'Miki', body: 'Liked your post', seen: false, link: '/posts/123' },
-    { notifier: 'Miki', body: 'Liked your post', seen: true, link: '/posts/123' }
-  ];
-  fromNow: string;
-  newNotificationCount = 3;
+  notifications: NotificationVM[];
+  unseenNotificationCount: number;
   chatRooms: ChatRoomVM[];
   unseenChatRoomCount: number;
   unsubscribe: Subject<void> = new Subject();
@@ -41,14 +30,18 @@ export class NavigationComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     public breakpointObserver: BreakpointObserver,
     public chatRoomService: ChatRoomService,
+    public notificationService: NotificationService,
     public signalrService: SignalrService,
-  ) { }
+  ) {
+    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset)
+      .pipe(
+        map(result => result.matches),
+        shareReplay()
+      );
+  }
 
   ngOnInit(): void {
-    this.fromNow = moment(new Date()).fromNow();
-    this.newNotificationCount = 3;
     this.authService.activeSystemEntity.subscribe(() => this.initData());
-    this.initData();
     this.initListeners();
   }
 
@@ -66,6 +59,20 @@ export class NavigationComponent implements OnInit, OnDestroy {
           this.calculateUnseenChatRooms();
         }
       );
+    this.notificationService.getMyNotifications({ pageSize: 4 })
+    .subscribe(
+      (e) => {
+        this.notifications = e.items;
+        console.log(this.notifications);
+      }
+    );
+    this.notificationService.getMyUnseenNotificationCount()
+    .subscribe(
+      (count) => {
+        this.unseenNotificationCount = count;
+        console.log(count);
+      }
+    );
   }
 
   initListeners() {
@@ -111,6 +118,18 @@ export class NavigationComponent implements OnInit, OnDestroy {
           this.calculateUnseenChatRooms();
         }
       );
+      this.signalrService.newNotification
+        .pipe(
+          takeUntil(this.unsubscribe),
+          filter((n => !!n))
+        )
+        .subscribe(
+          (n: NotificationVM) => {
+            this.notifications.unshift(n);
+            this.notifications.splice(this.notifications.length - 1, 1);
+            this.unseenNotificationCount++;
+          }
+        );
   }
 
   calculateUnseenChatRooms() {
@@ -122,15 +141,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   toggleNotificationMenu() {
     this.showNotificationMenu = !this.showNotificationMenu;
-    if (!this.showNotificationMenu) {
-      this.newNotificationCount = 0;
-      this.notifications.forEach((e) => e.seen = true);
-    }
   }
 
-  notificationClicked(notification: any) {
-    notification.seen = true;
-    this.newNotificationCount = this.notifications.filter((e) => !e.seen).length;
+  notificationClicked(notification: NotificationVM) {
+    if (!notification.seen) {
+      notification.seen = true;
+      this.unseenNotificationCount--;
+      this.signalrService.setNotificationSeen(notification.id);
+    }
   }
 
   switchContext() {
