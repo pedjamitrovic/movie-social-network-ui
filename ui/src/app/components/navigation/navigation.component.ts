@@ -60,19 +60,19 @@ export class NavigationComponent implements OnInit, OnDestroy {
         }
       );
     this.notificationService.getMyNotifications({ pageSize: 4 })
-    .subscribe(
-      (e) => {
-        this.notifications = e.items;
-        console.log(this.notifications);
-      }
-    );
+      .subscribe(
+        (e) => {
+          this.notifications = e.items;
+          console.log(this.notifications);
+        }
+      );
     this.notificationService.getMyUnseenNotificationCount()
-    .subscribe(
-      (count) => {
-        this.unseenNotificationCount = count;
-        console.log(count);
-      }
-    );
+      .subscribe(
+        (count) => {
+          this.unseenNotificationCount = count;
+          console.log(count);
+        }
+      );
   }
 
   initListeners() {
@@ -118,18 +118,30 @@ export class NavigationComponent implements OnInit, OnDestroy {
           this.calculateUnseenChatRooms();
         }
       );
-      this.signalrService.newNotification
-        .pipe(
-          takeUntil(this.unsubscribe),
-          filter((n => !!n))
-        )
-        .subscribe(
-          (n: NotificationVM) => {
-            this.notifications.unshift(n);
-            this.notifications.splice(this.notifications.length - 1, 1);
-            this.unseenNotificationCount++;
-          }
-        );
+    this.signalrService.newNotification
+      .pipe(
+        takeUntil(this.unsubscribe),
+        filter((n => !!n))
+      )
+      .subscribe(
+        (n: NotificationVM) => {
+          this.notifications.unshift(n);
+          this.notifications.splice(this.notifications.length - 1, 1);
+          this.unseenNotificationCount++;
+        }
+      );
+    this.signalrService.notificationSeen
+      .pipe(
+        takeUntil(this.unsubscribe),
+        filter((n => !!n))
+      )
+      .subscribe(
+        (n: NotificationVM) => {
+          const notification = this.notifications.find(e => e.id === n.id);
+          notification.seen = true;
+          this.unseenNotificationCount--;
+        }
+      );
   }
 
   calculateUnseenChatRooms() {
@@ -144,11 +156,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   notificationClicked(notification: NotificationVM) {
-    if (!notification.seen) {
-      notification.seen = true;
-      this.unseenNotificationCount--;
-      this.signalrService.setNotificationSeen(notification.id);
-    }
+    if (!notification || notification.seen) { return; }
+    this.signalrService.setNotificationSeen(notification);
   }
 
   switchContext() {

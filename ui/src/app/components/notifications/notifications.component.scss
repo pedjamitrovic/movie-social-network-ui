@@ -1,7 +1,6 @@
 .notifications-container {
-  margin: 10px;
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 600px;
+  margin: 10px auto;
   .notifications {
     color: black;
     .notification {
@@ -55,5 +54,12 @@
     .new-notification {
       background-color: #d2d7df;
     }
+  }
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+  }
+  .no-results {
+    text-align: center;
   }
 }

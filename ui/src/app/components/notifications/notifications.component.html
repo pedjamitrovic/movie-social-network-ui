@@ -1,32 +1,59 @@
 <mat-card class="notifications-container">
 	<h3>All your notifications</h3>
-	<div class="notifications">
+	<div *ngIf="!loading" class="notifications">
 		<div
 			matRipple
-			*ngFor="let notification of pagedNotifications"
+			*ngFor="let notification of pagedList?.items"
 			class="notification"
 			[ngClass]="{'new-notification': !notification?.seen}"
-			[routerLink]="notification?.link"
+			[routerLink]="notification.routerLink"
 			(click)="notificationClicked(notification)"
 		>
 			<div class="notification-content">
 				<img
+					*ngIf="notification?.sender?.profileImagePath; else profilePlaceholder"
+					[src]="environment.apiUrl + '\\' + notification?.sender?.profileImagePath"
 					class="avatar"
-					src="assets/images/avatar.png"
 				>
+				<ng-template #profilePlaceholder>
+					<img
+						[src]="'assets/images/avatar.png'"
+						class="avatar"
+					>
+				</ng-template>
 				<div class="notification-info">
-					<div class="notification-notifier">{{notification?.notifier}}</div>
-					<div class="notification-body">{{notification?.body}}</div>
-					<div class="notification-date">{{fromNow}}</div>
+					<div class="notification-notifier">{{notification?.sender?.qualifiedName}}</div>
+					<div
+						class="notification-body"
+						[ngSwitch]="notification?.type"
+					>
+						<ng-container *ngSwitchCase="'follow'">Followed you.</ng-container>
+						<ng-container *ngSwitchCase="'comment'">Commented on your post.</ng-container>
+					</div>
+					<div class="notification-date">{{notification?.fromNow}}</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<mat-paginator
-		[pageSizeOptions]="[1,2,4,8,10,20]"
-		[pageSize]="pageSize"
-		[length]="notifications?.length"
-		[showFirstLastButtons]="true"
-		(page)="pageChangeEvent($event)"
-	></mat-paginator>
+	<div
+		class="spinner-container"
+		*ngIf="loading"
+	>
+		<mat-spinner></mat-spinner>
+	</div>
+	<div [hidden]="!pagedList?.totalCount">
+		<mat-paginator
+			[pageSizeOptions]="[1,2,4,8,10,20]"
+			[pageSize]="pagedList?.pageSize"
+			[length]="pagedList?.totalCount"
+			[showFirstLastButtons]="true"
+			(page)="pageChangeEvent($event)"
+		></mat-paginator>
+	</div>
+	<div
+		class="no-results"
+		[hidden]="loading || pagedList?.totalCount"
+	>
+		You don't have any notifications.
+	</div>
 </mat-card>

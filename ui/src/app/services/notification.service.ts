@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PagedList } from '@models/paged-list.model';
 import * as moment from 'moment';
+import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NotificationVM } from '../models/notification-vm.model';
 import { CommonHttpService } from './common-http.service';
@@ -30,10 +31,10 @@ export class NotificationService {
               (n) => {
                 switch (n.type) {
                   case 'follow':
-                    n.routerLink = [n.sender.discriminator === 'User' ? 'users' : 'groups', n.sender.id.toString()];
+                    n.routerLink = [n.sender.discriminator === 'User' ? '/users' : '/groups', n.sender.id.toString()];
                     break;
                   case 'comment':
-                    n.routerLink = ['comments', JSON.parse(n.extended).commentId];
+                    n.routerLink = ['/comments', JSON.parse(n.extended).commentId];
                     break;
                   default:
                     console.error(`Unknown notification type ${n.type}`);

@@ -17,6 +17,7 @@ export class SignalrService {
   chatRoomCreated: Subject<ChatRoomVM> = new Subject<ChatRoomVM>();
   messageSeen: Subject<MessageVM> = new Subject<MessageVM>();
   newNotification: Subject<NotificationVM> = new Subject<NotificationVM>();
+  notificationSeen: Subject<NotificationVM> = new Subject<NotificationVM>();
 
   constructor(
     private environment: EnvironmentService,
@@ -64,8 +65,10 @@ export class SignalrService {
     this.connection.send('SetMessageSeen', messageId);
   }
 
-  setNotificationSeen(notificationId: number) {
-    this.connection.send('SetNotificationSeen', notificationId);
+  setNotificationSeen(notification: NotificationVM) {
+    if (!notification || notification.seen) { return; }
+    this.connection.send('SetNotificationSeen', notification.id);
+    this.notificationSeen.next(notification);
   }
 
   private setSignalrClientMethods(): void {
