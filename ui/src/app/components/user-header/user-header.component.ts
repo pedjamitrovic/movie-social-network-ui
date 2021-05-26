@@ -12,6 +12,8 @@ import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dial
 import { EnvironmentService } from '@services/environment.service';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { SystemEntityService } from '@services/system-entity.service';
+import { ReportDialogComponent, ReportDialogData } from '../dialogs/report-dialog/report-dialog.component';
+import { ReportType } from '../../models/report-type.model';
 
 @Component({
   selector: 'app-user-header',
@@ -214,7 +216,7 @@ export class UserHeaderComponent implements OnInit, OnChanges {
     );
   }
 
-  public addMedia(type: string) {
+  addMedia(type: string) {
     this.newMediaType = type;
     const mediaInput = this.mediaInput.nativeElement as HTMLInputElement;
     mediaInput.click();
@@ -241,6 +243,38 @@ export class UserHeaderComponent implements OnInit, OnChanges {
     }
 
     mediaInput.value = null;
+  }
+
+  report() {
+    const reportDialog = this.dialog.open<ReportDialogComponent, ReportDialogData, ReportType>(
+      ReportDialogComponent,
+      {
+        data: {
+          title: `Report user`
+        },
+        autoFocus: false,
+        minWidth: '300px'
+      }
+    );
+    reportDialog.afterClosed().subscribe(
+      (reason) => {
+        if (!reason) { return; }
+        // this.systemEntityService.changeImage(this.authService.activeSystemEntityValue.id, ImageType.Profile, image).subscribe(
+        //   () => { },
+        //   () => {
+        //     this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+        //       ErrorDialogComponent,
+        //       {
+        //         data: {
+        //           text: 'Unable to change profile picture, something unexpected happened'
+        //         }
+        //       }
+        //     );
+        //     this.profilePreviewMode = false;
+        //   }
+        // );
+      }
+    );
   }
 
 }

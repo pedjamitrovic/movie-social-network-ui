@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { CommentVM } from '@models/comment-vm.model';
 import { ReactionType } from '@models/reaction-type.model';
 import { ReactionVM } from '@models/reaction-vm.model';
@@ -6,6 +7,8 @@ import { AuthService } from '@services/auth.service';
 import { ContentService } from '@services/content.service';
 import { EnvironmentService } from '@services/environment.service';
 import * as moment from 'moment';
+import { ReportType } from '../../models/report-type.model';
+import { ReportDialogComponent, ReportDialogData } from '../dialogs/report-dialog/report-dialog.component';
 
 @Component({
   selector: 'app-comment',
@@ -33,6 +36,7 @@ export class CommentComponent implements OnInit {
     public environment: EnvironmentService,
     public authService: AuthService,
     private contentService: ContentService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -99,6 +103,38 @@ export class CommentComponent implements OnInit {
 
   urlToClipboard() {
     return `${location.origin}/comments/${this.comment.id}`;
+  }
+
+  report() {
+    const reportDialog = this.dialog.open<ReportDialogComponent, ReportDialogData, ReportType>(
+      ReportDialogComponent,
+      {
+        data: {
+          title: `Report comment`
+        },
+        autoFocus: false,
+        minWidth: '300px'
+      }
+    );
+    reportDialog.afterClosed().subscribe(
+      (reason) => {
+        if (!reason) { return; }
+        // this.systemEntityService.changeImage(this.authService.activeSystemEntityValue.id, ImageType.Profile, image).subscribe(
+        //   () => { },
+        //   () => {
+        //     this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+        //       ErrorDialogComponent,
+        //       {
+        //         data: {
+        //           text: 'Unable to change profile picture, something unexpected happened'
+        //         }
+        //       }
+        //     );
+        //     this.profilePreviewMode = false;
+        //   }
+        // );
+      }
+    );
   }
 
 }

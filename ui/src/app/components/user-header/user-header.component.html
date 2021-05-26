@@ -36,6 +36,7 @@
 			<button
 				*ngIf="user?.id !== authService?.activeSystemEntityValue?.id"
 				mat-menu-item
+				(click)="report()"
 			>
 				<mat-icon>report</mat-icon>
 				<span>Report user</span>

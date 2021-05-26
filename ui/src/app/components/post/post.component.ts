@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { CommentVM } from '@models/comment-vm.model';
 import { PagedList } from '@models/paged-list.model';
 import { Paging } from '@models/paging.model';
@@ -13,6 +14,8 @@ import { EnvironmentService } from '@services/environment.service';
 import { MediaService } from '@services/media/media.service';
 import { Constants } from '@util/constants';
 import * as moment from 'moment';
+import { ReportType } from '../../models/report-type.model';
+import { ReportDialogComponent, ReportDialogData } from '../dialogs/report-dialog/report-dialog.component';
 
 @Component({
   selector: 'app-post',
@@ -46,6 +49,7 @@ export class PostComponent implements OnInit {
     private mediaService: MediaService,
     private commentService: CommentService,
     private contentService: ContentService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -165,6 +169,38 @@ export class PostComponent implements OnInit {
         this.comments.push(...pagedList.items);
         this.pagedList = pagedList;
         this.paging.pageNumber = this.pagedList.page + 1;
+      }
+    );
+  }
+
+  report() {
+    const reportDialog = this.dialog.open<ReportDialogComponent, ReportDialogData, ReportType>(
+      ReportDialogComponent,
+      {
+        data: {
+          title: `Report post`
+        },
+        autoFocus: false,
+        minWidth: '300px'
+      }
+    );
+    reportDialog.afterClosed().subscribe(
+      (reason) => {
+        if (!reason) { return; }
+        // this.systemEntityService.changeImage(this.authService.activeSystemEntityValue.id, ImageType.Profile, image).subscribe(
+        //   () => { },
+        //   () => {
+        //     this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+        //       ErrorDialogComponent,
+        //       {
+        //         data: {
+        //           text: 'Unable to change profile picture, something unexpected happened'
+        //         }
+        //       }
+        //     );
+        //     this.profilePreviewMode = false;
+        //   }
+        // );
       }
     );
   }

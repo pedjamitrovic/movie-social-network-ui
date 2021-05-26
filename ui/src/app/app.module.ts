@@ -4,7 +4,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from '@components/app/app.component';
 import { NavigationComponent } from '@components/navigation/navigation.component';
 import { LoginComponent } from '@components/login/login.component';
@@ -55,6 +55,7 @@ import { appInitializer } from '@util/app-initializer';
 import { ErrorDialogComponent } from '@components/dialogs/error-dialog/error-dialog.component';
 import { CommonModule } from '@angular/common';
 import { SignalrService } from '@services/signalr.service';
+import { ReportDialogComponent } from './components/dialogs/report-dialog/report-dialog.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { SignalrService } from '@services/signalr.service';
     GroupHeaderComponent,
     GroupAboutComponent,
     ErrorDialogComponent,
+    ReportDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -111,6 +113,7 @@ import { SignalrService } from '@services/signalr.service';
     PickerModule,
     HttpClientModule,
     CommonModule,
+    FormsModule,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService] },

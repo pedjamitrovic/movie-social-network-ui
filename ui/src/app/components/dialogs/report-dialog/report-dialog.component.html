@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>{{data?.title ? data.title : 'Report'}}</h1>
+<div mat-dialog-content>
+	<label>Pick one of the available reasons:</label>
+	<mat-radio-group
+		class="reason-radio-group"
+		[(ngModel)]="reason"
+	>
+		<mat-radio-button
+			class="reason-radio-button"
+			value="sexual"
+		>
+			Sexual
+		</mat-radio-button>
+		<mat-radio-button
+			class="reason-radio-button"
+			value="violent"
+		>
+			Violent
+		</mat-radio-button>
+		<mat-radio-button
+			class="reason-radio-button"
+			value="hateful"
+		>
+			Hateful
+		</mat-radio-button>
+		<mat-radio-button
+			class="reason-radio-button"
+			value="childAbuse"
+		>
+			Child abuse
+		</mat-radio-button>
+		<mat-radio-button
+			class="reason-radio-button"
+			value="promotesTerrorism"
+		>
+			Promotes terrorism
+		</mat-radio-button>
+		<mat-radio-button
+			class="reason-radio-button"
+			value="spam"
+		>
+			Spam
+		</mat-radio-button>
+		<mat-radio-button
+			class="reason-radio-button"
+			value="infrigesRights"
+		>
+			Infriges rights
+		</mat-radio-button>
+	</mat-radio-group>
+</div>
+<div class="actions">
+	<button
+		mat-button
+		(click)="cancel()"
+	>
+		Cancel
+	</button>
+	<button
+		mat-button
+		color="primary"
+		[disabled]="!reason"
+		(click)="confirm()"
+	>
+		Confirm
+	</button>
+</div>

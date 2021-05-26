@@ -13,9 +13,15 @@
 		*ngFor="let post of posts"
 		[post]="post"
 	></app-post>
+	<div
+		class="spinner-container"
+		*ngIf="loading"
+	>
+		<mat-spinner></mat-spinner>
+	</div>
 	<mat-card
 		class="no-posts"
-		*ngIf="!posts?.length"
+		*ngIf="!loading && !posts?.length"
 	>
 		No posts to show.
 	</mat-card>

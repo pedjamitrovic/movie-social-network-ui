@@ -47,6 +47,7 @@
 			<button
 				*ngIf="authService?.activeSystemEntityValue?.id !== comment?.creator?.id"
 				mat-menu-item
+        (click)="report()"
 			>
 				<mat-icon>report</mat-icon>
 				<span>Report</span>

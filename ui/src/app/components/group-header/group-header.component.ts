@@ -12,6 +12,8 @@ import { AuthService } from '@services/auth.service';
 import { EnvironmentService } from '@services/environment.service';
 import { MediaService } from '@services/media/media.service';
 import { SystemEntityService } from '@services/system-entity.service';
+import { ReportType } from '../../models/report-type.model';
+import { ReportDialogComponent, ReportDialogData } from '../dialogs/report-dialog/report-dialog.component';
 
 @Component({
   selector: 'app-group-header',
@@ -249,6 +251,38 @@ export class GroupHeaderComponent implements OnInit, OnChanges {
     }
 
     mediaInput.value = null;
+  }
+
+  report() {
+    const reportDialog = this.dialog.open<ReportDialogComponent, ReportDialogData, ReportType>(
+      ReportDialogComponent,
+      {
+        data: {
+          title: `Report group`
+        },
+        autoFocus: false,
+        minWidth: '300px'
+      }
+    );
+    reportDialog.afterClosed().subscribe(
+      (reason) => {
+        if (!reason) { return; }
+        // this.systemEntityService.changeImage(this.authService.activeSystemEntityValue.id, ImageType.Profile, image).subscribe(
+        //   () => { },
+        //   () => {
+        //     this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+        //       ErrorDialogComponent,
+        //       {
+        //         data: {
+        //           text: 'Unable to change profile picture, something unexpected happened'
+        //         }
+        //       }
+        //     );
+        //     this.profilePreviewMode = false;
+        //   }
+        // );
+      }
+    );
   }
 
 }

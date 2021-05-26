@@ -6,6 +6,7 @@ import { Paging } from '@models/paging.model';
 import { PostVM } from '@models/post-vm.model';
 import { AuthService } from '@services/auth.service';
 import { PostService } from '@services/post.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-feed',
@@ -26,6 +27,7 @@ export class FeedComponent implements OnInit {
   posts: PostVM[];
   paging: Paging;
   pagedList: PagedList<PostVM>;
+  loading = false;
 
   private _config: FeedCompConfig;
 
@@ -76,13 +78,17 @@ export class FeedComponent implements OnInit {
     if (this.config.creatorId) { queryParams.creatorId = this.config.creatorId; }
     if (this.config.followerId) { queryParams.followerId = this.config.followerId; }
 
-    this.postService.getList(queryParams).subscribe(
-      (pagedList) => {
-        this.posts.push(...pagedList.items);
-        this.pagedList = pagedList;
-        this.paging.pageNumber = this.pagedList.page + 1;
-      }
-    );
+    this.loading = true;
+
+    this.postService.getList(queryParams)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe(
+        (pagedList) => {
+          this.posts.push(...pagedList.items);
+          this.pagedList = pagedList;
+          this.paging.pageNumber = this.pagedList.page + 1;
+        }
+      );
   }
 
   public createPost(post: PostVM) {
