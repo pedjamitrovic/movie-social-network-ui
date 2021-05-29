@@ -56,6 +56,9 @@ import { ErrorDialogComponent } from '@components/dialogs/error-dialog/error-dia
 import { CommonModule } from '@angular/common';
 import { SignalrService } from '@services/signalr.service';
 import { ReportDialogComponent } from './components/dialogs/report-dialog/report-dialog.component';
+import { SplashService } from './services/splash.service';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { SplashComponent } from './components/splash/splash.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +103,7 @@ import { ReportDialogComponent } from './components/dialogs/report-dialog/report
     GroupAboutComponent,
     ErrorDialogComponent,
     ReportDialogComponent,
+    SplashComponent,
   ],
   imports: [
     BrowserModule,
@@ -114,9 +118,10 @@ import { ReportDialogComponent } from './components/dialogs/report-dialog/report
     HttpClientModule,
     CommonModule,
     FormsModule,
+    OverlayModule,
   ],
   providers: [
-    { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService] },
+    { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService, SplashService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     ShortNumberPipe,
