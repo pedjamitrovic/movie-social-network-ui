@@ -3,17 +3,19 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData } from '@components/bottom-sheets/confirm-action-bottom-sheet/confirm-action-bottom-sheet.component';
 import { ConfirmActionDialogComponent, ConfirmActionDialogComponentData } from '@components/dialogs/confirm-action-dialog/confirm-action-dialog.component';
+import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
 import { UserListDialogComponent, UserListDialogComponentData } from '@components/dialogs/user-list-dialog/user-list-dialog.component';
 import { ImageType } from '@models/image-type.model';
+import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { UserVM } from '@models/user-vm.model';
 import { AuthService } from '@services/auth.service';
-import { MediaService } from '@services/media/media.service';
-import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
 import { EnvironmentService } from '@services/environment.service';
-import { SystemEntityVM } from '@models/system-entity-vm.model';
+import { MediaService } from '@services/media/media.service';
 import { SystemEntityService } from '@services/system-entity.service';
-import { ReportDialogComponent, ReportDialogData } from '../dialogs/report-dialog/report-dialog.component';
+import { BusinessErrorCode } from '../../models/business-error-code.model';
 import { ReportType } from '../../models/report-type.model';
+import { SnackbarService } from '../../services/snackbar.service';
+import { ReportDialogComponent, ReportDialogData } from '../dialogs/report-dialog/report-dialog.component';
 
 @Component({
   selector: 'app-user-header',
@@ -40,6 +42,7 @@ export class UserHeaderComponent implements OnInit, OnChanges {
     private bottomSheet: MatBottomSheet,
     private mediaService: MediaService,
     private systemEntityService: SystemEntityService,
+    private snackbarService: SnackbarService,
   ) { }
 
   ngOnInit() {
@@ -259,22 +262,28 @@ export class UserHeaderComponent implements OnInit, OnChanges {
     reportDialog.afterClosed().subscribe(
       (reason) => {
         if (!reason) { return; }
-        // this.systemEntityService.changeImage(this.authService.activeSystemEntityValue.id, ImageType.Profile, image).subscribe(
-        //   () => { },
-        //   () => {
-        //     this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
-        //       ErrorDialogComponent,
-        //       {
-        //         data: {
-        //           text: 'Unable to change profile picture, something unexpected happened'
-        //         }
-        //       }
-        //     );
-        //     this.profilePreviewMode = false;
-        //   }
-        // );
+        this.systemEntityService.report(this.user.id, { reason }).subscribe(
+          () => {
+            this.snackbarService.open('Thank you for your report');
+          },
+          (err) => {
+            if (err.code) {
+              if (err.code === BusinessErrorCode.AlreadyExists) {
+                this.snackbarService.open(`You have already reported ${this.user.qualifiedName}`);
+              }
+            } else {
+              this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+                ErrorDialogComponent,
+                {
+                  data: {
+                    text: 'Unable to report user, something unexpected happened'
+                  }
+                }
+              );
+            }
+          }
+        );
       }
     );
   }
-
 }

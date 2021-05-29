@@ -4,4 +4,6 @@ export enum BusinessErrorCode {
   InvalidUsername = 10002,
   InvalidPassword = 10003,
   TitleAlreadyExists = 10004,
+  NotAdmin = 10005,
+  AlreadyExists = 10006,
 }

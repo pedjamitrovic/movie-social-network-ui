@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ChangeDescriptionCommand } from '@models/change-description-command';
 import { PagedList } from '@models/paged-list.model';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
+import { ReportCommand } from '../models/report-command.model';
 import { CommonHttpService } from './common-http.service';
 import { EnvironmentService } from './environment.service';
 
@@ -52,5 +53,9 @@ export class SystemEntityService {
 
   changeDescription(id: number, command: ChangeDescriptionCommand) {
     return this.http.patch(`${this.apiUrl}/${id}/description`, command);
+  }
+
+  report(id: number, command: ReportCommand) {
+    return this.http.post(`${this.apiUrl}/${id}/report`, command);
   }
 }

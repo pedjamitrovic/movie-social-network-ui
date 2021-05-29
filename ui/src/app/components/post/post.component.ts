@@ -14,7 +14,10 @@ import { EnvironmentService } from '@services/environment.service';
 import { MediaService } from '@services/media/media.service';
 import { Constants } from '@util/constants';
 import * as moment from 'moment';
+import { BusinessErrorCode } from '../../models/business-error-code.model';
 import { ReportType } from '../../models/report-type.model';
+import { SnackbarService } from '../../services/snackbar.service';
+import { ErrorDialogComponent, ErrorDialogComponentData } from '../dialogs/error-dialog/error-dialog.component';
 import { ReportDialogComponent, ReportDialogData } from '../dialogs/report-dialog/report-dialog.component';
 
 @Component({
@@ -50,6 +53,7 @@ export class PostComponent implements OnInit {
     private commentService: CommentService,
     private contentService: ContentService,
     private dialog: MatDialog,
+    private snackbarService: SnackbarService,
   ) { }
 
   ngOnInit() {
@@ -187,20 +191,27 @@ export class PostComponent implements OnInit {
     reportDialog.afterClosed().subscribe(
       (reason) => {
         if (!reason) { return; }
-        // this.systemEntityService.changeImage(this.authService.activeSystemEntityValue.id, ImageType.Profile, image).subscribe(
-        //   () => { },
-        //   () => {
-        //     this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
-        //       ErrorDialogComponent,
-        //       {
-        //         data: {
-        //           text: 'Unable to change profile picture, something unexpected happened'
-        //         }
-        //       }
-        //     );
-        //     this.profilePreviewMode = false;
-        //   }
-        // );
+        this.contentService.report(this.post.id, { reason }).subscribe(
+          () => {
+            this.snackbarService.open('Thank you for your report');
+          },
+          (err) => {
+            if (err.code) {
+              if (err.code === BusinessErrorCode.AlreadyExists) {
+                this.snackbarService.open('You have already reported this post');
+              }
+            } else {
+              this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+                ErrorDialogComponent,
+                {
+                  data: {
+                    text: 'Unable to report post, something unexpected happened'
+                  }
+                }
+              );
+            }
+          }
+        );
       }
     );
   }
