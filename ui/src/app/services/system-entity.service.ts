@@ -4,6 +4,7 @@ import { ChangeDescriptionCommand } from '@models/change-description-command';
 import { PagedList } from '@models/paged-list.model';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { ReportCommand } from '../models/report-command.model';
+import { ReportedDetails } from '../models/reported-details.model';
 import { CommonHttpService } from './common-http.service';
 import { EnvironmentService } from './environment.service';
 
@@ -57,5 +58,11 @@ export class SystemEntityService {
 
   report(id: number, command: ReportCommand) {
     return this.http.post(`${this.apiUrl}/${id}/report`, command);
+  }
+
+  getBannable(queryParams?: any) {
+    let params = new HttpParams();
+    params = this.commonHttpService.parseParams(queryParams);
+    return this.http.get<PagedList<ReportedDetails>>(`${this.apiUrl}/bannable`, { params });
   }
 }

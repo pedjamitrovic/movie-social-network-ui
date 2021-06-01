@@ -1,0 +1,8 @@
+<div class="reports-container">
+	<div
+		class="report-wrapper"
+		*ngFor="let rd of reportedDetails?.items"
+	>
+		<app-report [reportedDetails]="rd"></app-report>
+	</div>
+</div>

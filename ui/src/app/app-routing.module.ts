@@ -12,6 +12,7 @@ import { PostPreviewComponent } from '@components/post-preview/post-preview.comp
 import { SearchComponent } from '@components/search/search.component';
 import { UserComponent } from '@components/user/user.component';
 import { AuthGuard } from '@util/auth.guard';
+import { ReportsComponent } from './components/reports/reports.component';
 
 const routes: Routes = [
   { path: 'feed', component: FeedComponent, canActivate: [AuthGuard] },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
   { path: 'groups', component: MyGroupsComponent, canActivate: [AuthGuard] },
+  { path: 'reports', component: ReportsComponent, canActivate: [AuthGuard] },
   { path: 'not-found', component: PageNotFoundComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent },
   { path: '**', component: PageNotFoundComponent, canActivate: [AuthGuard] },

@@ -45,6 +45,15 @@
 				<mat-icon>groups</mat-icon>
 				My groups
 			</a>
+      <a
+				*ngIf="authService?.activeSystemEntityValue?.role === 'admin'"
+				mat-list-item
+				routerLink="/reports"
+				(click)="drawer.toggle()"
+			>
+				<mat-icon>report</mat-icon>
+				Reports
+			</a>
 			<div></div>
 			<a
 				mat-list-item

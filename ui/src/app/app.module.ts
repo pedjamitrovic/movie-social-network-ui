@@ -54,11 +54,13 @@ import { AuthService } from '@services/auth.service';
 import { appInitializer } from '@util/app-initializer';
 import { ErrorDialogComponent } from '@components/dialogs/error-dialog/error-dialog.component';
 import { CommonModule } from '@angular/common';
-import { SignalrService } from '@services/signalr.service';
 import { ReportDialogComponent } from './components/dialogs/report-dialog/report-dialog.component';
 import { SplashService } from './services/splash.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { SplashComponent } from './components/splash/splash.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { ChartsModule } from 'ng2-charts';
+import { ReportComponent } from './components/report/report.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +106,8 @@ import { SplashComponent } from './components/splash/splash.component';
     ErrorDialogComponent,
     ReportDialogComponent,
     SplashComponent,
+    ReportsComponent,
+    ReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -119,6 +123,7 @@ import { SplashComponent } from './components/splash/splash.component';
     CommonModule,
     FormsModule,
     OverlayModule,
+    ChartsModule
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService, SplashService] },

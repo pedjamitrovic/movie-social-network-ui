@@ -1,0 +1,24 @@
+<mat-card
+	class="report-card"
+>
+	<mat-card-content>
+		{{reportedDetails.id}} / {{reportedDetails.type}}
+		<div *ngFor="let rs of reportedDetails.reportedStats">{{rs.reason}} {{rs.count}}</div>
+		<div>
+			<canvas
+				baseChart
+				[datasets]="datasets"
+				[labels]="labels"
+				[colors]="colors"
+				[legend]="legend"
+        [options]="options"
+				[chartType]="type"
+			>
+			</canvas>
+		</div>
+	</mat-card-content>
+	<mat-card-actions>
+		<button mat-button>LIKE</button>
+		<button mat-button>SHARE</button>
+	</mat-card-actions>
+</mat-card>
