@@ -1,24 +1,79 @@
-<mat-card
-	class="report-card"
->
+<mat-card class="report-card">
+	<mat-card-title>Report details</mat-card-title>
 	<mat-card-content>
-		{{reportedDetails.id}} / {{reportedDetails.type}}
-		<div *ngFor="let rs of reportedDetails.reportedStats">{{rs.reason}} {{rs.count}}</div>
-		<div>
-			<canvas
-				baseChart
-				[datasets]="datasets"
-				[labels]="labels"
-				[colors]="colors"
-				[legend]="legend"
-        [options]="options"
-				[chartType]="type"
-			>
-			</canvas>
+		<div class="content-container">
+			<mat-card class="system-entity-card mat-elevation-z0">
+				<div class="header">
+					<a
+						*ngIf="reportedDetails?.discriminator === 'User'"
+						[routerLink]="['/users', reportedDetails?.extended?.id]"
+					>
+						<img
+							*ngIf="reportedDetails?.extended?.profileImagePath; else profilePlaceholder"
+							class="avatar"
+							[src]="environment.apiUrl + '\\' + reportedDetails?.extended?.profileImagePath"
+							[matTooltip]="reportedDetails?.extended?.qualifiedName"
+						>
+					</a>
+					<a
+						*ngIf="reportedDetails?.discriminator === 'Group'"
+						[routerLink]="['/groups', reportedDetails?.extended?.id]"
+					>
+						<img
+							*ngIf="reportedDetails?.extended?.profileImagePath; else profilePlaceholder"
+							class="avatar"
+							[src]="environment.apiUrl + '\\' + reportedDetails?.extended?.profileImagePath"
+							[matTooltip]="reportedDetails?.extended?.qualifiedName"
+						>
+					</a>
+					<mat-card-title>
+						<div class="name">
+							<span>
+								<a
+									*ngIf="reportedDetails?.discriminator === 'User'"
+									[routerLink]="['/users', reportedDetails?.extended?.id]"
+								>
+									{{reportedDetails?.extended?.qualifiedName}}
+								</a>
+								<a
+									*ngIf="reportedDetails?.discriminator === 'Group'"
+									[routerLink]="['/groups', reportedDetails?.extended?.id]"
+								>
+									{{reportedDetails?.extended?.qualifiedName}}
+								</a>
+							</span>
+						</div>
+					</mat-card-title>
+					<mat-card-subtitle>{{reportedDetails.discriminator}}</mat-card-subtitle>
+				</div>
+				<mat-card-content>
+					<p class="description">
+						{{reportedDetails?.extended?.description}}
+					</p>
+				</mat-card-content>
+			</mat-card>
+			<div class="chart-container">
+				<canvas
+					baseChart
+					[datasets]="datasets"
+					[labels]="labels"
+					[colors]="colors"
+					[legend]="legend"
+					[options]="options"
+					[chartType]="type"
+				>
+				</canvas>
+        <p class="total-count">Total count of active reports for this {{reportedDetails.discriminator | lowercase}} is {{totalReports}}.</p>
+			</div>
 		</div>
 	</mat-card-content>
 	<mat-card-actions>
-		<button mat-button>LIKE</button>
-		<button mat-button>SHARE</button>
+		<button mat-button color="primary">Review</button>
 	</mat-card-actions>
 </mat-card>
+<ng-template #profilePlaceholder>
+	<img
+		[src]="'assets/images/avatar.png'"
+		mat-card-image
+	>
+</ng-template>

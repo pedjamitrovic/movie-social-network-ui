@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ReportedDetails } from '../../models/reported-details.model';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color } from 'ng2-charts';
+import { EnvironmentService } from '../../services/environment.service';
 
 @Component({
   selector: 'app-report',
@@ -17,7 +18,7 @@ export class ReportComponent implements OnInit {
   ];
   datasets: ChartDataSets[] = [
     {
-      data: [0, 0, 0, 0, 0, 0, 0]
+      data: []
     }
   ];
   legend = true;
@@ -27,8 +28,9 @@ export class ReportComponent implements OnInit {
     }
   }
   type: ChartType = 'pie';
+  totalReports = 0;
 
-  constructor() { }
+  constructor(public environment: EnvironmentService) { }
 
   ngOnInit(): void {
     this.initData();
@@ -42,24 +44,31 @@ export class ReportComponent implements OnInit {
         switch (rs.reason) {
           case 'sexual':
             this.datasets[0].data[0] = rs.count;
+            this.totalReports += rs.count;
             break;
           case 'violent':
             this.datasets[0].data[1] = rs.count;
+            this.totalReports += rs.count;
             break;
           case 'hateful':
             this.datasets[0].data[2] = rs.count;
+            this.totalReports += rs.count;
             break;
           case 'childAbuse':
             this.datasets[0].data[3] = rs.count;
+            this.totalReports += rs.count;
             break;
           case 'promotesTerrorism':
             this.datasets[0].data[4] = rs.count;
+            this.totalReports += rs.count;
             break;
           case 'spam':
             this.datasets[0].data[5] = rs.count;
+            this.totalReports += rs.count;
             break;
           case 'infringesRights':
             this.datasets[0].data[6] = rs.count;
+            this.totalReports += rs.count;
             break;
         }
       }

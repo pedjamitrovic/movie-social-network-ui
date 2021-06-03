@@ -1,0 +1,52 @@
+.report-card {
+  .content-container {
+    display: flex;
+    flex-wrap: wrap;
+    .system-entity-card {
+      flex: 1 0 300px;
+      min-width: 300px;
+      .header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        img {
+          width: 10vw;
+          height: 10vw;
+          min-width: 150px;
+          min-height: 150px;
+          border-radius: 50%;
+          background: #d2d7df;
+          object-fit: cover;
+        }
+        .name {
+          width: 300px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          display: inline-block;
+          text-align: center;
+        }
+      }
+      .description {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        text-align: center;
+      }
+    }
+    .chart-container {
+      flex: 1 0 300px;
+      min-width: 300px;
+      text-align: center;
+    }
+    .total-count {
+      margin-top: 10px;
+    }
+  }
+  mat-card-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
