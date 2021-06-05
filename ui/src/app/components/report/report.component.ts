@@ -1,8 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ReportedDetails } from '../../models/reported-details.model';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color } from 'ng2-charts';
 import { EnvironmentService } from '../../services/environment.service';
+import { ReviewReportDialogComponent, ReviewReportDialogData, ReviewReportDialogRetData } from '../dialogs/review-report-dialog/review-report-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { SystemEntityService } from '../../services/system-entity.service';
+import { ReviewReportCommand } from '../../models/review-report-command.model';
+import { SnackbarService } from '../../services/snackbar.service';
+import { ErrorDialogComponent, ErrorDialogComponentData } from '../dialogs/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-report',
@@ -11,6 +17,7 @@ import { EnvironmentService } from '../../services/environment.service';
 })
 export class ReportComponent implements OnInit {
   @Input() reportedDetails: ReportedDetails;
+  @Output() reviewed = new EventEmitter<ReportedDetails>();
 
   labels = ['Sexual', 'Violent', 'Hateful', 'Child abuse', 'Promotes terrorism', 'Spam', 'Infringes rights'];
   colors: Color[] = [
@@ -30,7 +37,12 @@ export class ReportComponent implements OnInit {
   type: ChartType = 'pie';
   totalReports = 0;
 
-  constructor(public environment: EnvironmentService) { }
+  constructor(
+    public environment: EnvironmentService,
+    public dialog: MatDialog,
+    public systemEntityService: SystemEntityService,
+    public snackbarService: SnackbarService,
+  ) { }
 
   ngOnInit(): void {
     this.initData();
@@ -71,6 +83,38 @@ export class ReportComponent implements OnInit {
             this.totalReports += rs.count;
             break;
         }
+      }
+    );
+  }
+
+  review() {
+    const reportDialog = this.dialog.open<ReviewReportDialogComponent, ReviewReportDialogData, ReviewReportCommand>(
+      ReviewReportDialogComponent,
+      {
+        data: { reportedDetails: this.reportedDetails },
+        autoFocus: false,
+        minWidth: '300px'
+      }
+    );
+    reportDialog.afterClosed().subscribe(
+      (command) => {
+        if (!command) { return; }
+        this.systemEntityService.resolveReport(this.reportedDetails.extended.id, command).subscribe(
+          () => {
+            this.reviewed.emit(this.reportedDetails);
+            this.snackbarService.open('Thank you for resolving report');
+          },
+          () => {
+            this.dialog.open<ErrorDialogComponent, ErrorDialogComponentData>(
+              ErrorDialogComponent,
+              {
+                data: {
+                  text: 'Unable to resolve report, something unexpected happened'
+                }
+              }
+            );
+          }
+        );
       }
     );
   }

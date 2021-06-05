@@ -3,6 +3,21 @@
 		class="report-wrapper"
 		*ngFor="let rd of reportedDetails?.items"
 	>
-		<app-report [reportedDetails]="rd"></app-report>
+		<app-report
+			[reportedDetails]="rd"
+			(reviewed)="reportReviewed($event)"
+		></app-report>
 	</div>
+	<div
+		class="spinner-container"
+		*ngIf="loading"
+	>
+		<mat-spinner></mat-spinner>
+	</div>
+	<mat-card
+		class="no-reports"
+		*ngIf="!loading && !reportedDetails?.items?.length"
+	>
+		No reports to show.
+	</mat-card>
 </div>

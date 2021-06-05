@@ -1,0 +1,25 @@
+.reason-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.reason-radio-button {
+  margin: 5px;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    button {
+        text-transform: uppercase;
+    }
+}
+
+#banned-until {
+  display: flex;
+  flex-direction: column;
+  label {
+    margin-bottom: 15px;
+  }
+}

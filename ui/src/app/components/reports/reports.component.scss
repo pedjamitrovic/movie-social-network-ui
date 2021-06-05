@@ -4,4 +4,12 @@
   .report-wrapper {
     padding: 10px;
   }
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+  }
+  .no-reports {
+    margin-top: 10px;
+    text-align: center;
+  }
 }

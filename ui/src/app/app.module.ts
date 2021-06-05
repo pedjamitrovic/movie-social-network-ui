@@ -61,6 +61,8 @@ import { SplashComponent } from './components/splash/splash.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { ChartsModule } from 'ng2-charts';
 import { ReportComponent } from './components/report/report.component';
+import { ReviewReportDialogComponent } from './components/dialogs/review-report-dialog/review-report-dialog.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -108,6 +110,7 @@ import { ReportComponent } from './components/report/report.component';
     SplashComponent,
     ReportsComponent,
     ReportComponent,
+    ReviewReportDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -123,7 +126,8 @@ import { ReportComponent } from './components/report/report.component';
     CommonModule,
     FormsModule,
     OverlayModule,
-    ChartsModule
+    ChartsModule,
+    MatRadioModule,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService, SplashService] },

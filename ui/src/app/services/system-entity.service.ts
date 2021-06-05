@@ -5,6 +5,7 @@ import { PagedList } from '@models/paged-list.model';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { ReportCommand } from '../models/report-command.model';
 import { ReportedDetails } from '../models/reported-details.model';
+import { ReviewReportCommand } from '../models/review-report-command.model';
 import { CommonHttpService } from './common-http.service';
 import { EnvironmentService } from './environment.service';
 
@@ -64,5 +65,9 @@ export class SystemEntityService {
     let params = new HttpParams();
     params = this.commonHttpService.parseParams(queryParams);
     return this.http.get<PagedList<ReportedDetails>>(`${this.apiUrl}/bannable`, { params });
+  }
+
+  resolveReport(id: number, command: ReviewReportCommand) {
+    return this.http.post(`${this.apiUrl}/${id}/review-report`, command);
   }
 }

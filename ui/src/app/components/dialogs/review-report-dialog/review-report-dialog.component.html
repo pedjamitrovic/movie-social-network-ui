@@ -1,0 +1,114 @@
+<h1 mat-dialog-title>
+	{{data?.title ? data.title : 'Review report'}}
+</h1>
+<div mat-dialog-content>
+	<form [formGroup]="reviewReportForm">
+		<label>Pick one of the available decisions:</label>
+		<mat-radio-group
+			class="reason-radio-group"
+			formControlName="issueBan"
+		>
+			<mat-radio-button
+				class="reason-radio-button"
+				[value]="false"
+			>
+				Close reports
+			</mat-radio-button>
+			<mat-radio-button
+				class="reason-radio-button"
+				[value]="true"
+			>
+				Issue ban
+			</mat-radio-button>
+		</mat-radio-group>
+		<ng-container *ngIf="reviewReportForm.controls.reason">
+			<label>Pick one of the available reasons:</label>
+			<mat-radio-group
+				class="reason-radio-group"
+				formControlName="reason"
+			>
+				<mat-radio-button
+					class="reason-radio-button"
+					value="sexual"
+				>
+					Sexual
+				</mat-radio-button>
+				<mat-radio-button
+					class="reason-radio-button"
+					value="violent"
+				>
+					Violent
+				</mat-radio-button>
+				<mat-radio-button
+					class="reason-radio-button"
+					value="hateful"
+				>
+					Hateful
+				</mat-radio-button>
+				<mat-radio-button
+					class="reason-radio-button"
+					value="childAbuse"
+				>
+					Child abuse
+				</mat-radio-button>
+				<mat-radio-button
+					class="reason-radio-button"
+					value="promotesTerrorism"
+				>
+					Promotes terrorism
+				</mat-radio-button>
+				<mat-radio-button
+					class="reason-radio-button"
+					value="spam"
+				>
+					Spam
+				</mat-radio-button>
+				<mat-radio-button
+					class="reason-radio-button"
+					value="infrigesRights"
+				>
+					Infriges rights
+				</mat-radio-button>
+			</mat-radio-group>
+		</ng-container>
+		<ng-container *ngIf="reviewReportForm.controls.bannedUntil">
+			<div id="banned-until">
+				<label>Pick end date of ban:</label>
+				<mat-form-field appearance="outline">
+					<mat-label>Banned until</mat-label>
+					<input
+						matInput
+						[matDatepicker]="picker"
+						[min]="minDate"
+						formControlName="bannedUntil"
+						required
+					>
+					<mat-datepicker-toggle
+						matSuffix
+						[for]="picker"
+					></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+					<mat-error *ngIf="reviewReportForm.controls.bannedUntil.hasError('matDatepickerMin')">
+						Minimum date is {{reviewReportForm.controls.bannedUntil.errors.matDatepickerMin.min | date: 'shortDate'}}
+					</mat-error>
+				</mat-form-field>
+			</div>
+		</ng-container>
+	</form>
+</div>
+<div class="actions">
+	<button
+		mat-button
+		(click)="cancel()"
+	>
+		Cancel
+	</button>
+	<button
+		mat-button
+		color="primary"
+		[disabled]="reviewReportForm.invalid"
+		(click)="confirm()"
+	>
+		Confirm
+	</button>
+</div>

@@ -1,5 +1,5 @@
 <mat-card class="report-card">
-	<mat-card-title>Report details</mat-card-title>
+	<h3>Report details</h3>
 	<mat-card-content>
 		<div class="content-container">
 			<mat-card class="system-entity-card mat-elevation-z0">
@@ -26,23 +26,19 @@
 							[matTooltip]="reportedDetails?.extended?.qualifiedName"
 						>
 					</a>
-					<mat-card-title>
-						<div class="name">
-							<span>
-								<a
-									*ngIf="reportedDetails?.discriminator === 'User'"
-									[routerLink]="['/users', reportedDetails?.extended?.id]"
-								>
-									{{reportedDetails?.extended?.qualifiedName}}
-								</a>
-								<a
-									*ngIf="reportedDetails?.discriminator === 'Group'"
-									[routerLink]="['/groups', reportedDetails?.extended?.id]"
-								>
-									{{reportedDetails?.extended?.qualifiedName}}
-								</a>
-							</span>
-						</div>
+					<mat-card-title class="name">
+						<a
+							*ngIf="reportedDetails?.discriminator === 'User'"
+							[routerLink]="['/users', reportedDetails?.extended?.id]"
+						>
+							{{reportedDetails?.extended?.qualifiedName}}
+						</a>
+						<a
+							*ngIf="reportedDetails?.discriminator === 'Group'"
+							[routerLink]="['/groups', reportedDetails?.extended?.id]"
+						>
+							{{reportedDetails?.extended?.qualifiedName}}
+						</a>
 					</mat-card-title>
 					<mat-card-subtitle>{{reportedDetails.discriminator}}</mat-card-subtitle>
 				</div>
@@ -63,12 +59,20 @@
 					[chartType]="type"
 				>
 				</canvas>
-        <p class="total-count">Total count of active reports for this {{reportedDetails.discriminator | lowercase}} is {{totalReports}}.</p>
+				<p class="total-count">
+					Total count of active reports for this {{reportedDetails.discriminator | lowercase}} is {{totalReports}}.
+				</p>
 			</div>
 		</div>
 	</mat-card-content>
 	<mat-card-actions>
-		<button mat-button color="primary">Review</button>
+		<button
+			mat-button
+			color="primary"
+      (click)="review()"
+		>
+			Review
+		</button>
 	</mat-card-actions>
 </mat-card>
 <ng-template #profilePlaceholder>
