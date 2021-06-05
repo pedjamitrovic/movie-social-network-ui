@@ -1,0 +1,23 @@
+.banned-container {
+    height: calc(100% - 64px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .sad-face {
+        mat-icon {
+            font-size: 200px;
+            height: 200px;
+            width: 200px;
+        }
+    }
+    h1,
+    h2,
+    p {
+        font-weight: 900;
+        text-align: center;
+    }
+    a {
+      cursor: pointer;
+    }
+}

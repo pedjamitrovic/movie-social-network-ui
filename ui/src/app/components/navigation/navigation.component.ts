@@ -63,14 +63,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .subscribe(
         (e) => {
           this.notifications = e.items;
-          console.log(this.notifications);
         }
       );
     this.notificationService.getMyUnseenNotificationCount()
       .subscribe(
         (count) => {
           this.unseenNotificationCount = count;
-          console.log(count);
         }
       );
   }

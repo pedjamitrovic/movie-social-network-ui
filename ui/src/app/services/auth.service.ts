@@ -67,7 +67,7 @@ export class AuthService {
   subscribeSignalR() {
     this.activeSystemEntitySubject.subscribe(
       (sysEntity) => {
-        if (sysEntity) {
+        if (sysEntity && !this.authUserValue.isBanned) {
           this.signalrService.initiateSignalrConnection(this.authUserValue.token);
         }
       }

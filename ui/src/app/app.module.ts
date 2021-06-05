@@ -62,7 +62,7 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { ChartsModule } from 'ng2-charts';
 import { ReportComponent } from './components/report/report.component';
 import { ReviewReportDialogComponent } from './components/dialogs/review-report-dialog/review-report-dialog.component';
-import { MatRadioModule } from '@angular/material/radio';
+import { BannedComponent } from './components/banned/banned.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +111,7 @@ import { MatRadioModule } from '@angular/material/radio';
     ReportsComponent,
     ReportComponent,
     ReviewReportDialogComponent,
+    BannedComponent,
   ],
   imports: [
     BrowserModule,
@@ -127,7 +128,6 @@ import { MatRadioModule } from '@angular/material/radio';
     FormsModule,
     OverlayModule,
     ChartsModule,
-    MatRadioModule,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService, SplashService] },

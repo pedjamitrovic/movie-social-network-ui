@@ -3,22 +3,29 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+  ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const authUser = this.authService.authUserValue;
     return next.handle(request).pipe(
       catchError(
         (err) => {
-          if ([401, 403].includes(err.status) && authUser) {
-            this.authService.logout();
+          if (err.status === 401 || err.status === 403) {
+            if (authUser.isBanned) {
+              this.router.navigate(['/banned']);
+            } else {
+              this.authService.logout();
+            }
           }
 
-          const error = (err && err.error) || err.statusText;
           console.error(err);
 
           return throwError(err.error);
