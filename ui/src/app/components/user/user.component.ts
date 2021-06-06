@@ -6,8 +6,8 @@ import { FeedCompConfig } from '@models/feed-comp-config';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { UserVM } from '@models/user-vm.model';
 import { SystemEntityService } from '@services/system-entity.service';
-import { UserService } from '@services/user/user.service';
 import { forkJoin } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user',

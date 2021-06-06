@@ -1,4 +1,4 @@
-import { ReactionType } from "./reaction-type.model";
+import { ReactionType } from './reaction-type.model';
 
 export interface CreateReactionCommand {
   value?: ReactionType;

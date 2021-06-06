@@ -9,11 +9,11 @@ import { RegisterCommand } from '@models/register-command.model';
 import { LoginCommand } from '@models/login-command.model';
 import { UserVM } from '@models/user-vm.model';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
-import { UserService } from './user/user.service';
 import { Constants } from '@util/constants';
 import { GroupVM } from '@models/group-vm.model';
 import { GroupService } from './group.service';
 import { SignalrService } from './signalr.service';
+import { UserService } from './user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

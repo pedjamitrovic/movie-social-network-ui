@@ -11,7 +11,7 @@ import { AuthService } from '@services/auth.service';
 import { CommentService } from '@services/comment.service';
 import { ContentService } from '@services/content.service';
 import { EnvironmentService } from '@services/environment.service';
-import { MediaService } from '@services/media/media.service';
+import { MediaService } from '@services/media.service';
 import { Constants } from '@util/constants';
 import * as moment from 'moment';
 import { BusinessErrorCode } from '../../models/business-error-code.model';

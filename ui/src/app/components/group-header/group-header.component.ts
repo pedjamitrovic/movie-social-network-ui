@@ -10,7 +10,7 @@ import { ImageType } from '@models/image-type.model';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { AuthService } from '@services/auth.service';
 import { EnvironmentService } from '@services/environment.service';
-import { MediaService } from '@services/media/media.service';
+import { MediaService } from '@services/media.service';
 import { SystemEntityService } from '@services/system-entity.service';
 import { BusinessErrorCode } from '../../models/business-error-code.model';
 import { ReportType } from '../../models/report-type.model';

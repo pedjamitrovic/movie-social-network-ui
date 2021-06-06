@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
 import { FeedCompConfig } from '@models/feed-comp-config';
 import { GroupVM } from '@models/group-vm.model';
-import { Group } from '@models/group.model';
 import { SystemEntityVM } from '@models/system-entity-vm.model';
 import { GroupService } from '@services/group.service';
 import { SystemEntityService } from '@services/system-entity.service';
@@ -19,7 +18,7 @@ export class GroupComponent implements OnInit {
   group: GroupVM;
   followers: SystemEntityVM[];
   following: SystemEntityVM[];
-  groups: Group[];
+  groups: GroupVM[];
   feedCompConfig: FeedCompConfig;
 
   constructor(

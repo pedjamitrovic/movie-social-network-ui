@@ -1,17 +1,13 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
-import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { CreatePostCommand } from '@models/create-post-command.model';
 import { PostVM } from '@models/post-vm.model';
-import { Post } from '@models/post.model';
 import { RenderedMedia } from '@models/rendered-media.model';
-import { User } from '@models/user.model';
 import { AuthService } from '@services/auth.service';
 import { EnvironmentService } from '@services/environment.service';
-import { MediaService } from '@services/media/media.service';
+import { MediaService } from '@services/media.service';
 import { PostService } from '@services/post.service';
-import { UserService } from '@services/user/user.service';
 import { Constants } from '@util/constants';
 
 @Component({
