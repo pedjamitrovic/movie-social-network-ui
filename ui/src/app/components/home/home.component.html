@@ -29,7 +29,7 @@
 				<h2>Register</h2>
 				<app-register></app-register>
 				<button
-        class="state-button"
+					class="state-button"
 					mat-button
 					color="primary"
 					(click)="toggleState()"
@@ -37,6 +37,28 @@
 					Already have an account? Login here
 				</button>
 			</ng-container>
+		</div>
+	</div>
+	<div class="divider-container">
+		<mat-divider></mat-divider>
+	</div>
+	<div class="app-info-container">
+		<div class="author">
+      <a href="https://www.etf.bg.ac.rs/sr" target="_blank"><img src="assets/images/etf.png"/></a>
+      <div class="divider-container">
+        <mat-divider></mat-divider>
+      </div>
+			<div>Developed by Predrag Mitrović</div>
+			<div>Mentored by Dr Dražen Drašković</div>
+			<div>University of Belgrade, School of Electrical Engineering</div>
+		</div>
+		<div class="tmdb">
+      <a href="https://www.themoviedb.org" target="_blank"><img src="assets/images/tmdb.svg"/></a>
+      <div class="divider-container">
+        <mat-divider></mat-divider>
+      </div>
+			<div>TMDb API is used as source for cinematography data.</div>
+      <div>This product uses the TMDb API but is not endorsed or certified by TMDb.</div>
 		</div>
 	</div>
 </div>
