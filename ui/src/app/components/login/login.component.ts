@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginCommand } from '@models/login-command.model';
 import { AuthService } from '@services/auth.service';
-import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 import { BusinessErrorCode } from '@models/business-error-code.model';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -13,13 +12,15 @@ import { BusinessErrorCode } from '@models/business-error-code.model';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  @Output() formSubmitted = new EventEmitter<boolean>();
+
   form: FormGroup;
+  submitted = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -37,14 +38,18 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.form.markAllAsTouched();
-    if (this.form.invalid) { return; }
+    if (this.form.invalid || this.submitted) { return; }
+
+    this.setSubmitted(true);
 
     const command: LoginCommand = {
       username: this.form.controls.username.value,
       password: this.form.controls.password.value,
     };
-    const returnUrl =
-      this.authService.login(command).subscribe(
+
+    this.authService.login(command)
+      .pipe(finalize(() => this.setSubmitted(false)))
+      .subscribe(
         () => {
           if (this.route.snapshot.queryParams.returnUrl) {
             this.router.navigate([this.route.snapshot.queryParams.returnUrl]);
@@ -63,6 +68,11 @@ export class LoginComponent implements OnInit {
           }
         }
       );
+  }
+
+  setSubmitted(v: boolean) {
+    this.submitted = v;
+    this.formSubmitted.emit(v);
   }
 
 }

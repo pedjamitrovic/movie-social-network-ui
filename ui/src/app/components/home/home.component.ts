@@ -14,6 +14,7 @@ enum HomeComponentState {
 })
 export class HomeComponent implements OnInit {
   state: HomeComponentState = HomeComponentState.Login;
+  submitted = false;
 
   constructor(private router: Router, private authService: AuthService) { }
 
@@ -29,6 +30,10 @@ export class HomeComponent implements OnInit {
     } else {
       this.state = HomeComponentState.Login;
     }
+  }
+
+  formSubmitted(submitted: boolean) {
+    this.submitted = submitted;
   }
 
 }
