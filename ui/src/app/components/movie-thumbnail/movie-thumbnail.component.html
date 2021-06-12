@@ -1,0 +1,21 @@
+<div class="movie-thumbnail-container">
+	<a [routerLink]="['/movies', movie.id]">
+		<div class="poster-container">
+			<img
+				*ngIf="movie.poster_path"
+				class="poster"
+				[src]="movieService.configuration.images.base_url + 'w185/' + movie.poster_path"
+			>
+			<img
+				*ngIf="!movie.poster_path"
+				class="poster"
+				src="assets/images/msn-home-logo.jpg"
+			>
+			<div class="vote-average">{{movie.vote_average || 'N/A'}}</div>
+		</div>
+	</a>
+	<div class="bold center">{{movie.title}}</div>
+	<div class="center">
+		{{movie.release_date | date: 'mediumDate'}}
+	</div>
+</div>

@@ -1,0 +1,26 @@
+.movies-search-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  .movie-thumbnail-wrapper {
+    padding: 5px;
+    animation-duration: 300ms;
+    animation-name: fadeIn;
+    animation-timing-function: ease-in-out;
+  }
+}
+
+.movies-search-query {
+  width: 250px;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

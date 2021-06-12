@@ -62,6 +62,13 @@ import { ChartsModule } from 'ng2-charts';
 import { ReportComponent } from './components/report/report.component';
 import { ReviewReportDialogComponent } from './components/dialogs/review-report-dialog/review-report-dialog.component';
 import { BannedComponent } from './components/banned/banned.component';
+import { MoviesComponent } from './components/movies/movies.component';
+import { MovieComponent } from './components/movie/movie.component';
+import { MovieThumbnailComponent } from './components/movie-thumbnail/movie-thumbnail.component';
+import { MovieService } from './services/movie.service';
+import { MoviesPopularComponent } from './components/movies-popular/movies-popular.component';
+import { MoviesTrendingComponent } from './components/movies-trending/movies-trending.component';
+import { MoviesSearchComponent } from './components/movies-search/movies-search.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +117,12 @@ import { BannedComponent } from './components/banned/banned.component';
     ReportComponent,
     ReviewReportDialogComponent,
     BannedComponent,
+    MoviesComponent,
+    MovieComponent,
+    MovieThumbnailComponent,
+    MoviesPopularComponent,
+    MoviesTrendingComponent,
+    MoviesSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -128,7 +141,7 @@ import { BannedComponent } from './components/banned/banned.component';
     ChartsModule,
   ],
   providers: [
-    { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService, SplashService] },
+    { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService, MovieService, SplashService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     ShortNumberPipe,

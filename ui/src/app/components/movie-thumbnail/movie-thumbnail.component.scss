@@ -1,0 +1,30 @@
+.movie-thumbnail-container {
+  width: 185px;
+  .poster-container {
+    position: relative;
+    .poster {
+      width: 185px;
+      height: 278px;
+      border-radius: 5px;
+    }
+    .vote-average {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      padding: 5px;
+      border-radius: 5px;
+      background: #3f51b5;
+      color: white;
+      font-weight: bold;
+    }
+  }
+  .poster-container:hover {
+    opacity: 0.9;
+  }
+  .center {
+    text-align: center;
+  }
+  .bold {
+    font-weight: bold;
+  }
+}

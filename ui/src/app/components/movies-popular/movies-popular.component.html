@@ -1,0 +1,8 @@
+<div class="movies-popular-container">
+	<div
+		class="movie-thumbnail-wrapper"
+		*ngFor="let movie of movies?.results"
+	>
+		<app-movie-thumbnail [movie]="movie"></app-movie-thumbnail>
+	</div>
+</div>
