@@ -1,12 +1,14 @@
-<mat-button-toggle-group class="time-window" [formControl]="timeWindow">
-  <mat-button-toggle value="day">Today</mat-button-toggle>
-  <mat-button-toggle value="week">This week</mat-button-toggle>
-</mat-button-toggle-group>
 <div class="movies-trending-container">
-	<div
-		class="movie-thumbnail-wrapper"
-		*ngFor="let movie of movies?.results"
-	>
-		<app-movie-thumbnail [movie]="movie"></app-movie-thumbnail>
-	</div>
+  <mat-button-toggle-group class="time-window" [formControl]="timeWindow">
+    <mat-button-toggle value="day">Today</mat-button-toggle>
+    <mat-button-toggle value="week">This week</mat-button-toggle>
+  </mat-button-toggle-group>
+  <div class="results">
+    <div
+      class="movie-thumbnail-wrapper"
+      *ngFor="let movie of movies?.results"
+    >
+      <app-movie-thumbnail [movie]="movie"></app-movie-thumbnail>
+    </div>
+  </div>
 </div>

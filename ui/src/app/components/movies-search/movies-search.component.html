@@ -1,16 +1,20 @@
-<mat-form-field class="movies-search-query">
-  <mat-label>Search for a movie</mat-label>
-  <input
-    matInput
-    [formControl]="query"
-  >
-</mat-form-field>
-<p *ngIf="movies">{{movies?.total_results > 20 ? '20+' : movies?.total_results}} result(s) found.</p>
 <div class="movies-search-container">
-	<div
-		class="movie-thumbnail-wrapper"
-		*ngFor="let movie of movies?.results"
-	>
-		<app-movie-thumbnail [movie]="movie"></app-movie-thumbnail>
+	<mat-form-field class="movies-search-query">
+		<mat-label>Search for a movie</mat-label>
+		<input
+			matInput
+			[formControl]="query"
+		>
+	</mat-form-field>
+	<p *ngIf="movies">
+		{{movies?.total_results > 20 ? '20+' : movies?.total_results}} result(s) found.
+	</p>
+	<div class="results">
+		<div
+			class="movie-thumbnail-wrapper"
+			*ngFor="let movie of movies?.results"
+		>
+			<app-movie-thumbnail [movie]="movie"></app-movie-thumbnail>
+		</div>
 	</div>
 </div>
