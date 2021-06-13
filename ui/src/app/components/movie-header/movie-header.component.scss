@@ -1,0 +1,91 @@
+.movie-header {
+  .backdrop-container {
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    .movie-header {
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      @media only screen and (max-width: 600px) {
+        justify-content: center;
+      }
+      min-height: 500px;
+      border-radius: 5px;
+      background-image: linear-gradient(
+        to right,
+        rgba(5.88%, 6.67%, 8.24%, 0.6) 150px,
+        rgba(5.88%, 6.67%, 8.24%, 0.8) 100%
+      );
+      color: white;
+      .movie-thumbnail-container {
+        width: 300px;
+        .poster-container {
+          .poster {
+            width: 300px;
+            border-radius: 5px;
+          }
+        }
+        .poster-container:hover {
+          opacity: 0.9;
+        }
+        .center {
+          text-align: center;
+        }
+        .bold {
+          font-weight: bold;
+        }
+      }
+      .movie-info {
+        display: flex;
+        flex-direction: column;
+        min-width: 300px;
+        max-width: 800px;
+        a {
+          color: white;
+        }
+        .title {
+          @media only screen and (max-width: 600px) {
+            text-align: center;
+          }
+          .release-year {
+            margin-left: 10px;
+            opacity: 0.8;
+            font-weight: 400;
+          }
+        }
+        .facts {
+          font-size: 1rem;
+          @media only screen and (max-width: 600px) {
+            font-size: 0.9rem;
+            text-align: center;
+            .mat-chip-list-wrapper {
+              justify-content: center;
+            }
+          }
+        }
+        .tagline {
+          @media only screen and (max-width: 600px) {
+            text-align: center;
+          }
+        }
+        .overview {
+          max-width: 800px;
+        }
+        .imdb-trailer {
+          display: flex;
+          #trailer {
+            margin-left: 10px;
+            img {
+              width: 64px;
+              height: 32px;
+              padding-bottom: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

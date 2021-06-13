@@ -1,1 +1,11 @@
-<p>movie works!</p>
+<div
+	*ngIf="movie"
+	class="movie"
+>
+	<div class="m-10">
+		<app-movie-header [movie]="movie"></app-movie-header>
+	</div>
+	<div class="m-10">
+		<app-movie-production [movie]="movie"></app-movie-production>
+	</div>
+</div>

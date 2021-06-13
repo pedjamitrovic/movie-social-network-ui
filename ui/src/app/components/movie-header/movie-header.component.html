@@ -1,0 +1,77 @@
+<div class="movie-header mat-elevation-z1">
+	<div
+		class="backdrop-container"
+		[ngStyle]="{'background-image': movie.backdrop_path && 'url(' + movieService.configuration.images.base_url + 'w1280' + movie.backdrop_path +')' }"
+	>
+		<div class="movie-header">
+			<div class="movie-thumbnail-container">
+				<a [routerLink]="['/movies', movie.id]">
+					<div class="poster-container">
+						<img
+							*ngIf="movie.poster_path"
+							class="poster"
+							[src]="movieService.configuration.images.base_url + 'w342' + movie.poster_path"
+						>
+						<img
+							*ngIf="!movie.poster_path"
+							class="poster"
+							src="assets/images/msn-home-logo.jpg"
+						>
+					</div>
+				</a>
+			</div>
+			<div class="movie-info">
+				<h1 class="title all-small-caps">
+					<a [routerLink]="['/movies', movie.id]">{{movie.title}}</a>
+					<span class="release-year">({{movie.release_date | slice:0:4}})</span>
+				</h1>
+				<div class="facts all-small-caps">
+					<mat-chip-list>
+						<mat-chip
+							*ngFor="let genre of movie.genres"
+							color="primary"
+							selected
+						>
+							{{genre.name}}
+						</mat-chip>
+						<mat-chip
+							color="accent"
+							selected
+						>
+							{{movie.runtime | movieDuration}}
+						</mat-chip>
+					</mat-chip-list>
+				</div>
+				<h2
+					*ngIf="movie.tagline"
+					class="tagline all-small-caps"
+				>
+					{{movie.tagline}}
+				</h2>
+				<h3
+					*ngIf="movie.overview"
+					class="all-small-caps"
+				>
+					Overview
+				</h3>
+				<p class="overview">{{movie.overview}}</p>
+				<div class="imdb-trailer">
+					<app-imdb
+						*ngIf="movie.imdb_id"
+						[imdbId]="movie.imdb_id"
+						[movieTitle]="movie.title"
+					></app-imdb>
+					<a
+						*ngIf="trailerUrl"
+						id="trailer"
+						[href]="trailerUrl"
+						target="_blank"
+						matTooltip="Watch trailer on YouTube"
+					>
+						<img src="/assets/images/youtube.svg">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,17 @@
+<div class="movie-production-company-container">
+	<div class="poster-container">
+		<img
+			*ngIf="company.logo_path"
+			class="poster"
+			[src]="movieService.configuration.images.base_url + 'w185' + company.logo_path"
+		>
+		<img
+			*ngIf="!company.logo_path"
+			class="poster"
+			src="assets/images/msn-square-logo.jpg"
+		>
+	</div>
+	<div class="bold center">
+		{{company.name}}
+	</div>
+</div>

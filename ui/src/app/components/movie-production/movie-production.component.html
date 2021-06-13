@@ -1,0 +1,27 @@
+<mat-card class="movie-production">
+	<h2>Production</h2>
+	<mat-card-content>
+		<div class="production-container">
+			<div class="production-info">
+				<app-movie-production-info [movie]="movie"></app-movie-production-info>
+			</div>
+			<div class="keywords-companies-container">
+				<div class="movie-keywords-wrapper">
+					<app-movie-keywords [keywords]="keywords"></app-movie-keywords>
+				</div>
+				<div class="title">Companies</div>
+				<div
+					*ngIf="movie.production_companies?.length > 0"
+					class="production-companies"
+				>
+					<div
+						class="movie-production-company-wrapper"
+						*ngFor="let company of movie.production_companies"
+					>
+						<app-movie-production-company [company]="company"></app-movie-production-company>
+					</div>
+				</div>
+			</div>
+		</div>
+	</mat-card-content>
+</mat-card>

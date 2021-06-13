@@ -1,0 +1,39 @@
+<div class="movie-production-info">
+	<div
+		class="item"
+		*ngIf="movie.status"
+	>
+		<div class="title">Status</div>
+		<div class="value">{{movie.status}}</div>
+	</div>
+	<div
+		class="item"
+		*ngIf="movie.release_date"
+	>
+		<div class="title">Release date</div>
+		<div class="value">
+			{{movie.release_date | date:'mediumDate'}}
+		</div>
+	</div>
+	<div
+		class="item"
+		*ngIf="movie.original_language"
+	>
+		<div class="title">Original language</div>
+		<div class="value">{{movie.original_language | uppercase}}</div>
+	</div>
+	<div
+		class="item"
+		*ngIf="movie.budget"
+	>
+		<div class="title">Budget</div>
+		<div class="value">${{movie.budget | shortNumber}}</div>
+	</div>
+	<div
+		class="item"
+		*ngIf="movie.revenue"
+	>
+		<div class="title">Revenue</div>
+		<div class="value">${{movie.revenue | shortNumber}}</div>
+	</div>
+</div>

@@ -69,6 +69,13 @@ import { MovieService } from './services/movie.service';
 import { MoviesPopularComponent } from './components/movies-popular/movies-popular.component';
 import { MoviesTrendingComponent } from './components/movies-trending/movies-trending.component';
 import { MoviesSearchComponent } from './components/movies-search/movies-search.component';
+import { MovieDurationPipe } from './pipes/movie-duration.pipe';
+import { ImdbComponent } from './components/imdb/imdb.component';
+import { MovieHeaderComponent } from './components/movie-header/movie-header.component';
+import { MovieProductionComponent } from './components/movie-production/movie-production.component';
+import { MovieProductionCompanyComponent } from './components/movie-production-company/movie-production-company.component';
+import { MovieProductionInfoComponent } from './components/movie-production-info/movie-production-info.component';
+import { MovieKeywordsComponent } from './components/movie-keywords/movie-keywords.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +130,13 @@ import { MoviesSearchComponent } from './components/movies-search/movies-search.
     MoviesPopularComponent,
     MoviesTrendingComponent,
     MoviesSearchComponent,
+    MovieDurationPipe,
+    ImdbComponent,
+    MovieHeaderComponent,
+    MovieProductionComponent,
+    MovieProductionCompanyComponent,
+    MovieProductionInfoComponent,
+    MovieKeywordsComponent,
   ],
   imports: [
     BrowserModule,
@@ -145,6 +159,7 @@ import { MoviesSearchComponent } from './components/movies-search/movies-search.
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     ShortNumberPipe,
+    MovieDurationPipe,
   ],
   bootstrap: [AppComponent]
 })

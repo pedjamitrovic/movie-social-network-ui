@@ -1,0 +1,12 @@
+.movie-production-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .item {
+    margin-bottom: 10px;
+    .title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  }
+}

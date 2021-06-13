@@ -1,0 +1,19 @@
+<div class="movie-keywords">
+	<div
+		*ngIf="keywords?.length > 0"
+		class="item"
+	>
+		<div class="title">Keywords</div>
+		<div class="value all-small-caps">
+			<mat-chip-list>
+				<mat-chip
+					*ngFor="let keyword of keywords"
+					color="primary"
+					selected
+				>
+					{{keyword.name}}
+				</mat-chip>
+			</mat-chip-list>
+		</div>
+	</div>
+</div>

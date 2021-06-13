@@ -4,7 +4,7 @@
 			<img
 				*ngIf="movie.poster_path"
 				class="poster"
-				[src]="movieService.configuration.images.base_url + 'w185/' + movie.poster_path"
+				[src]="movieService.configuration.images.base_url + 'w185' + movie.poster_path"
 			>
 			<img
 				*ngIf="!movie.poster_path"
