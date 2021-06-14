@@ -4,11 +4,13 @@
 >
 	<img
 		*ngFor="let image of renderedMedia?.images"
+    loading="lazy"
 		[src]="image"
 		class="image-preview"
 	>
 	<video
 		*ngFor="let video of renderedMedia?.videos"
+    loading="lazy"
 		class="video-preview"
 		controls
 	>

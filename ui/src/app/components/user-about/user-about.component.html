@@ -96,11 +96,13 @@
 					*ngIf="group?.profileImagePath; else profilePlaceholder"
 					[src]="environment.apiUrl + '\\' + group?.profileImagePath"
 					mat-card-image
+          loading="lazy"
 				>
 				<ng-template #profilePlaceholder>
 					<img
 						[src]="'assets/images/avatar.png'"
 						mat-card-image
+            loading="lazy"
 					>
 				</ng-template>
 				<mat-card-content>

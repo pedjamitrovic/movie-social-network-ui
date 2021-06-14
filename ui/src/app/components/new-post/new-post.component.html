@@ -5,6 +5,7 @@
 				class="new-post-avatar"
 				[src]="environment.apiUrl + '\\' + authService?.activeSystemEntityValue?.profileImagePath"
 				[matTooltip]="authService?.activeSystemEntityValue?.qualifiedName"
+        loading="lazy"
 			>
 		</a>
 		<div class="new-post-info">

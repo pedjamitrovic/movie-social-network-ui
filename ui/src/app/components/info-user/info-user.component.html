@@ -4,11 +4,13 @@
 			*ngIf="user?.profileImagePath; else profilePlaceholder"
 			[src]="environment.apiUrl + '\\' + user?.profileImagePath"
 			class="avatar"
+      loading="lazy"
 		>
 		<ng-template #profilePlaceholder>
 			<img
 				[src]="'assets/images/avatar.png'"
 				class="avatar"
+        loading="lazy"
 			>
 		</ng-template>
 		<div class="result-info">

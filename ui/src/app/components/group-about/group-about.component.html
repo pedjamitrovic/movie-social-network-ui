@@ -93,11 +93,13 @@
 				</mat-card-header>
 				<img
 					*ngIf="group?.profileImagePath; else profilePlaceholder"
+					loading="lazy"
 					[src]="environment.apiUrl + '\\' + group?.profileImagePath"
 					mat-card-image
 				>
 				<ng-template #profilePlaceholder>
 					<img
+						loading="lazy"
 						[src]="'assets/images/avatar.png'"
 						mat-card-image
 					>

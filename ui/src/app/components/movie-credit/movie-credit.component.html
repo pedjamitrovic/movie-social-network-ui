@@ -2,13 +2,16 @@
 	<div class="poster-container">
 		<img
 			*ngIf="credit.profile_path"
-			class="poster mat-elevation-z1"
+      loading="lazy"
+			class="poster mat-elevation-z1 animate-fade-in"
 			[src]="movieService.configuration.images.base_url + 'w185' + credit.profile_path"
+      loading="lazy"
 		>
 		<img
 			*ngIf="!credit.profile_path"
 			class="poster mat-elevation-z1"
 			src="assets/images/msn-home-logo.jpg"
+      loading="lazy"
 		>
 	</div>
 	<div class="credit-info">

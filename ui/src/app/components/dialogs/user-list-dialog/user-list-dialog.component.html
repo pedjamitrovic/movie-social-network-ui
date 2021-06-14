@@ -12,12 +12,14 @@
 			>
 				<img
 					*ngIf="systemEntity?.profileImagePath; else profilePlaceholder"
+					loading="lazy"
 					[src]="environment.apiUrl + '\\' + systemEntity?.profileImagePath"
 					[matTooltip]="systemEntity?.qualifiedName"
 					class="user-avatar"
 				>
 				<ng-template #profilePlaceholder>
 					<img
+						loading="lazy"
 						[src]="'assets/images/avatar.png'"
 						[matTooltip]="systemEntity?.qualifiedName"
 						class="user-avatar"

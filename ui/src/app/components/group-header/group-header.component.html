@@ -14,14 +14,15 @@
 		<img
 			*ngIf="group?.coverImagePath; else coverPlaceholder"
 			[src]="environment.apiUrl + '\\' + group?.coverImagePath"
+      loading="lazy"
 		>
 		<ng-template #coverPlaceholder>
-			<img [src]="'assets/images/cover.jpg'">
+			<img loading="lazy" [src]="'assets/images/cover.jpg'">
 		</ng-template>
 	</div>
 	<ng-template #coverPreview>
 		<div class="cover-image">
-			<img [src]="group?.coverImagePath">
+			<img loading="lazy" [src]="group?.coverImagePath">
 		</div>
 	</ng-template>
 	<div class="profile-settings">
@@ -66,14 +67,15 @@
 		<img
 			*ngIf="group?.profileImagePath; else profilePlaceholder"
 			[src]="environment.apiUrl + '\\' + group?.profileImagePath"
+      loading="lazy"
 		>
 		<ng-template #profilePlaceholder>
-			<img [src]="'assets/images/avatar.png'">
+			<img loading="lazy" [src]="'assets/images/avatar.png'">
 		</ng-template>
 	</div>
 	<ng-template #profilePreview>
 		<div class="profile-image">
-			<img [src]="group?.profileImagePath">
+			<img loading="lazy" [src]="group?.profileImagePath">
 		</div>
 	</ng-template>
 	<div class="title">

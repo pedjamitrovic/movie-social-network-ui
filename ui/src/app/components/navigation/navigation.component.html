@@ -10,6 +10,7 @@
 		<img
 			class="logo"
 			src="assets/images/msn-square-logo.jpg"
+      loading="lazy"
 		>
 		<mat-nav-list>
 			<a
@@ -145,11 +146,13 @@
 							*ngIf="authService?.activeSystemEntityValue?.profileImagePath; else profilePlaceholder"
 							[src]="environment.apiUrl + '\\' + authService?.activeSystemEntityValue?.profileImagePath"
 							class="user-avatar"
+              loading="lazy"
 						>
 						<ng-template #profilePlaceholder>
 							<img
 								[src]="'assets/images/avatar.png'"
 								class="user-avatar"
+                loading="lazy"
 							>
 						</ng-template>
 					</a>
@@ -173,11 +176,13 @@
 											*ngIf="notification?.sender?.profileImagePath; else profilePlaceholder"
 											[src]="environment.apiUrl + '\\' + notification?.sender?.profileImagePath"
 											class="avatar"
+                      loading="lazy"
 										>
 										<ng-template #profilePlaceholder>
 											<img
 												[src]="'assets/images/avatar.png'"
 												class="avatar"
+                        loading="lazy"
 											>
 										</ng-template>
 										<div class="notification-info">

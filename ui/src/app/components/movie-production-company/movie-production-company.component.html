@@ -2,13 +2,16 @@
 	<div class="poster-container">
 		<img
 			*ngIf="company.logo_path"
-			class="poster"
+      loading="lazy"
+			class="poster animate-fade-in"
 			[src]="movieService.configuration.images.base_url + 'w185' + company.logo_path"
+      loading="lazy"
 		>
 		<img
 			*ngIf="!company.logo_path"
 			class="poster"
 			src="assets/images/msn-square-logo.jpg"
+      loading="lazy"
 		>
 	</div>
 	<div class="bold text-center">

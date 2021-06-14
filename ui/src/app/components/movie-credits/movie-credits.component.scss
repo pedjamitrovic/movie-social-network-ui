@@ -1,11 +1,6 @@
 .movie-credits {
   min-height: calc(100% - 32px);
-  .director-producer{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .actors {
+  .credits {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;

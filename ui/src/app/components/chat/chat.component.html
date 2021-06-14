@@ -22,6 +22,7 @@
 			<div class="chat-user">
 				<img
 					class="user-avatar"
+					loading="lazy"
 					src="assets/images/avatar.png"
 				>
 				<div
@@ -50,21 +51,21 @@
 					></span>
 					<img
 						*ngIf="cr?.members[0]?.profileImagePath; else profilePlaceholder"
+						loading="lazy"
 						[src]="environment.apiUrl + '\\' + cr?.members[0]?.profileImagePath"
 						[matTooltip]="cr?.members[0]?.qualifiedName"
 						class="user-avatar"
 					>
 					<ng-template #profilePlaceholder>
 						<img
+							loading="lazy"
 							[src]="'assets/images/avatar.png'"
 							[matTooltip]="cr?.members[0]?.qualifiedName"
 							class="user-avatar"
 						>
 					</ng-template>
 				</div>
-				<div
-					class="chat-info"
-				>
+				<div class="chat-info">
 					<div class="username">{{cr?.members[0]?.qualifiedName}}</div>
 					<div class="last-message">
 						<span *ngIf="cr?.newestMessage?.senderId === authService?.activeSystemEntityValue?.id">You:</span>

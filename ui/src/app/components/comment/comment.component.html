@@ -5,6 +5,7 @@
 	<div class="comment-header">
 		<a [routerLink]="[comment?.creator?.discriminator === 'User' ? '/users' : '/groups', comment?.creator?.id]">
 			<img
+        loading="lazy"
 				class="comment-avatar"
 				[src]="environment.apiUrl + '\\' + comment?.creator?.profileImagePath"
 				[matTooltip]="comment?.creator?.qualifiedName || 'Unknown'"

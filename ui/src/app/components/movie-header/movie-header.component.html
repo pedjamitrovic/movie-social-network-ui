@@ -11,11 +11,13 @@
 							*ngIf="movie.poster_path"
 							class="poster"
 							[src]="movieService.configuration.images.base_url + 'w342' + movie.poster_path"
+              loading="lazy"
 						>
 						<img
 							*ngIf="!movie.poster_path"
 							class="poster"
 							src="assets/images/msn-home-logo.jpg"
+              loading="lazy"
 						>
 					</div>
 				</a>
@@ -71,7 +73,7 @@
 						target="_blank"
 						matTooltip="Watch trailer on YouTube"
 					>
-						<img src="/assets/images/youtube.svg">
+						<img loading="lazy" src="/assets/images/youtube.svg">
 					</a>
 				</div>
 			</div>

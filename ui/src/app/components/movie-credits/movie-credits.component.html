@@ -1,7 +1,7 @@
 <mat-card class="movie-credits">
 	<h2>Credits</h2>
 	<mat-card-content>
-		<div class="director-producer">
+		<div *ngIf="director || producer || actors?.length > 0" class="credits">
 			<div
 				*ngIf="director"
 				class="credit-wrapper"
@@ -20,8 +20,6 @@
 					job="Producer"
 				></app-movie-credit>
 			</div>
-		</div>
-		<div *ngIf="actors?.length > 0" class="actors">
 			<div
 				*ngFor="let actor of actors"
 				class="credit-wrapper"
