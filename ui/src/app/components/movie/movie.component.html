@@ -1,6 +1,6 @@
 <div
 	*ngIf="movie"
-	class="movie"
+	class="movie animate-fade-in"
 >
 	<div class="m-10">
 		<app-movie-header [movie]="movie"></app-movie-header>
@@ -8,4 +8,6 @@
 	<div class="m-10">
 		<app-movie-production [movie]="movie"></app-movie-production>
 	</div>
+	<div class="m-10">
+    <app-movie-credits [movie]="movie"></app-movie-credits>
 </div>

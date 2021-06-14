@@ -35,6 +35,7 @@
 							{{genre.name}}
 						</mat-chip>
 						<mat-chip
+							*ngIf="movie.runtime"
 							color="accent"
 							selected
 						>
@@ -50,7 +51,7 @@
 				</h2>
 				<h3
 					*ngIf="movie.overview"
-					class="all-small-caps"
+					class="overview-title all-small-caps"
 				>
 					Overview
 				</h3>
@@ -58,12 +59,14 @@
 				<div class="imdb-trailer">
 					<app-imdb
 						*ngIf="movie.imdb_id"
+            class="animate-fade-in"
 						[imdbId]="movie.imdb_id"
 						[movieTitle]="movie.title"
 					></app-imdb>
 					<a
 						*ngIf="trailerUrl"
 						id="trailer"
+            class="animate-fade-in"
 						[href]="trailerUrl"
 						target="_blank"
 						matTooltip="Watch trailer on YouTube"

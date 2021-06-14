@@ -76,6 +76,9 @@ import { MovieProductionComponent } from './components/movie-production/movie-pr
 import { MovieProductionCompanyComponent } from './components/movie-production-company/movie-production-company.component';
 import { MovieProductionInfoComponent } from './components/movie-production-info/movie-production-info.component';
 import { MovieKeywordsComponent } from './components/movie-keywords/movie-keywords.component';
+import { MovieCreditsComponent } from './components/movie-credits/movie-credits.component';
+import { MovieRatingComponent } from './components/movie-rating/movie-rating.component';
+import { MovieCreditComponent } from './components/movie-credit/movie-credit.component';
 
 @NgModule({
   declarations: [
@@ -137,6 +140,9 @@ import { MovieKeywordsComponent } from './components/movie-keywords/movie-keywor
     MovieProductionCompanyComponent,
     MovieProductionInfoComponent,
     MovieKeywordsComponent,
+    MovieCreditsComponent,
+    MovieRatingComponent,
+    MovieCreditComponent,
   ],
   imports: [
     BrowserModule,

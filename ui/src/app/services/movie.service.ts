@@ -4,6 +4,7 @@ import { EnvironmentService } from '@services/environment.service';
 import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Configuration } from '../models/tmdb/configuration.model';
+import { Credit } from '../models/tmdb/credit.model';
 import { Keyword } from '../models/tmdb/keyword.model';
 import { Movie } from '../models/tmdb/movie.model';
 import { PagedList } from '../models/tmdb/paged-list.model';
@@ -64,7 +65,7 @@ export class MovieService {
   }
 
   getMovieCredits(id: number) {
-    return this.http.get<Movie>(`${this.apiUrl}/movie/${id}/credits`);
+    return this.http.get<{cast: Credit[], crew: Credit[]}>(`${this.apiUrl}/movie/${id}/credits`);
   }
 
   getSimilarMovies(id: number) {

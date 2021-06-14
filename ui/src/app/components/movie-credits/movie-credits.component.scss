@@ -1,0 +1,16 @@
+.movie-credits {
+  min-height: calc(100% - 32px);
+  .director-producer{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .actors {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .credit-wrapper {
+    margin: 5px;
+  }
+}

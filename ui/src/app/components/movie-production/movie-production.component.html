@@ -9,7 +9,7 @@
 				<div class="movie-keywords-wrapper">
 					<app-movie-keywords [keywords]="keywords"></app-movie-keywords>
 				</div>
-				<div class="title">Companies</div>
+				<div *ngIf="movie.production_companies?.length > 0" class="title">Companies</div>
 				<div
 					*ngIf="movie.production_companies?.length > 0"
 					class="production-companies"

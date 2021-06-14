@@ -1,0 +1,29 @@
+<div class="movie-credit-container">
+	<div class="poster-container">
+		<img
+			*ngIf="credit.profile_path"
+			class="poster mat-elevation-z1"
+			[src]="movieService.configuration.images.base_url + 'w185' + credit.profile_path"
+		>
+		<img
+			*ngIf="!credit.profile_path"
+			class="poster mat-elevation-z1"
+			src="assets/images/msn-home-logo.jpg"
+		>
+	</div>
+	<div class="credit-info">
+		<div class="name bold text-center">{{credit.name}}</div>
+		<div
+			class="text-center"
+			*ngIf="job === 'Actor'"
+		>
+			{{credit.character || (credit.gender === 1? 'Actress': 'Actor')}}
+		</div>
+		<div
+			class="text-center"
+			*ngIf="job !== 'Actor'"
+		>
+			{{credit.job}}
+		</div>
+	</div>
+</div>

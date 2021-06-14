@@ -1,0 +1,23 @@
+.movie-credit-container {
+  border-radius: 5px;
+  width: 138px;
+  .poster-container {
+    position: relative;
+    .poster {
+      border-radius: 5px;
+      width: 138px;
+    }
+  }
+  .poster-container:hover {
+    opacity: 0.9;
+  }
+  .bold {
+    font-weight: bold;
+  }
+  .name {
+    font-size: 16px;
+  }
+  .credit-info {
+    padding: 5px;
+  }
+}

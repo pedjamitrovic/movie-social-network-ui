@@ -1,0 +1,36 @@
+<mat-card class="movie-credits">
+	<h2>Credits</h2>
+	<mat-card-content>
+		<div class="director-producer">
+			<div
+				*ngIf="director"
+				class="credit-wrapper"
+			>
+				<app-movie-credit
+					[credit]="director"
+					job="Director"
+				></app-movie-credit>
+			</div>
+			<div
+				*ngIf="producer"
+				class="credit-wrapper"
+			>
+				<app-movie-credit
+					[credit]="producer"
+					job="Producer"
+				></app-movie-credit>
+			</div>
+		</div>
+		<div *ngIf="actors?.length > 0" class="actors">
+			<div
+				*ngFor="let actor of actors"
+				class="credit-wrapper"
+			>
+				<app-movie-credit
+					[credit]="actor"
+					job="Actor"
+				></app-movie-credit>
+			</div>
+		</div>
+	</mat-card-content>
+</mat-card>
