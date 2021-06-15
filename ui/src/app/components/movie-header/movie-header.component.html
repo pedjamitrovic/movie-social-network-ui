@@ -11,13 +11,13 @@
 							*ngIf="movie.poster_path"
 							class="poster"
 							[src]="movieService.configuration.images.base_url + 'w342' + movie.poster_path"
-              loading="lazy"
+							loading="lazy"
 						>
 						<img
 							*ngIf="!movie.poster_path"
 							class="poster"
 							src="assets/images/msn-home-logo.jpg"
-              loading="lazy"
+							loading="lazy"
 						>
 					</div>
 				</a>
@@ -46,7 +46,6 @@
 					</mat-chip-list>
 				</div>
 				<h2
-					*ngIf="movie.tagline"
 					class="tagline all-small-caps"
 				>
 					{{movie.tagline}}
@@ -61,20 +60,40 @@
 				<div class="imdb-trailer">
 					<app-imdb
 						*ngIf="movie.imdb_id"
-            class="animate-fade-in"
+						class="animate-fade-in"
 						[imdbId]="movie.imdb_id"
 						[movieTitle]="movie.title"
 					></app-imdb>
 					<a
 						*ngIf="trailerUrl"
 						id="trailer"
-            class="animate-fade-in"
+						class="animate-fade-in"
 						[href]="trailerUrl"
 						target="_blank"
 						matTooltip="Watch trailer on YouTube"
 					>
-						<img loading="lazy" src="/assets/images/youtube.svg">
+						<img
+							loading="lazy"
+							src="/assets/images/youtube.svg"
+						>
 					</a>
+				</div>
+				<div class="rating">
+					<div
+						*ngIf="!loading"
+						class="movie-rating-wrapper"
+					>
+						<app-movie-rating [rating]="rating"></app-movie-rating>
+						<div class="label all-small-caps text-center">Total rating</div>
+					</div>
+					<div
+						*ngIf="!loading"
+						class="movie-rating-wrapper user-rating"
+						matTooltip="Edit your rating"
+					>
+						<app-movie-rating [rating]="myRating"></app-movie-rating>
+						<div class="label all-small-caps text-center">Your rating</div>
+					</div>
 				</div>
 			</div>
 		</div>

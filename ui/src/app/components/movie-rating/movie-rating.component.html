@@ -1,5 +1,10 @@
-<mat-card class="movie-rating">
-	<h2>Rating</h2>
-	<mat-card-content>
-	</mat-card-content>
-</mat-card>
+<div class="movie-rating">
+	<div
+		*ngIf="rating"
+		[countUp]="rating"
+		[options]="options"
+	>
+		0
+	</div>
+	<div *ngIf="!rating">N/A</div>
+</div>

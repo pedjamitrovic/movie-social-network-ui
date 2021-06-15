@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Movie } from '../../models/tmdb/movie.model';
+import { CountUpOptions } from 'countup.js';
 
 @Component({
   selector: 'app-movie-rating',
@@ -7,7 +7,11 @@ import { Movie } from '../../models/tmdb/movie.model';
   styleUrls: ['./movie-rating.component.scss']
 })
 export class MovieRatingComponent implements OnInit {
-  @Input() movie: Movie;
+  @Input() rating: number;
+  options: CountUpOptions = {
+    decimalPlaces: 1,
+    separator: '.'
+  };
 
   constructor() { }
 

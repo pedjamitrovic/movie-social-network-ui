@@ -1,4 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Movie } from '../../models/tmdb/movie.model';
 import { MovieService } from '../../services/movie.service';
 
@@ -11,20 +13,61 @@ import { MovieService } from '../../services/movie.service';
 export class MovieHeaderComponent implements OnInit {
   @Input() movie: Movie;
   trailerUrl: string;
+  rating: number;
+  myRating: number;
+  loading = true;
 
   constructor(
     public movieService: MovieService,
   ) { }
 
   ngOnInit() {
-    this.movieService.getMovieVideos(this.movie.id).subscribe(
-      (videos) => {
-        const trailer = videos.find((e) => e.site === 'YouTube' && e.type === 'Trailer');
-        if (trailer) {
-          this.trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
-        }
+    this.initData();
+  }
+
+  initData() {
+    const apiCalls = [
+      this.getVideos(),
+      this.getMyRating(),
+    ];
+
+    forkJoin(apiCalls).subscribe(
+      () => {
+        this.calculateRating();
+        this.loading = false;
       }
     );
+  }
+
+  getVideos() {
+    return this.movieService.getMovieVideos(this.movie.id).pipe(
+      tap(
+        (videos) => {
+          const trailer = videos.find((e) => e.site === 'YouTube' && e.type === 'Trailer');
+          if (trailer) {
+            this.trailerUrl = `https://www.youtube.com/watch?v=${trailer.key}`;
+          }
+        }
+      )
+    );
+  }
+
+  getMyRating() {
+    return this.movieService.getMyRating(this.movie.id).pipe(
+      tap(
+        (myRating) => {
+          this.myRating = myRating;
+        }
+      )
+    );
+  }
+
+  calculateRating() {
+    if (this.myRating) {
+      this.rating = ((this.movie.vote_average * this.movie.vote_count) + this.myRating) / (this.movie.vote_count + 1);
+    } else {
+      this.rating = this.movie.vote_average;
+    }
   }
 
 }

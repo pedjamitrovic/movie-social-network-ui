@@ -5,15 +5,18 @@
 				*ngIf="movie.poster_path"
 				class="poster"
 				[src]="movieService.configuration.images.base_url + 'w185' + movie.poster_path"
-        loading="lazy"
+				loading="lazy"
 			>
 			<img
 				*ngIf="!movie.poster_path"
 				class="poster"
 				src="assets/images/msn-home-logo.jpg"
-        loading="lazy"
+				loading="lazy"
 			>
-			<div class="vote-average">{{movie.vote_average || 'N/A'}}</div>
+			<div class="vote-average">
+				<div *ngIf="movie.vote_average">{{movie.vote_average | number: '1.1-1'}}</div>
+				<div *ngIf="!movie.vote_average">N/A</div>
+			</div>
 		</div>
 	</a>
 	<div class="bold center">{{movie.title}}</div>

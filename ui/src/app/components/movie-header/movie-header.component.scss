@@ -57,6 +57,7 @@
           }
         }
         .facts {
+          min-height: 63px;
           font-size: 1rem;
           @media only screen and (max-width: 600px) {
             font-size: 0.9rem;
@@ -75,10 +76,16 @@
           margin-bottom: 0;
         }
         .overview {
+          min-height: 51px;
           max-width: 800px;
+          font-size: 14px;
         }
         .imdb-trailer {
+          min-height: 46px;
           display: flex;
+          @media only screen and (max-width: 600px) {
+            justify-content: center;
+          }
           #trailer {
             margin-left: 10px;
             img {
@@ -86,6 +93,30 @@
               height: 32px;
               padding-bottom: 10px;
             }
+          }
+        }
+        .rating {
+          display: flex;
+          justify-content: flex-end;
+          @media only screen and (max-width: 600px) {
+            justify-content: center;
+          }
+          .movie-rating-wrapper {
+            margin-right: 10px;
+            border: 1px solid white;
+            border-radius: 5px;
+            padding: 5px;
+          }
+          .user-rating:hover {
+            cursor: pointer;
+            background: white;
+            color: black;
+            transition: ease-in-out;
+            transition-duration: 300ms;
+          }
+          .label {
+            font-weight: bold;
+            margin-top: 10px;
           }
         }
       }

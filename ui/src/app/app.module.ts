@@ -79,6 +79,8 @@ import { MovieKeywordsComponent } from './components/movie-keywords/movie-keywor
 import { MovieCreditsComponent } from './components/movie-credits/movie-credits.component';
 import { MovieRatingComponent } from './components/movie-rating/movie-rating.component';
 import { MovieCreditComponent } from './components/movie-credit/movie-credit.component';
+import { UserRatingComponent } from './components/user-rating/user-rating.component';
+import { CountUpModule } from 'ngx-countup';
 
 @NgModule({
   declarations: [
@@ -143,6 +145,7 @@ import { MovieCreditComponent } from './components/movie-credit/movie-credit.com
     MovieCreditsComponent,
     MovieRatingComponent,
     MovieCreditComponent,
+    UserRatingComponent,
   ],
   imports: [
     BrowserModule,
@@ -159,6 +162,7 @@ import { MovieCreditComponent } from './components/movie-credit/movie-credit.com
     FormsModule,
     OverlayModule,
     ChartsModule,
+    CountUpModule,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService, MovieService, SplashService] },

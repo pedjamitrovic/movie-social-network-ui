@@ -75,4 +75,8 @@ export class MovieService {
   getMovieVideos(id: number) {
     return this.http.get<{results: Video[]}>(`${this.apiUrl}/movie/${id}/videos`).pipe(map((res) => res.results));
   }
+
+  getMyRating(id: number) {
+    return of(null);
+  }
 }
