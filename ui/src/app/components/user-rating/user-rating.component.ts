@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-user-rating',
@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-rating.component.scss']
 })
 export class UserRatingComponent implements OnInit {
+  @Input() value: number;
+  @Output() valueChanged = new EventEmitter<{ oldValue: number, newValue: number }>();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onRate(event: { oldValue: number, newValue: number }) {
+    this.valueChanged.emit(event);
   }
 
 }

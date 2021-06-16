@@ -1,6 +1,6 @@
 import { AuthService } from '@services/auth.service';
 import { forkJoin } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
 import { MovieService } from '../services/movie.service';
 import { SplashService } from '../services/splash.service';
 
@@ -9,13 +9,13 @@ export function appInitializer(authService: AuthService, movieService: MovieServ
     (resolve) => {
       splashService.open();
 
-      const initializers = [
-        authService.initAuthUser(),
-        movieService.initConfiguration(),
-      ]
+      const initMovieConfig = movieService.initConfiguration();
 
-      forkJoin(initializers)
-        .pipe(finalize(() => splashService.close()))
+      initMovieConfig
+        .pipe(
+          switchMap(() => authService.initAuthUser()),
+          finalize(() => splashService.close())
+        )
         .subscribe()
         .add(resolve);
     }

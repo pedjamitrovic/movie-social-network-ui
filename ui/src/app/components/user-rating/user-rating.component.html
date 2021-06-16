@@ -1,1 +1,4 @@
-<p>user-rating works!</p>
+<div class="user-rating-container animate-fade-in mat-elevation-z1">
+  <div class="label all-small-caps text-center">Edit your rating</div>
+  <star-rating [value]="value" [totalstars]="10" checkedcolor="gold" uncheckedcolor="black" size="24px" [readonly]="false" (rate)="onRate($event)"></star-rating>
+</div>

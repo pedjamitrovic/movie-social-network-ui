@@ -45,11 +45,7 @@
 						</mat-chip>
 					</mat-chip-list>
 				</div>
-				<h2
-					class="tagline all-small-caps"
-				>
-					{{movie.tagline}}
-				</h2>
+				<h2 class="tagline all-small-caps">{{movie.tagline}}</h2>
 				<h3
 					*ngIf="movie.overview"
 					class="overview-title all-small-caps"
@@ -89,10 +85,26 @@
 					<div
 						*ngIf="!loading"
 						class="movie-rating-wrapper user-rating"
+						[ngClass]="{'user-rating-opened': isEditRatingOpened}"
 						matTooltip="Edit your rating"
+						cdkOverlayOrigin
+						#trigger="cdkOverlayOrigin"
+						(click)="toggleEditMyRating()"
 					>
 						<app-movie-rating [rating]="myRating"></app-movie-rating>
 						<div class="label all-small-caps text-center">Your rating</div>
+						<ng-template
+							cdkConnectedOverlay
+							[cdkConnectedOverlayPositions]="[{originX: 'end', originY: 'center', overlayX: 'end', overlayY: 'center', offsetY: -80}]"
+							[cdkConnectedOverlayOrigin]="trigger"
+							[cdkConnectedOverlayOpen]="isEditRatingOpened"
+              (backdropClick)="toggleEditMyRating()"
+						>
+							<app-user-rating
+								[value]="myRating"
+								(valueChanged)="userRatingChanged($event)"
+							></app-user-rating>
+						</ng-template>
 					</div>
 				</div>
 			</div>

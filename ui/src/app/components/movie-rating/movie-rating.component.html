@@ -1,8 +1,9 @@
-<div class="movie-rating">
+<div class="movie-rating" (click)="$event.preventDefault()">
 	<div
 		*ngIf="rating"
 		[countUp]="rating"
 		[options]="options"
+    [reanimateOnClick]="false"
 	>
 		0
 	</div>

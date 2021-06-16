@@ -1,4 +1,6 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { Component, HostListener, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { StarRatingComponent } from 'ng-starrating';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Movie } from '../../models/tmdb/movie.model';
@@ -16,6 +18,7 @@ export class MovieHeaderComponent implements OnInit {
   rating: number;
   myRating: number;
   loading = true;
+  isEditRatingOpened = false;
 
   constructor(
     public movieService: MovieService,
@@ -70,4 +73,27 @@ export class MovieHeaderComponent implements OnInit {
     }
   }
 
+  toggleEditMyRating() {
+    this.isEditRatingOpened = !this.isEditRatingOpened;
+  }
+
+  userRatingChanged(event: { oldValue: number, newValue: number }) {
+    if (event.oldValue === event.newValue) {
+      this.myRating = null;
+    } else {
+      this.myRating = event.newValue;
+    }
+    this.calculateRating();
+    this.isEditRatingOpened = false;
+  }
+
+  @HostListener('document:mousewheel')
+  onMouseWheel() {
+    if (this.isEditRatingOpened) { this.isEditRatingOpened = false; }
+  }
+
+  @HostListener('document:touchmove')
+  onTouchMove() {
+    if (this.isEditRatingOpened) { this.isEditRatingOpened = false; }
+  }
 }

@@ -83,11 +83,9 @@
         .imdb-trailer {
           min-height: 46px;
           display: flex;
-          @media only screen and (max-width: 600px) {
-            justify-content: center;
-          }
           #trailer {
             margin-left: 10px;
+            user-select: none;
             img {
               width: 64px;
               height: 32px;
@@ -98,25 +96,32 @@
         .rating {
           display: flex;
           justify-content: flex-end;
-          @media only screen and (max-width: 600px) {
-            justify-content: center;
-          }
           .movie-rating-wrapper {
             margin-right: 10px;
             border: 1px solid white;
             border-radius: 5px;
             padding: 5px;
+            user-select: none;
+          }
+          .user-rating {
+            transition: ease-in-out;
+            transition-duration: 300ms;
           }
           .user-rating:hover {
             cursor: pointer;
             background: white;
             color: black;
-            transition: ease-in-out;
-            transition-duration: 300ms;
+          }
+          .user-rating-opened {
+            background: white;
+            color: black;
           }
           .label {
             font-weight: bold;
             margin-top: 10px;
+          }
+          .transparent {
+            background: transparent;
           }
         }
       }

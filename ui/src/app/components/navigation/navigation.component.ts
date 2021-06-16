@@ -154,6 +154,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   notificationClicked(notification: NotificationVM) {
+    this.showNotificationMenu = false;
     if (!notification || notification.seen) { return; }
     this.signalrService.setNotificationSeen(notification);
   }

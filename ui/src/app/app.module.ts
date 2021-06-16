@@ -81,6 +81,7 @@ import { MovieRatingComponent } from './components/movie-rating/movie-rating.com
 import { MovieCreditComponent } from './components/movie-credit/movie-credit.component';
 import { UserRatingComponent } from './components/user-rating/user-rating.component';
 import { CountUpModule } from 'ngx-countup';
+import { RatingModule } from 'ng-starrating';
 
 @NgModule({
   declarations: [
@@ -163,6 +164,7 @@ import { CountUpModule } from 'ngx-countup';
     OverlayModule,
     ChartsModule,
     CountUpModule,
+    RatingModule,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService, MovieService, SplashService] },
