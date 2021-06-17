@@ -1,8 +1,8 @@
 import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { Component, HostListener, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
-import { forkJoin } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Movie } from '../../models/tmdb/movie.model';
 import { MovieService } from '../../services/movie.service';
 
@@ -56,12 +56,13 @@ export class MovieHeaderComponent implements OnInit {
   }
 
   getMyRating() {
-    return this.movieService.getMyRating(this.movie.id).pipe(
+    return this.movieService.getMyMovieRating(this.movie.id).pipe(
       tap(
-        (myRating) => {
-          this.myRating = myRating;
+        (movieRatingVM) => {
+          this.myRating = movieRatingVM.rating;
         }
-      )
+      ),
+      catchError(() => of(null))
     );
   }
 
@@ -79,8 +80,10 @@ export class MovieHeaderComponent implements OnInit {
 
   userRatingChanged(event: { oldValue: number, newValue: number }) {
     if (event.oldValue === event.newValue) {
+      this.movieService.rateMovie(this.movie.id, { rating: null }).subscribe();
       this.myRating = null;
     } else {
+      this.movieService.rateMovie(this.movie.id, { rating: event.newValue }).subscribe();
       this.myRating = event.newValue;
     }
     this.calculateRating();
@@ -95,5 +98,11 @@ export class MovieHeaderComponent implements OnInit {
   @HostListener('document:touchmove')
   onTouchMove() {
     if (this.isEditRatingOpened) { this.isEditRatingOpened = false; }
+  }
+
+  onOverlayKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.isEditRatingOpened = false;
+    }
   }
 }

@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { EnvironmentService } from '@services/environment.service';
 import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { MovieRatingVM } from '../models/movie-rating-vm.model';
+import { RateMovieCommand } from '../models/rate-movie-command.model';
 import { Configuration } from '../models/tmdb/configuration.model';
 import { Credit } from '../models/tmdb/credit.model';
 import { Keyword } from '../models/tmdb/keyword.model';
@@ -61,7 +63,7 @@ export class MovieService {
   }
 
   getMovieRecommendations(id: number) {
-    return this.http.get<Movie>(`${this.apiUrl}/movie/${id}/recommendations`);
+    return this.http.get<PagedList<Movie>>(`${this.apiUrl}/movie/${id}/recommendations`);
   }
 
   getMovieCredits(id: number) {
@@ -69,14 +71,18 @@ export class MovieService {
   }
 
   getSimilarMovies(id: number) {
-    return this.http.get<Movie>(`${this.apiUrl}/movie/${id}//similar`);
+    return this.http.get<PagedList<Movie>>(`${this.apiUrl}/movie/${id}/similar`);
   }
 
   getMovieVideos(id: number) {
     return this.http.get<{results: Video[]}>(`${this.apiUrl}/movie/${id}/videos`).pipe(map((res) => res.results));
   }
 
-  getMyRating(id: number) {
-    return of(null);
+  getMyMovieRating(id: number) {
+    return this.http.get<MovieRatingVM>(`${this.apiUrl}/movie/${id}/rating/me`);
+  }
+
+  rateMovie(id: number, command: RateMovieCommand) {
+    return this.http.post<MovieRatingVM>(`${this.apiUrl}/movie/${id}/rating`, command);
   }
 }

@@ -99,6 +99,7 @@
 							[cdkConnectedOverlayOrigin]="trigger"
 							[cdkConnectedOverlayOpen]="isEditRatingOpened"
               (backdropClick)="toggleEditMyRating()"
+              (overlayKeydown)="onOverlayKeydown($event)"
 						>
 							<app-user-rating
 								[value]="myRating"
