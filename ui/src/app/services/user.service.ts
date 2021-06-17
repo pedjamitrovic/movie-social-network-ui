@@ -1,20 +1,19 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PagedList } from '@models/paged-list.model';
-import { UserVM } from '@models/user-vm.model';
-import { CommonHttpService } from './common-http.service';
-import { EnvironmentService } from './environment.service';
+import { PagedList } from '@models/response/paged-list.model';
+import { UserVM } from '@models/response/user-vm.model';
+import { CommonHttpService } from '@services/common-http.service';
+import { EnvironmentService } from '@services/environment.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  apiUrl: string;
+  apiUrl = `${this.environment.apiUrl}/users`;
 
   constructor(
     private environment: EnvironmentService,
     private commonHttpService: CommonHttpService,
     private http: HttpClient,
   ) {
-    this.apiUrl = `${this.environment.apiUrl}/users`;
   }
 
   getList(queryParams: any) {

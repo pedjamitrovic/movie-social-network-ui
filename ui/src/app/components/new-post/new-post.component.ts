@@ -1,9 +1,9 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
-import { CreatePostCommand } from '@models/create-post-command.model';
-import { PostVM } from '@models/post-vm.model';
-import { RenderedMedia } from '@models/rendered-media.model';
+import { RenderedMedia } from '@models/internal/rendered-media.model';
+import { CreatePostCommand } from '@models/request/create-post-command.model';
+import { PostVM } from '@models/response/post-vm.model';
 import { AuthService } from '@services/auth.service';
 import { EnvironmentService } from '@services/environment.service';
 import { MediaService } from '@services/media.service';
@@ -16,14 +16,14 @@ import { Constants } from '@util/constants';
   styleUrls: ['./new-post.component.scss']
 })
 export class NewPostComponent implements OnInit {
-  @Output() public postCreated = new EventEmitter<PostVM>();
+  @Output() postCreated = new EventEmitter<PostVM>();
 
-  public command: CreatePostCommand = { text: '', file: null };
-  public renderedMedia: RenderedMedia;
-  public youtubeUrl: string;
-  public showEmojiPicker = false;
+  command: CreatePostCommand = { text: '', file: null };
+  renderedMedia: RenderedMedia;
+  youtubeUrl: string;
+  showEmojiPicker = false;
 
-  @ViewChild('mediaInput') public mediaInput: ElementRef;
+  @ViewChild('mediaInput') mediaInput: ElementRef;
 
   constructor(
     public authService: AuthService,
@@ -33,8 +33,7 @@ export class NewPostComponent implements OnInit {
     private dialog: MatDialog,
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
   actionActivated(action: string) {
     switch (action) {

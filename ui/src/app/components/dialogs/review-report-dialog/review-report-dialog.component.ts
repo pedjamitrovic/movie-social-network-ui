@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ReportedDetails } from '../../../models/reported-details.model';
-import { ReportedStats } from '../../../models/reported-stats.model';
-import { ReviewReportCommand } from '../../../models/review-report-command.model';
+import { ReviewReportCommand } from '@models/request/review-report-command.model';
+import { ReportedDetails } from '@models/response/reported-details.model';
+import { ReportedStats } from '@models/response/reported-stats.model';
 
 export interface ReviewReportDialogData {
   title?: string;
@@ -26,13 +26,12 @@ export class ReviewReportDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ReviewReportDialogData,
-    public dialog: MatDialogRef<ReviewReportDialogComponent, ReviewReportCommand>,
+    private dialog: MatDialogRef<ReviewReportDialogComponent, ReviewReportCommand>,
   ) {
     this.init();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   init() {
     this.minDate = new Date();

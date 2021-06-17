@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegisterCommand } from '@models/register-command.model';
-import { UserVM } from '@models/user-vm.model';
+import { RegisterCommand } from '@models/request/register-command.model';
+import { BusinessErrorCode } from '@models/response/business-error-code.model';
+import { UserVM } from '@models/response/user-vm.model';
 import { AuthService } from '@services/auth.service';
-import { BusinessErrorCode } from '@models/business-error-code.model';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
     private router: Router,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.initForm();
   }
 

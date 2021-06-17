@@ -1,21 +1,20 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CreatePostCommand } from '@models/create-post-command.model';
-import { PagedList } from '@models/paged-list.model';
-import { PostVM } from '@models/post-vm.model';
-import { CommonHttpService } from './common-http.service';
-import { EnvironmentService } from './environment.service';
+import { CreatePostCommand } from '@models/request/create-post-command.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { PostVM } from '@models/response/post-vm.model';
+import { CommonHttpService } from '@services/common-http.service';
+import { EnvironmentService } from '@services/environment.service';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
-  apiUrl: string;
+  apiUrl = `${this.environment.apiUrl}/posts`;
 
   constructor(
     private environment: EnvironmentService,
     private http: HttpClient,
     private commonHttpService: CommonHttpService,
   ) {
-    this.apiUrl = `${this.environment.apiUrl}/posts`;
   }
 
   getList(queryParams: any) {

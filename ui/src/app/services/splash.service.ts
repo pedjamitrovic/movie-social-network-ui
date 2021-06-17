@@ -3,13 +3,13 @@
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
-import { SplashComponent } from '../components/splash/splash.component';
+import { SplashComponent } from '@components/splash/splash.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SplashService {
-  public overlayRef: OverlayRef;
+  overlayRef: OverlayRef;
 
   constructor(
     private overlay: Overlay,

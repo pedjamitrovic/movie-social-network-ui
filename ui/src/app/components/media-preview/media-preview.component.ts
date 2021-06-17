@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RenderedMedia } from '@models/rendered-media.model';
+import { RenderedMedia } from '@models/internal/rendered-media.model';
 
 @Component({
   selector: 'app-media-preview',
@@ -7,11 +7,10 @@ import { RenderedMedia } from '@models/rendered-media.model';
   styleUrls: ['./media-preview.component.scss']
 })
 export class MediaPreviewComponent implements OnInit {
-  @Input() public renderedMedia: RenderedMedia;
+  @Input() renderedMedia: RenderedMedia;
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
 }

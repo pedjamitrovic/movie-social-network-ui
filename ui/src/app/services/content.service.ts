@@ -1,19 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CreateReactionCommand } from '@models/create-reaction-command.model';
-import { ReactionVM } from '@models/reaction-vm.model';
-import { ReportCommand } from '../models/report-command.model';
-import { EnvironmentService } from './environment.service';
+import { CreateReactionCommand } from '@models/request/create-reaction-command.model';
+import { ReportCommand } from '@models/request/report-command.model';
+import { ReactionVM } from '@models/response/reaction-vm.model';
+import { EnvironmentService } from '@services/environment.service';
 
 @Injectable({ providedIn: 'root' })
 export class ContentService {
-  apiUrl: string;
+  apiUrl = `${this.environment.apiUrl}/contents`;
 
   constructor(
     private environment: EnvironmentService,
     private http: HttpClient,
   ) {
-    this.apiUrl = `${this.environment.apiUrl}/contents`;
   }
 
   react(id: number, command: CreateReactionCommand) {

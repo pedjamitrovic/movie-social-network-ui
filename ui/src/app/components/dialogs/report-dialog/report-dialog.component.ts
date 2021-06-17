@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ReportType } from '../../../models/report-type.model';
+import { ReportType } from '@models/internal/report-type.model';
 
 export interface ReportDialogData {
   title?: string;
@@ -16,11 +16,10 @@ export class ReportDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ReportDialogData,
-    public dialog: MatDialogRef<ReportDialogComponent, ReportType>,
+    private dialog: MatDialogRef<ReportDialogComponent, ReportType>,
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   cancel() {
     this.dialog.close();

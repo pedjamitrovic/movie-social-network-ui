@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoginCommand } from '@models/login-command.model';
+import { LoginCommand } from '@models/request/login-command.model';
+import { BusinessErrorCode } from '@models/response/business-error-code.model';
 import { AuthService } from '@services/auth.service';
-import { BusinessErrorCode } from '@models/business-error-code.model';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.initForm();
   }
 

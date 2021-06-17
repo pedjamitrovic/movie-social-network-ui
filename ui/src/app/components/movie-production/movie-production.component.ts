@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Keyword } from '../../models/tmdb/keyword.model';
-import { Movie } from '../../models/tmdb/movie.model';
-import { MovieService } from '../../services/movie.service';
+import { Keyword } from '@models/tmdb/keyword.model';
+import { Movie } from '@models/tmdb/movie.model';
+import { MovieService } from '@services/movie.service';
 
 @Component({
   selector: 'app-movie-production',
@@ -10,14 +10,14 @@ import { MovieService } from '../../services/movie.service';
 })
 export class MovieProductionComponent implements OnInit, OnChanges {
   @Input() movie: Movie;
+
   keywords: Keyword[];
 
   constructor(
     private movieService: MovieService,
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.movie?.currentValue) {

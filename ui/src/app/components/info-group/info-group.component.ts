@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GroupVM } from '@models/group-vm.model';
+import { GroupVM } from '@models/response/group-vm.model';
 import { EnvironmentService } from '@services/environment.service';
 
 @Component({
@@ -11,9 +11,10 @@ export class InfoGroupComponent implements OnInit {
   @Input() group: GroupVM;
   @Input() showAdminText: boolean;
 
-  constructor(public environment: EnvironmentService) { }
+  constructor(
+    public environment: EnvironmentService
+  ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
 }

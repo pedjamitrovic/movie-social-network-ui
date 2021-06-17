@@ -1,24 +1,24 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CommentVM } from '@models/comment-vm.model';
-import { PagedList } from '@models/paged-list.model';
-import { Paging } from '@models/paging.model';
-import { PostVM } from '@models/post-vm.model';
-import { ReactionType } from '@models/reaction-type.model';
-import { ReactionVM } from '@models/reaction-vm.model';
-import { RenderedMedia } from '@models/rendered-media.model';
+import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
+import { ReportDialogComponent, ReportDialogData } from '@components/dialogs/report-dialog/report-dialog.component';
+import { ReactionType } from '@models/internal/reaction-type.model';
+import { RenderedMedia } from '@models/internal/rendered-media.model';
+import { ReportType } from '@models/internal/report-type.model';
+import { Paging } from '@models/request/paging.model';
+import { BusinessErrorCode } from '@models/response/business-error-code.model';
+import { CommentVM } from '@models/response/comment-vm.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { PostVM } from '@models/response/post-vm.model';
+import { ReactionVM } from '@models/response/reaction-vm.model';
 import { AuthService } from '@services/auth.service';
 import { CommentService } from '@services/comment.service';
 import { ContentService } from '@services/content.service';
 import { EnvironmentService } from '@services/environment.service';
 import { MediaService } from '@services/media.service';
+import { SnackbarService } from '@services/snackbar.service';
 import { Constants } from '@util/constants';
 import * as moment from 'moment';
-import { BusinessErrorCode } from '../../models/business-error-code.model';
-import { ReportType } from '../../models/report-type.model';
-import { SnackbarService } from '../../services/snackbar.service';
-import { ErrorDialogComponent, ErrorDialogComponentData } from '../dialogs/error-dialog/error-dialog.component';
-import { ReportDialogComponent, ReportDialogData } from '../dialogs/report-dialog/report-dialog.component';
 
 @Component({
   selector: 'app-post',
@@ -56,8 +56,7 @@ export class PostComponent implements OnInit {
     private snackbarService: SnackbarService,
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   async initData() {
     if (!this._post) { return; }

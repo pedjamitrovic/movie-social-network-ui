@@ -8,6 +8,7 @@ import { CountUpOptions } from 'countup.js';
 })
 export class MovieRatingComponent implements OnInit {
   @Input() rating: number;
+
   options: CountUpOptions = {
     decimalPlaces: 1,
     separator: '.'
@@ -15,7 +16,6 @@ export class MovieRatingComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
 }

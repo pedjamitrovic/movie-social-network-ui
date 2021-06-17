@@ -15,11 +15,10 @@ export class ConfirmActionDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ConfirmActionDialogComponentData,
-    public dialog: MatDialogRef<ConfirmActionDialogComponent, boolean>,
+    private dialog: MatDialogRef<ConfirmActionDialogComponent, boolean>,
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   cancel() {
     this.dialog.close(false);

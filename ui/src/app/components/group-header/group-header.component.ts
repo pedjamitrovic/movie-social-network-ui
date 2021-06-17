@@ -4,18 +4,18 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmActionBottomSheetComponent, ConfirmActionBottomSheetComponentData } from '@components/bottom-sheets/confirm-action-bottom-sheet/confirm-action-bottom-sheet.component';
 import { ConfirmActionDialogComponent, ConfirmActionDialogComponentData } from '@components/dialogs/confirm-action-dialog/confirm-action-dialog.component';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
+import { ReportDialogComponent, ReportDialogData } from '@components/dialogs/report-dialog/report-dialog.component';
 import { UserListDialogComponent, UserListDialogComponentData } from '@components/dialogs/user-list-dialog/user-list-dialog.component';
-import { GroupVM } from '@models/group-vm.model';
-import { ImageType } from '@models/image-type.model';
-import { SystemEntityVM } from '@models/system-entity-vm.model';
+import { ImageType } from '@models/internal/image-type.model';
+import { ReportType } from '@models/internal/report-type.model';
+import { BusinessErrorCode } from '@models/response/business-error-code.model';
+import { GroupVM } from '@models/response/group-vm.model';
+import { SystemEntityVM } from '@models/response/system-entity-vm.model';
 import { AuthService } from '@services/auth.service';
 import { EnvironmentService } from '@services/environment.service';
 import { MediaService } from '@services/media.service';
+import { SnackbarService } from '@services/snackbar.service';
 import { SystemEntityService } from '@services/system-entity.service';
-import { BusinessErrorCode } from '../../models/business-error-code.model';
-import { ReportType } from '../../models/report-type.model';
-import { SnackbarService } from '../../services/snackbar.service';
-import { ReportDialogComponent, ReportDialogData } from '../dialogs/report-dialog/report-dialog.component';
 
 @Component({
   selector: 'app-group-header',
@@ -27,13 +27,13 @@ export class GroupHeaderComponent implements OnInit, OnChanges {
   @Input() followers: SystemEntityVM[];
   @Input() following: SystemEntityVM[];
 
-  public isFollowing = false;
-  public renderedImage: string;
-  public newMediaType: string;
-  public coverPreviewMode = false;
-  public profilePreviewMode = false;
+  isFollowing = false;
+  renderedImage: string;
+  newMediaType: string;
+  coverPreviewMode = false;
+  profilePreviewMode = false;
 
-  @ViewChild('mediaInput') public mediaInput: ElementRef;
+  @ViewChild('mediaInput') mediaInput: ElementRef;
 
   constructor(
     public environment: EnvironmentService,
@@ -45,8 +45,7 @@ export class GroupHeaderComponent implements OnInit, OnChanges {
     private snackbarService: SnackbarService,
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ngOnChanges() {
     if (this.followers) {

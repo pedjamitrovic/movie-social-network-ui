@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Movie } from '../../models/tmdb/movie.model';
-import { PagedList } from '../../models/tmdb/paged-list.model';
-import { MovieService } from '../../services/movie.service';
+import { Movie } from '@models/tmdb/movie.model';
+import { PagedList } from '@models/tmdb/paged-list.model';
+import { MovieService } from '@services/movie.service';
 
 @Component({
   selector: 'app-movies-trending',
@@ -13,9 +13,11 @@ export class MoviesTrendingComponent implements OnInit {
   movies: PagedList<Movie>;
   timeWindow = new FormControl('day');
 
-  constructor(private movieService: MovieService) { }
+  constructor(
+    private movieService: MovieService,
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.timeWindow.valueChanges.subscribe(
       (timeWindow) => {
         if (timeWindow) {

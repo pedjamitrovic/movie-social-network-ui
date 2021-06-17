@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Company } from '../../models/tmdb/company.model';
+import { Company } from '@models/tmdb/company.model';
 import { MovieService } from '../../services/movie.service';
 
 @Component({
@@ -14,7 +14,6 @@ export class MovieProductionCompanyComponent implements OnInit {
     public movieService: MovieService,
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
 }

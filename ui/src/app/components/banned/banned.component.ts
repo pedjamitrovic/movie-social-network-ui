@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-banned',
@@ -10,8 +10,8 @@ import { AuthService } from '../../services/auth.service';
 export class BannedComponent implements OnInit {
 
   constructor(
-    public router: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {

@@ -1,56 +1,33 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, concat, Observable, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { LoginCommand } from '@models/request/login-command.model';
+import { RegisterCommand } from '@models/request/register-command.model';
+import { AuthenticationInfo } from '@models/response/authentication-info.model';
+import { GroupVM } from '@models/response/group-vm.model';
+import { SystemEntityVM } from '@models/response/system-entity-vm.model';
+import { UserVM } from '@models/response/user-vm.model';
 import { EnvironmentService } from '@services/environment.service';
-import { AuthenticationInfo } from '@models/authentication-info.model';
-import { RegisterCommand } from '@models/register-command.model';
-import { LoginCommand } from '@models/login-command.model';
-import { UserVM } from '@models/user-vm.model';
-import { SystemEntityVM } from '@models/system-entity-vm.model';
+import { GroupService } from '@services/group.service';
+import { SignalrService } from '@services/signalr.service';
+import { UserService } from '@services/user.service';
 import { Constants } from '@util/constants';
-import { GroupVM } from '@models/group-vm.model';
-import { GroupService } from './group.service';
-import { SignalrService } from './signalr.service';
-import { UserService } from './user.service';
+import { BehaviorSubject, concat, of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private usersApiUrl: string;
-  private groupsApiUrl: string;
+  private usersApiUrl = `${this.environment.apiUrl}/users`;
+  private groupsApiUrl = `${this.environment.apiUrl}/groups`;
 
-  private authUserSubject: BehaviorSubject<AuthenticationInfo>;
-  private authGroupSubject: BehaviorSubject<AuthenticationInfo>;
-  private loggedUserSubject: BehaviorSubject<UserVM>;
-  private activeSystemEntitySubject: BehaviorSubject<SystemEntityVM>;
+  private authUserSubject = new BehaviorSubject<AuthenticationInfo>(null);
+  private authGroupSubject = new BehaviorSubject<AuthenticationInfo>(null);
+  private loggedUserSubject = new BehaviorSubject<UserVM>(null);
+  private activeSystemEntitySubject = new BehaviorSubject<SystemEntityVM>(null);
 
-  authUser: Observable<AuthenticationInfo>;
-  loggedUser: Observable<UserVM>;
-  activeSystemEntity: Observable<SystemEntityVM>;
-
-  constructor(
-    private router: Router,
-    private environment: EnvironmentService,
-    private http: HttpClient,
-    private userService: UserService,
-    private groupService: GroupService,
-    private signalrService: SignalrService,
-  ) {
-    this.usersApiUrl = `${this.environment.apiUrl}/users`;
-    this.groupsApiUrl = `${this.environment.apiUrl}/groups`;
-
-    this.authUserSubject = new BehaviorSubject<AuthenticationInfo>(null);
-    this.authGroupSubject = new BehaviorSubject<AuthenticationInfo>(null);
-    this.loggedUserSubject = new BehaviorSubject<UserVM>(null);
-    this.activeSystemEntitySubject = new BehaviorSubject<SystemEntityVM>(null);
-
-    this.authUser = this.authUserSubject.asObservable();
-    this.loggedUser = this.loggedUserSubject.asObservable();
-    this.activeSystemEntity = this.activeSystemEntitySubject.asObservable();
-
-    this.subscribeSignalR();
-  }
+  authUser = this.authUserSubject.asObservable();
+  loggedUser = this.loggedUserSubject.asObservable();
+  activeSystemEntity = this.activeSystemEntitySubject.asObservable();
 
   get authUserValue(): AuthenticationInfo {
     return this.authGroupSubject.value || this.authUserSubject.value;
@@ -62,6 +39,17 @@ export class AuthService {
 
   get activeSystemEntityValue(): SystemEntityVM {
     return this.activeSystemEntitySubject.value;
+  }
+
+  constructor(
+    private router: Router,
+    private environment: EnvironmentService,
+    private http: HttpClient,
+    private userService: UserService,
+    private groupService: GroupService,
+    private signalrService: SignalrService,
+  ) {
+    this.subscribeSignalR();
   }
 
   subscribeSignalR() {

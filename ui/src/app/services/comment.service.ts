@@ -1,23 +1,21 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CommentVM } from '@models/comment-vm.model';
-import { CreateCommentCommand } from '@models/create-comment-command.model';
-import { PagedList } from '@models/paged-list.model';
-import { CommonHttpService } from './common-http.service';
-import { EnvironmentService } from './environment.service';
+import { CreateCommentCommand } from '@models/request/create-comment-command.model';
+import { CommentVM } from '@models/response/comment-vm.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { CommonHttpService } from '@services/common-http.service';
+import { EnvironmentService } from '@services/environment.service';
 
 @Injectable({ providedIn: 'root' })
 export class CommentService {
-  apiUrl: string;
+  apiUrl = `${this.environment.apiUrl}/comments`;
 
   constructor(
     private environment: EnvironmentService,
     private http: HttpClient,
     private commonHttpService: CommonHttpService,
   ) {
-    this.apiUrl = `${this.environment.apiUrl}/comments`;
   }
-
 
   getList(queryParams: any) {
     let params = new HttpParams();

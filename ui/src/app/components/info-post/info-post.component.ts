@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PostVM } from '@models/post-vm.model';
+import { PostVM } from '@models/response/post-vm.model';
 import { EnvironmentService } from '@services/environment.service';
 
 @Component({
@@ -10,9 +10,10 @@ import { EnvironmentService } from '@services/environment.service';
 export class InfoPostComponent implements OnInit {
   @Input() post: PostVM;
 
-  constructor(public environment: EnvironmentService) { }
+  constructor(
+    public environment: EnvironmentService
+  ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
 }

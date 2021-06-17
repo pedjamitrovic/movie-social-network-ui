@@ -1,23 +1,22 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RateMovieCommand } from '@models/request/rate-movie-command.model';
+import { MovieRatingVM } from '@models/response/movie-rating-vm.model';
+import { Configuration } from '@models/tmdb/configuration.model';
+import { Credit } from '@models/tmdb/credit.model';
+import { Keyword } from '@models/tmdb/keyword.model';
+import { Movie } from '@models/tmdb/movie.model';
+import { PagedList } from '@models/tmdb/paged-list.model';
+import { Video } from '@models/tmdb/video.model';
+import { CommonHttpService } from '@services/common-http.service';
 import { EnvironmentService } from '@services/environment.service';
-import { of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { MovieRatingVM } from '../models/movie-rating-vm.model';
-import { RateMovieCommand } from '../models/rate-movie-command.model';
-import { Configuration } from '../models/tmdb/configuration.model';
-import { Credit } from '../models/tmdb/credit.model';
-import { Keyword } from '../models/tmdb/keyword.model';
-import { Movie } from '../models/tmdb/movie.model';
-import { PagedList } from '../models/tmdb/paged-list.model';
-import { Video } from '../models/tmdb/video.model';
-import { CommonHttpService } from './common-http.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
-  apiUrl: string;
+  apiUrl = `${this.environment.apiUrl}/tmdb`;
   configuration: Configuration;
 
   constructor(
@@ -25,7 +24,6 @@ export class MovieService {
     private http: HttpClient,
     private commonHttpService: CommonHttpService,
   ) {
-    this.apiUrl = `${this.environment.apiUrl}/tmdb`;
   }
 
   initConfiguration() {

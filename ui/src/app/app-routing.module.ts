@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { ChatComponent } from '@components/chat/chat.component';
 import { CommentPreviewComponent } from '@components/comment-preview/comment-preview.component';
 import { FeedComponent } from '@components/feed/feed.component';

@@ -1,23 +1,21 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PagedList } from '@models/paged-list.model';
+import { NotificationVM } from '@models/response/notification-vm.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { CommonHttpService } from '@services/common-http.service';
+import { EnvironmentService } from '@services/environment.service';
 import * as moment from 'moment';
-import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NotificationVM } from '../models/notification-vm.model';
-import { CommonHttpService } from './common-http.service';
-import { EnvironmentService } from './environment.service';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  apiUrl: string;
+  apiUrl = `${this.environment.apiUrl}/notifications`;
 
   constructor(
     private environment: EnvironmentService,
     private http: HttpClient,
     private commonHttpService: CommonHttpService,
   ) {
-    this.apiUrl = `${this.environment.apiUrl}/notifications`;
   }
 
   getMyNotifications(queryParams?: any) {

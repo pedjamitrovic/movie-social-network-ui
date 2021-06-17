@@ -2,11 +2,11 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
-import { ChangeDescriptionCommand } from '@models/change-description-command';
-import { GroupVM } from '@models/group-vm.model';
-import { PagedList } from '@models/paged-list.model';
-import { Paging } from '@models/paging.model';
-import { UserVM } from '@models/user-vm.model';
+import { ChangeDescriptionCommand } from '@models/request/change-description-command';
+import { Paging } from '@models/request/paging.model';
+import { GroupVM } from '@models/response/group-vm.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { UserVM } from '@models/response/user-vm.model';
 import { AuthService } from '@services/auth.service';
 import { EnvironmentService } from '@services/environment.service';
 import { GroupService } from '@services/group.service';
@@ -37,7 +37,7 @@ export class UserAboutComponent implements OnInit {
 
   private _user: UserVM;
 
-  @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     public authService: AuthService,

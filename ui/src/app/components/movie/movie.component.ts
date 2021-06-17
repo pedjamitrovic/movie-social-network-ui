@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Movie } from '@models/tmdb/movie.model';
+import { MovieService } from '@services/movie.service';
 import { switchMap } from 'rxjs/operators';
-import { Movie } from '../../models/tmdb/movie.model';
-import { MovieService } from '../../services/movie.service';
 
 @Component({
   selector: 'app-movie',
@@ -17,10 +17,10 @@ export class MovieComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public movieService: MovieService,
+    private movieService: MovieService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.activatedRoute.params
       .pipe(
         switchMap(

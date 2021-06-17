@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RenderedMedia } from '@models/rendered-media.model';
+import { RenderedMedia } from '@models/internal/rendered-media.model';
 import { EnvironmentService } from '@services/environment.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,13 +9,12 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class MediaService {
-  apiUrl: string;
+  apiUrl = `${this.environment.apiUrl}`;
 
   constructor(
     private environment: EnvironmentService,
     private http: HttpClient,
   ) {
-    this.apiUrl = `${this.environment.apiUrl}`;
   }
 
   async renderMedia(media: File[]): Promise<RenderedMedia> {

@@ -3,24 +3,25 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { CreateGroupDialogComponent } from '@components/dialogs/create-group-dialog/create-group-dialog.component';
-import { PagedList } from '@models/paged-list.model';
-import { Paging } from '@models/paging.model';
-import { SearchResult } from '@models/search-result.model';
+import { Paging } from '@models/request/paging.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { SearchResult } from '@models/response/search-result.model';
 import { AuthService } from '@services/auth.service';
 import { GroupService } from '@services/group.service';
+
 @Component({
   selector: 'app-my-groups',
   templateUrl: './my-groups.component.html',
   styleUrls: ['./my-groups.component.scss']
 })
 export class MyGroupsComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
   searchForm: FormGroup;
 
   paging: Paging;
   pagedList: PagedList<SearchResult>;
   loading = false;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     public authService: AuthService,
@@ -28,7 +29,7 @@ export class MyGroupsComponent implements OnInit {
     private dialog: MatDialog,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.init();
     this.searchForm = new FormGroup(
       {

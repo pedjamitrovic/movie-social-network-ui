@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { PagedList } from '@models/response/paged-list.model';
+import { ReportedDetails } from '@models/response/reported-details.model';
+import { SystemEntityService } from '@services/system-entity.service';
 import { finalize } from 'rxjs/operators';
-import { PagedList } from '../../models/paged-list.model';
-import { ReportedDetails } from '../../models/reported-details.model';
-import { SystemEntityService } from '../../services/system-entity.service';
 
 @Component({
   selector: 'app-reports',
@@ -12,9 +12,12 @@ import { SystemEntityService } from '../../services/system-entity.service';
 export class ReportsComponent implements OnInit {
   reportedDetails: PagedList<ReportedDetails>;
   loading = true;
-  constructor(private systemEntityService: SystemEntityService) { }
 
-  ngOnInit(): void {
+  constructor(
+    private systemEntityService: SystemEntityService
+  ) { }
+
+  ngOnInit() {
     this.systemEntityService.getBannable()
       .pipe(finalize(() => this.loading = false))
       .subscribe(rd => this.reportedDetails = rd);

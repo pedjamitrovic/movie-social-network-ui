@@ -14,11 +14,10 @@ export class ErrorDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ErrorDialogComponentData,
-    public dialog: MatDialogRef<ErrorDialogComponent>,
+    private dialog: MatDialogRef<ErrorDialogComponent>,
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   close() {
     this.dialog.close();

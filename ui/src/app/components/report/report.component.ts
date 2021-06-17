@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ReportedDetails } from '../../models/reported-details.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
+import { ReviewReportDialogComponent, ReviewReportDialogData } from '@components/dialogs/review-report-dialog/review-report-dialog.component';
+import { ReviewReportCommand } from '@models/request/review-report-command.model';
+import { ReportedDetails } from '@models/response/reported-details.model';
+import { EnvironmentService } from '@services/environment.service';
+import { SnackbarService } from '@services/snackbar.service';
+import { SystemEntityService } from '@services/system-entity.service';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color } from 'ng2-charts';
-import { EnvironmentService } from '../../services/environment.service';
-import { ReviewReportDialogComponent, ReviewReportDialogData, ReviewReportDialogRetData } from '../dialogs/review-report-dialog/review-report-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { SystemEntityService } from '../../services/system-entity.service';
-import { ReviewReportCommand } from '../../models/review-report-command.model';
-import { SnackbarService } from '../../services/snackbar.service';
-import { ErrorDialogComponent, ErrorDialogComponentData } from '../dialogs/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-report',
@@ -39,9 +39,9 @@ export class ReportComponent implements OnInit {
 
   constructor(
     public environment: EnvironmentService,
-    public dialog: MatDialog,
-    public systemEntityService: SystemEntityService,
-    public snackbarService: SnackbarService,
+    private dialog: MatDialog,
+    private systemEntityService: SystemEntityService,
+    private snackbarService: SnackbarService,
   ) { }
 
   ngOnInit(): void {

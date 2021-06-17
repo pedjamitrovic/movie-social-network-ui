@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
-import { FeedCompConfig } from '@models/feed-comp-config';
-import { SystemEntityVM } from '@models/system-entity-vm.model';
-import { UserVM } from '@models/user-vm.model';
+import { FeedCompConfig } from '@models/internal/feed-comp-config.model';
+import { SystemEntityVM } from '@models/response/system-entity-vm.model';
+import { UserVM } from '@models/response/user-vm.model';
 import { SystemEntityService } from '@services/system-entity.service';
+import { UserService } from '@services/user.service';
 import { forkJoin } from 'rxjs';
-import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user',

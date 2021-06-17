@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserVM } from '@models/user-vm.model';
+import { UserVM } from '@models/response/user-vm.model';
 import { EnvironmentService } from '@services/environment.service';
 
 @Component({
@@ -10,9 +10,10 @@ import { EnvironmentService } from '@services/environment.service';
 export class InfoUserComponent implements OnInit {
   @Input() user: UserVM;
 
-  constructor(public environment: EnvironmentService) { }
+  constructor(
+    public environment: EnvironmentService
+  ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
 }

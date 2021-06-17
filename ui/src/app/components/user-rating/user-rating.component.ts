@@ -11,8 +11,7 @@ export class UserRatingComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
   onRate(event: { oldValue: number, newValue: number }) {
     this.valueChanged.emit(event);

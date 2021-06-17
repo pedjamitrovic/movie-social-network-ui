@@ -1,10 +1,8 @@
-import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { Component, HostListener, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { StarRatingComponent } from 'ng-starrating';
+import { Movie } from '@models/tmdb/movie.model';
+import { MovieService } from '@services/movie.service';
 import { forkJoin, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Movie } from '../../models/tmdb/movie.model';
-import { MovieService } from '../../services/movie.service';
 
 @Component({
   selector: 'app-movie-header',
@@ -14,6 +12,7 @@ import { MovieService } from '../../services/movie.service';
 })
 export class MovieHeaderComponent implements OnInit {
   @Input() movie: Movie;
+
   trailerUrl: string;
   rating: number;
   myRating: number;

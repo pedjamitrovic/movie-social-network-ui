@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommentVM } from '@models/comment-vm.model';
+import { CommentVM } from '@models/response/comment-vm.model';
 import { CommentService } from '@services/comment.service';
 import { switchMap } from 'rxjs/operators';
 
@@ -10,12 +10,12 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./comment-preview.component.scss']
 })
 export class CommentPreviewComponent implements OnInit {
-  public comment: CommentVM;
-  public id: number;
+  comment: CommentVM;
+  id: number;
 
   constructor(
-    public ar: ActivatedRoute,
-    public commentService: CommentService,
+    private ar: ActivatedRoute,
+    private commentService: CommentService,
   ) { }
 
   ngOnInit(): void {

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { BusinessErrorCode } from '@models/business-error-code.model';
-import { CreateGroupCommand } from '@models/create-group-command.model';
-import { GroupVM } from '@models/group-vm.model';
+import { CreateGroupCommand } from '@models/request/create-group-command.model';
+import { BusinessErrorCode } from '@models/response/business-error-code.model';
+import { GroupVM } from '@models/response/group-vm.model';
 import { GroupService } from '@services/group.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class CreateGroupDialogComponent implements OnInit {
   showEmojiPicker = false;
 
   constructor(
-    public dialog: MatDialogRef<CreateGroupDialogComponent, CreateGroupCommand>,
+    private dialog: MatDialogRef<CreateGroupDialogComponent, CreateGroupCommand>,
     private groupService: GroupService,
     private router: Router,
   ) { }

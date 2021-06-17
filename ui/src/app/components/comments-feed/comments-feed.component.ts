@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CommentVM } from '@models/comment-vm.model';
-import { PagedList } from '@models/paged-list.model';
-import { Paging } from '@models/paging.model';
-import { SystemEntityVM } from '@models/system-entity-vm.model';
+import { Paging } from '@models/request/paging.model';
+import { CommentVM } from '@models/response/comment-vm.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { SystemEntityVM } from '@models/response/system-entity-vm.model';
 import { CommentService } from '@services/comment.service';
 
 @Component({

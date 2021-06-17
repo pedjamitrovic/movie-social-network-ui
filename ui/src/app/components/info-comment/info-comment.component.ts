@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CommentVM } from '@models/comment-vm.model';
+import { CommentVM } from '@models/response/comment-vm.model';
 import { EnvironmentService } from '@services/environment.service';
 
 @Component({
@@ -12,7 +12,6 @@ export class InfoCommentComponent implements OnInit {
 
   constructor(public environment: EnvironmentService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
 }

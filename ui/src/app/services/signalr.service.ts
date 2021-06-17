@@ -1,28 +1,29 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { SendMessageCommand } from '@models/send-message-command.model';
-import { EnvironmentService } from './environment.service';
-import { MessageVM } from '@models/message-vm.model';
-import { ChatRoomVM } from '../models/chat-room-vm.model';
+import { SendMessageCommand } from '@models/request/send-message-command.model';
+import { ChatRoomVM } from '@models/response/chat-room-vm.model';
+import { MessageVM } from '@models/response/message-vm.model';
+import { NotificationVM } from '@models/response/notification-vm.model';
+import { EnvironmentService } from '@services/environment.service';
 import { Subject } from 'rxjs';
-import { NotificationVM } from '../models/notification-vm.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignalrService {
-  apiUrl: string;
-  connection: signalR.HubConnection;
+  apiUrl = `${this.environment.apiUrl}/chat`;
+
   messageCreated: Subject<MessageVM> = new Subject<MessageVM>();
   chatRoomCreated: Subject<ChatRoomVM> = new Subject<ChatRoomVM>();
   messageSeen: Subject<MessageVM> = new Subject<MessageVM>();
   newNotification: Subject<NotificationVM> = new Subject<NotificationVM>();
   notificationSeen: Subject<NotificationVM> = new Subject<NotificationVM>();
 
+  connection: signalR.HubConnection;
+
   constructor(
     private environment: EnvironmentService,
   ) {
-    this.apiUrl = `${this.environment.apiUrl}/chat`;
   }
 
   initiateSignalrConnection(bearerToken: string): Promise<any> {

@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FeedCompConfig } from '@models/feed-comp-config';
-import { PagedList } from '@models/paged-list.model';
-import { Paging } from '@models/paging.model';
-import { PostVM } from '@models/post-vm.model';
+import { FeedCompConfig } from '@models/internal/feed-comp-config.model';
+import { Paging } from '@models/request/paging.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { PostVM } from '@models/response/post-vm.model';
 import { AuthService } from '@services/auth.service';
 import { PostService } from '@services/post.service';
 import { finalize } from 'rxjs/operators';

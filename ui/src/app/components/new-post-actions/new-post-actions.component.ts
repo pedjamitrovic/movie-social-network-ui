@@ -10,10 +10,9 @@ export class NewPostActionsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
-  public activate(action: string) {
+  activate(action: string) {
     this.actionActivated.emit(action);
   }
 }

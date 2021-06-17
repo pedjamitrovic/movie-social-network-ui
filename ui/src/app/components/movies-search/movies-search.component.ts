@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Movie } from '@models/tmdb/movie.model';
+import { PagedList } from '@models/tmdb/paged-list.model';
+import { MovieService } from '@services/movie.service';
 import { debounceTime } from 'rxjs/operators';
-import { Movie } from '../../models/tmdb/movie.model';
-import { PagedList } from '../../models/tmdb/paged-list.model';
-import { MovieService } from '../../services/movie.service';
 
 @Component({
   selector: 'app-movies-search',
@@ -14,9 +14,11 @@ export class MoviesSearchComponent implements OnInit {
   movies: PagedList<Movie>;
   query = new FormControl();
 
-  constructor(private movieService: MovieService) { }
+  constructor(
+    private movieService: MovieService,
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.query.valueChanges
       .pipe(debounceTime(500))
       .subscribe(

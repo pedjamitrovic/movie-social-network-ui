@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Constants } from '@util/constants';
 
 @Component({
@@ -15,8 +15,7 @@ export class YoutubePreviewComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   updateVideoId(url: string) {
     if (!url) this.src = null;

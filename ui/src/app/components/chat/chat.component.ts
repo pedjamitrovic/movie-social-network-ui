@@ -1,27 +1,21 @@
-import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { forkJoin, Observable, Subject } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ChatState } from '@models/internal/chat-state.model';
+import { Paging } from '@models/request/paging.model';
+import { SendMessageCommand } from '@models/request/send-message-command.model';
+import { ChatRoomVM } from '@models/response/chat-room-vm.model';
+import { MessageVM } from '@models/response/message-vm.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { SystemEntityVM } from '@models/response/system-entity-vm.model';
+import { AuthService } from '@services/auth.service';
+import { ChatRoomService } from '@services/chat-room.service';
+import { EnvironmentService } from '@services/environment.service';
+import { GroupService } from '@services/group.service';
+import { SignalrService } from '@services/signalr.service';
+import { UserService } from '@services/user.service';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { debounceTime, filter, finalize, map, shareReplay, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { MessageVM } from '../../models/message-vm.model';
-import { AuthService } from '../../services/auth.service';
-import { SystemEntityVM } from '../../models/system-entity-vm.model';
-import { SystemEntityService } from '../../services/system-entity.service';
-import { ChatRoomService } from '../../services/chat-room.service';
-import { ChatRoomVM } from '../../models/chat-room-vm.model';
-import { EnvironmentService } from '../../services/environment.service';
-import { Paging } from '../../models/paging.model';
-import { PagedList } from '../../models/paged-list.model';
-import { UserService } from '../../services/user.service';
-import { GroupService } from '../../services/group.service';
-import { SendMessageCommand } from '../../models/send-message-command.model';
-import { SignalrService } from '../../services/signalr.service';
-
-export enum ChatState {
-  Initial = 'initial',
-  NewChat = 'new-chat',
-  ChatOpened = 'chat-opened',
-}
 
 @Component({
   selector: 'app-chat',
@@ -30,8 +24,6 @@ export enum ChatState {
   encapsulation: ViewEncapsulation.None
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  @ViewChild('newChatInput') newChatInput: ElementRef;
-  @ViewChild('messageHistoryDiv') messageHistoryDiv: ElementRef;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -57,16 +49,18 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   unsubscribe: Subject<void> = new Subject();
 
+  @ViewChild('newChatInput') newChatInput: ElementRef;
+  @ViewChild('messageHistoryDiv') messageHistoryDiv: ElementRef;
+
   constructor(
-    public authService: AuthService,
-    public systemEntityService: SystemEntityService,
-    public breakpointObserver: BreakpointObserver,
-    public cdr: ChangeDetectorRef,
-    public chatRoomService: ChatRoomService,
     public environment: EnvironmentService,
-    public userService: UserService,
-    public groupService: GroupService,
-    public signalrService: SignalrService,
+    public authService: AuthService,
+    private breakpointObserver: BreakpointObserver,
+    private cdr: ChangeDetectorRef,
+    private chatRoomService: ChatRoomService,
+    private userService: UserService,
+    private groupService: GroupService,
+    private signalrService: SignalrService,
   ) {
 
   }

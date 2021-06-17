@@ -1,15 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChatRoomVM } from '@models/response/chat-room-vm.model';
+import { MessageVM } from '@models/response/message-vm.model';
+import { NotificationVM } from '@models/response/notification-vm.model';
+import { AuthService } from '@services/auth.service';
+import { ChatRoomService } from '@services/chat-room.service';
+import { EnvironmentService } from '@services/environment.service';
+import { NotificationService } from '@services/notification.service';
+import { SignalrService } from '@services/signalr.service';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, shareReplay, takeUntil } from 'rxjs/operators';
-import { AuthService } from '@services/auth.service';
-import { EnvironmentService } from '@services/environment.service';
-import { ChatRoomService } from '../../services/chat-room.service';
-import { ChatRoomVM } from '../../models/chat-room-vm.model';
-import { SignalrService } from '../../services/signalr.service';
-import { MessageVM } from '../../models/message-vm.model';
-import { NotificationVM } from '../../models/notification-vm.model';
-import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-navigation',
@@ -28,10 +28,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
   constructor(
     public environment: EnvironmentService,
     public authService: AuthService,
-    public breakpointObserver: BreakpointObserver,
-    public chatRoomService: ChatRoomService,
-    public notificationService: NotificationService,
-    public signalrService: SignalrService,
+    private breakpointObserver: BreakpointObserver,
+    private chatRoomService: ChatRoomService,
+    private notificationService: NotificationService,
+    private signalrService: SignalrService,
   ) {
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset)
       .pipe(
@@ -40,7 +40,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       );
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.authService.activeSystemEntity.subscribe(() => this.initData());
     this.initListeners();
   }

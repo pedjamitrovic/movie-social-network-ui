@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Keyword } from '../../models/tmdb/keyword.model';
+import { Keyword } from '@models/tmdb/keyword.model';
 
 @Component({
   selector: 'app-movie-keywords',
@@ -11,7 +11,6 @@ export class MovieKeywordsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
 }

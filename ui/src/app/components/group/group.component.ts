@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorDialogComponent, ErrorDialogComponentData } from '@components/dialogs/error-dialog/error-dialog.component';
-import { FeedCompConfig } from '@models/feed-comp-config';
-import { GroupVM } from '@models/group-vm.model';
-import { SystemEntityVM } from '@models/system-entity-vm.model';
+import { FeedCompConfig } from '@models/internal/feed-comp-config.model';
+import { GroupVM } from '@models/response/group-vm.model';
+import { SystemEntityVM } from '@models/response/system-entity-vm.model';
 import { GroupService } from '@services/group.service';
 import { SystemEntityService } from '@services/system-entity.service';
 import { forkJoin } from 'rxjs';
@@ -29,7 +29,7 @@ export class GroupComponent implements OnInit {
     private dialog: MatDialog,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.activatedRoute.params.subscribe(
       (params) => {
         if (isNaN(+params.id)) {

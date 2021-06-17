@@ -1,21 +1,20 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CreateGroupCommand } from '@models/create-group-command.model';
-import { GroupVM } from '@models/group-vm.model';
-import { PagedList } from '@models/paged-list.model';
-import { CommonHttpService } from './common-http.service';
-import { EnvironmentService } from './environment.service';
+import { CreateGroupCommand } from '@models/request/create-group-command.model';
+import { GroupVM } from '@models/response/group-vm.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { CommonHttpService } from '@services/common-http.service';
+import { EnvironmentService } from '@services/environment.service';
 
 @Injectable({ providedIn: 'root' })
 export class GroupService {
-  apiUrl: string;
+  apiUrl = `${this.environment.apiUrl}/groups`;
 
   constructor(
     private environment: EnvironmentService,
     private commonHttpService: CommonHttpService,
     private http: HttpClient,
   ) {
-    this.apiUrl = `${this.environment.apiUrl}/groups`;
   }
 
   getList(queryParams: any) {

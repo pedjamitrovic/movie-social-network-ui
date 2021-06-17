@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Paging } from '@models/request/paging.model';
+import { NotificationVM } from '@models/response/notification-vm.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { EnvironmentService } from '@services/environment.service';
+import { NotificationService } from '@services/notification.service';
+import { SignalrService } from '@services/signalr.service';
 import { Subject } from 'rxjs';
 import { filter, finalize, takeUntil } from 'rxjs/operators';
-import { NotificationVM } from '../../models/notification-vm.model';
-import { PagedList } from '../../models/paged-list.model';
-import { Paging } from '../../models/paging.model';
-import { EnvironmentService } from '../../services/environment.service';
-import { NotificationService } from '../../services/notification.service';
-import { SignalrService } from '../../services/signalr.service';
 
 @Component({
   selector: 'app-notifications',
@@ -15,18 +15,18 @@ import { SignalrService } from '../../services/signalr.service';
   styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-
   paging: Paging;
   pagedList: PagedList<NotificationVM>;
   loading = false;
 
   unsubscribe: Subject<void> = new Subject();
 
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
   constructor(
     public environment: EnvironmentService,
-    public notificationService: NotificationService,
-    public signalrService: SignalrService,
+    private notificationService: NotificationService,
+    private signalrService: SignalrService,
   ) { }
 
   ngOnInit() {

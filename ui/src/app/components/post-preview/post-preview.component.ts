@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PostVM } from '@models/post-vm.model';
+import { PostVM } from '@models/response/post-vm.model';
 import { PostService } from '@services/post.service';
 import { switchMap } from 'rxjs/operators';
 
@@ -14,11 +14,11 @@ export class PostPreviewComponent implements OnInit {
   public id: number;
 
   constructor(
-    public activatedRoute: ActivatedRoute,
-    public postService: PostService,
+    private activatedRoute: ActivatedRoute,
+    private postService: PostService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.activatedRoute.params
       .pipe(
         switchMap(

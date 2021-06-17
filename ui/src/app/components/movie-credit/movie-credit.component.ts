@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Credit } from '../../models/tmdb/credit.model';
+import { Credit } from '@models/tmdb/credit.model';
 import { MovieService } from '../../services/movie.service';
 
 @Component({
@@ -15,7 +15,6 @@ export class MovieCreditComponent implements OnInit {
     public movieService: MovieService,
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit() { }
 
 }

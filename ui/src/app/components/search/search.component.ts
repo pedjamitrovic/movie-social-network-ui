@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { PagedList } from '@models/paged-list.model';
-import { Paging } from '@models/paging.model';
-import { SearchResult } from '@models/search-result.model';
+import { Paging } from '@models/request/paging.model';
+import { PagedList } from '@models/response/paged-list.model';
+import { SearchResult } from '@models/response/search-result.model';
 import { CommentService } from '@services/comment.service';
 import { GroupService } from '@services/group.service';
 import { PostService } from '@services/post.service';
@@ -15,14 +15,14 @@ import { UserService } from '@services/user.service';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
   searchForm: FormGroup;
   searchKinds = [SearchResult.KindEnum.User, SearchResult.KindEnum.Group, SearchResult.KindEnum.Post, SearchResult.KindEnum.Comment];
 
   paging: Paging;
   pagedList: PagedList<SearchResult>;
   loading = false;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private userService: UserService,
@@ -31,7 +31,7 @@ export class SearchComponent implements OnInit {
     private commentService: CommentService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.init();
     this.searchForm = new FormGroup(
       {
