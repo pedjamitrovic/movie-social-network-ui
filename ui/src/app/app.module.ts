@@ -43,7 +43,9 @@ import { MovieRatingComponent } from '@components/movie-rating/movie-rating.comp
 import { MovieThumbnailComponent } from '@components/movie-thumbnail/movie-thumbnail.component';
 import { MovieComponent } from '@components/movie/movie.component';
 import { MoviesPopularComponent } from '@components/movies-popular/movies-popular.component';
+import { MoviesRecommendedComponent } from '@components/movies-recommended/movies-recommended.component';
 import { MoviesSearchComponent } from '@components/movies-search/movies-search.component';
+import { MoviesSimilarComponent } from '@components/movies-similar/movies-similar.component';
 import { MoviesTrendingComponent } from '@components/movies-trending/movies-trending.component';
 import { MoviesComponent } from '@components/movies/movies.component';
 import { MyGroupsComponent } from '@components/my-groups/my-groups.component';
@@ -147,6 +149,8 @@ import { SplashService } from './services/splash.service';
     MovieRatingComponent,
     MovieCreditComponent,
     UserRatingComponent,
+    MoviesRecommendedComponent,
+    MoviesSimilarComponent,
   ],
   imports: [
     BrowserModule,

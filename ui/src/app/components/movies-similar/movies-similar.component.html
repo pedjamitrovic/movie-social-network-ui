@@ -1,0 +1,16 @@
+
+<mat-card class="movies-similar">
+	<h2>Similar movies</h2>
+	<mat-card-content>
+		<div class="movies-similar-container">
+      <div class="results">
+        <div
+          class="movie-thumbnail-wrapper animate-fade-in"
+          *ngFor="let movie of movies?.results"
+        >
+          <app-movie-thumbnail [movie]="movie"></app-movie-thumbnail>
+        </div>
+      </div>
+    </div>
+	</mat-card-content>
+</mat-card>

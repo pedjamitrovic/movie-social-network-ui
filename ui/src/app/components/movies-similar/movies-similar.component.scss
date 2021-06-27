@@ -1,10 +1,8 @@
-.movies-popular-container {
+.movies-similar-container {
   .results {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    @media only screen and (max-width: 600px) {
-      justify-content: center;
-    }
     .movie-thumbnail-wrapper {
       padding: 5px;
     }

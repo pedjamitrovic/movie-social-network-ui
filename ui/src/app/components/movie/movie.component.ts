@@ -25,6 +25,7 @@ export class MovieComponent implements OnInit {
       .pipe(
         switchMap(
           (params) => {
+            this.movie = null;
             this.id = params.id;
             return this.movieService.getMovieDetails(this.id);
           }

@@ -1,4 +1,4 @@
-.movies-popular-container {
+.movies-recommended-container {
   .results {
     display: flex;
     flex-wrap: wrap;
@@ -7,6 +7,14 @@
     }
     .movie-thumbnail-wrapper {
       padding: 5px;
+    }
+  }
+  .load-more {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    mat-progress-bar {
+      width: 250px;
     }
   }
 }

@@ -19,7 +19,7 @@ a:active {
 }
 
 a:hover {
-  opacity: .9;
+  opacity: 0.9;
 }
 
 input {
@@ -67,4 +67,8 @@ input {
 
 .text-center {
   text-align: center;
+}
+
+button {
+  text-transform: uppercase;
 }

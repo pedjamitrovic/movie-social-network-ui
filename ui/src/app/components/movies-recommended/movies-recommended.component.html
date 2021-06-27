@@ -1,0 +1,24 @@
+<div class="movies-recommended-container">
+	<div class="results">
+		<div
+			class="movie-thumbnail-wrapper animate-fade-in"
+			*ngFor="let movie of movies"
+		>
+			<app-movie-thumbnail [movie]="movie"></app-movie-thumbnail>
+		</div>
+	</div>
+  <div class="load-more">
+    <button
+      *ngIf="!loading && pagedList && this.pagedList.page <= this.pagedList.total_pages"
+      mat-button
+      color="primary"
+      (click)="getRecommendations()"
+    >
+      <span>Load more recommendations</span>
+    </button>
+    <mat-progress-bar
+      *ngIf="loading"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </div>
+</div>

@@ -25,7 +25,7 @@
 			<div class="movie-info">
 				<h1 class="title all-small-caps">
 					<a [routerLink]="['/movies', movie.id]">{{movie.title}}</a>
-					<span class="release-year">({{movie.release_date | slice:0:4}})</span>
+					<span *ngIf="movie.release_date" class="release-year">({{movie.release_date | slice:0:4}})</span>
 				</h1>
 				<div class="facts all-small-caps">
 					<mat-chip-list>
