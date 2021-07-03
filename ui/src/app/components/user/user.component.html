@@ -1,4 +1,4 @@
-<div class="user-container">
+<div *ngIf="user" class="user-container animate-fade-in">
 	<app-user-header
 		[user]="user"
 		[followers]="followers"

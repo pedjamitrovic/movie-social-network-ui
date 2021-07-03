@@ -7,7 +7,7 @@
 	</div>
 	<div class="load-more">
 		<button
-			*ngIf="!loading && pagedList && this.pagedList.page <= this.pagedList.total_pages"
+			*ngIf="!disableLoadMore && !loading && pagedList && this.pagedList.page <= this.pagedList.total_pages"
 			mat-button
 			color="primary"
 			(click)="getRecommendations()"

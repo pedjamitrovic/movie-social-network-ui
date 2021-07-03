@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Movie } from '@models/tmdb/movie.model';
 import { PagedList } from '@models/tmdb/paged-list.model';
 import { RecommendationService } from '@services/recommendation.service';
@@ -11,6 +11,9 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./movies-recommended.component.scss']
 })
 export class MoviesRecommendedComponent implements OnInit {
+  @Input() disableLoadMore: boolean;
+  @Output() loaded = new EventEmitter<boolean>();
+
   pagedList: PagedList<Movie>;
   movies: Movie[] = [];
   loading = true;

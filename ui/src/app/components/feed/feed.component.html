@@ -1,28 +1,42 @@
-<div
-	class="feed-container"
-	infiniteScroll
-	[fromRoot]="true"
-	infiniteScrollContainer=".sidenav-content"
-	(scrolled)="onScrollDown()"
->
-	<app-new-post
-		*ngIf="authService?.activeSystemEntityValue?.id === config?.creatorId"
-		(postCreated)="createPost($event)"
-	></app-new-post>
-	<app-post
-		*ngFor="let post of posts"
-		[post]="post"
-	></app-post>
+<div class="feed-container">
+	<mat-card class="side-content">
+		<mat-card-title>Popular movies</mat-card-title>
+		<mat-card-content>
+			<app-movies-popular></app-movies-popular>
+		</mat-card-content>
+	</mat-card>
 	<div
-		class="spinner-container"
-		*ngIf="loading"
+		class="content"
+		infiniteScroll
+		[fromRoot]="true"
+		infiniteScrollContainer=".sidenav-content"
+		(scrolled)="onScrollDown()"
 	>
-		<mat-spinner></mat-spinner>
+		<app-new-post
+			*ngIf="authService?.activeSystemEntityValue?.id === config?.creatorId"
+			(postCreated)="createPost($event)"
+		></app-new-post>
+		<app-post
+			*ngFor="let post of posts"
+			[post]="post"
+		></app-post>
+		<div
+			class="spinner-container"
+			*ngIf="loading"
+		>
+			<mat-spinner></mat-spinner>
+		</div>
+		<mat-card
+			class="no-posts"
+			*ngIf="!loading && !posts?.length"
+		>
+			No posts to show.
+		</mat-card>
 	</div>
-	<mat-card
-		class="no-posts"
-		*ngIf="!loading && !posts?.length"
-	>
-		No posts to show.
+	<mat-card class="side-content">
+		<mat-card-title>Recommended for you</mat-card-title>
+    <mat-card-content>
+      <app-movies-recommended [disableLoadMore]="true"></app-movies-recommended>
+    </mat-card-content>
 	</mat-card>
 </div>

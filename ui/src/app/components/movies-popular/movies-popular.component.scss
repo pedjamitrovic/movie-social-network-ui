@@ -5,4 +5,12 @@
     grid-gap: 10px;
     justify-content: center;
   }
+  .load-more {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    mat-progress-bar {
+      width: 250px;
+    }
+  }
 }

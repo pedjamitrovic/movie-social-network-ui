@@ -5,4 +5,10 @@
 			[movie]="movie"
 		></app-movie-thumbnail>
 	</div>
+  <div class="load-more">
+		<mat-progress-bar
+			*ngIf="loading"
+			mode="indeterminate"
+		></mat-progress-bar>
+	</div>
 </div>
