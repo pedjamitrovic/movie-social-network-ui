@@ -1,6 +1,8 @@
 .home-container {
+  min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   .header-container {
     width: 100%;
