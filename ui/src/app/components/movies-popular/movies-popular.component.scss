@@ -1,12 +1,8 @@
 .movies-popular-container {
-  .results {
-    display: flex;
-    flex-wrap: wrap;
-    @media only screen and (max-width: 600px) {
-      justify-content: center;
-    }
-    .movie-thumbnail-wrapper {
-      padding: 5px;
-    }
+  .movie-thumbnail-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(185px, max-content));
+    grid-gap: 10px;
+    justify-content: center;
   }
 }

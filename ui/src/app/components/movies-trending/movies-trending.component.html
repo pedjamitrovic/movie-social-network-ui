@@ -3,12 +3,10 @@
     <mat-button-toggle value="day">Today</mat-button-toggle>
     <mat-button-toggle value="week">This week</mat-button-toggle>
   </mat-button-toggle-group>
-  <div class="results">
-    <div
-      class="movie-thumbnail-wrapper animate-fade-in"
-      *ngFor="let movie of movies?.results"
-    >
-      <app-movie-thumbnail [movie]="movie"></app-movie-thumbnail>
-    </div>
-  </div>
+  <div class="movie-thumbnail-wrapper">
+		<app-movie-thumbnail
+			*ngFor="let movie of movies?.results"
+			[movie]="movie"
+		></app-movie-thumbnail>
+	</div>
 </div>

@@ -9,12 +9,10 @@
 	<p *ngIf="movies">
 		{{movies?.total_results > 20 ? '20+' : movies?.total_results}} result(s) found.
 	</p>
-	<div class="results">
-		<div
-			class="movie-thumbnail-wrapper animate-fade-in"
+  <div class="movie-thumbnail-wrapper">
+		<app-movie-thumbnail
 			*ngFor="let movie of movies?.results"
-		>
-			<app-movie-thumbnail [movie]="movie"></app-movie-thumbnail>
-		</div>
+			[movie]="movie"
+		></app-movie-thumbnail>
 	</div>
 </div>

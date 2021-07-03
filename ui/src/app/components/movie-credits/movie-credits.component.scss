@@ -1,11 +1,9 @@
 .movie-credits {
   min-height: calc(100% - 32px);
   .credits {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(138px, max-content));
+    grid-gap: 10px;
     justify-content: center;
-    flex-wrap: wrap;
-  }
-  .credit-wrapper {
-    margin: 5px;
   }
 }

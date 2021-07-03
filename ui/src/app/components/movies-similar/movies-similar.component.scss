@@ -1,10 +1,8 @@
 .movies-similar-container {
-  .results {
-    display: flex;
+  .movie-thumbnail-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(185px, max-content));
+    grid-gap: 10px;
     justify-content: center;
-    flex-wrap: wrap;
-    .movie-thumbnail-wrapper {
-      padding: 5px;
-    }
   }
 }
