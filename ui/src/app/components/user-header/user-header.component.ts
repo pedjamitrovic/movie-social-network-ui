@@ -81,7 +81,7 @@ export class UserHeaderComponent implements OnInit, OnChanges {
       {
         data: {
           title: 'Confirm unfollowing',
-          text: 'Are you sure that you want to unfollow Vladimir Sivčev?'
+          text: `Are you sure that you want to unfollow ${this.user.qualifiedName}?`
         },
         autoFocus: false
       }
