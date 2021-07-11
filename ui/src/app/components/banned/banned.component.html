@@ -5,18 +5,18 @@
 	<h1>Error 403</h1>
 	<h2>You have been banned</h2>
 	<p class="description">
-		Hi, {{authService.authUserValue.qualifiedName}}. Sorry, you have been banned until {{authService.authUserValue.bannedUntil | date: 'shortDate'}}. Please come back later.
+		Hi, {{authService.authUserValue.qualifiedName}}. Sorry, you have been banned until {{authService.authUserValue.bannedUntil | date: 'shortDate'}} because of {{authService.authUserValue.bannedReason | titlecase}}. Please come back later.
 	</p>
 	<a
 		*ngIf="authService.authUserValue.discriminator === 'Group' && authService?.loggedUserValue?.qualifiedName"
 		color="primary"
-    (click)="switchContext()"
+		(click)="switchContext()"
 	>
 		Switch back to {{authService?.loggedUserValue?.qualifiedName}}
 	</a>
 	<a
 		color="primary"
-    (click)="logout()"
+		(click)="logout()"
 	>
 		Logout
 	</a>

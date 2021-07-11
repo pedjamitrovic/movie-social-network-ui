@@ -4,5 +4,6 @@ export interface AuthenticationInfo {
   discriminator?: string;
   isBanned?: boolean;
   bannedUntil?: string;
+  bannedReason?: string;
   token?: string;
 }
