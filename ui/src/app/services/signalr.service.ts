@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class SignalrService {
-  apiUrl = `${this.environment.apiUrl}/chat`;
+  apiUrl = `${this.environment.apiUrl}/msn-hub`;
 
   messageCreated: Subject<MessageVM> = new Subject<MessageVM>();
   chatRoomCreated: Subject<ChatRoomVM> = new Subject<ChatRoomVM>();
