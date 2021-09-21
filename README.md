@@ -1,6 +1,6 @@
-# movie-social-network
+# movie-social-network-ui
  
-Repository movie-social-network-ui represents user interface of social network which is geared towards cinematography fans.
+User interface of social network which is geared towards cinematography fans.
 
 Check out [movie-social-network](https://github.com/pedjamitrovic/movie-social-network) repo which represents WEB API of movie-social-network UI.
 
